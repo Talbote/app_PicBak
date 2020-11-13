@@ -1,0 +1,35 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title picture.title %}
+
+{% block body %}
+    <div>
+        <h1>
+            {{ picture.title }}
+        </h1>
+
+        <p>
+            {{ picture.description }}
+        </p>
+    </div>
+
+    <a href="{{ path('app_picture_edit' , {id: picture.id}) }}">Edit</a>
+
+    <a href="#" onclick="event.preventDefault(); confirm('Are you sure ?') &&
+     document.getElementById('js-picture-delete-form').submit();">Delete</a>
+
+    <a href="{{ path('app_pictures_index' , {id: picture.id}) }}">Go Back</a>
+
+    <form id="js-picture-delete-form" action="{{ path('app_picture_delete', {id: picture.id}) }}" method="post"
+          style="display:none">
+
+        <!-- insertion d'un token  dans la method DELETE-->
+        <input type="hidden" name="csrf_token_picture_delete" value="{{ csrf_token('picture_deletion_' ~ picture.id) }}">
+
+        <input type="hidden" name="_method" value="DELETE">
+        <!--  <input type="submit" value="Delete"> -->
+    </form>
+
+
+
+{% endblock %}
