@@ -21,17 +21,17 @@ body {
     margin: 0;
     border: none;
 
-&.alert-success {
+    &.alert-success {
 
-     background-color: green;
- }
-&.alert-error {
+        background-color: green;
+    }
+    &.alert-error {
 
-     background-color: red;
- }
-&.alert-info {
+        background-color: red;
+    }
+    &.alert-info {
 
-     background-color: blue;
- }
+        background-color: blue;
+    }
 
 }
