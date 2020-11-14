@@ -19,12 +19,14 @@ class PictureType extends AbstractType
                 'allow_delete' => true,
                /* 'delete_label' => 'Delete', */
                 'download_uri' => false,
+                'imagine_pattern' => 'squared_thumbail_medium'
                 /* 'download_label' => 'Download'
                  'image_uri' => true,
                  'asset_helper' => true, */
             ])
             ->add('title')
-            ->add('description');
+            ->add('description')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
