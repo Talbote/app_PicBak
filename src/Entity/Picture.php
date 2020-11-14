@@ -3,11 +3,10 @@
 namespace App\Entity;
 
 use App\Entity\Traits\Timestampable;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\PictureRepository;
-use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
@@ -47,11 +46,16 @@ class Picture
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Vich\UploadableField(mapping="images_upload", fileNameProperty="images_upload", size="imageSize")
+     * @Vich\UploadableField(mapping="picture_image", fileNameProperty="imageName", size="imageSize")
      *
      * @var File|null
      */
     private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageName;
 
 
     public function getId(): ?int
@@ -106,6 +110,18 @@ class Picture
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
     }
 
 }
