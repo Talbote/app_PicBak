@@ -16,9 +16,7 @@
 
                         <!-- PICTURE DIV-->
                         <div class="picture bg-white rounded shadow">
-
-
-                            <div class="mw-100 overflow-hidden">
+                            <div class="mw-100 rounded-top overflow-hidden">
                                 <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
                                     <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
                                          alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
