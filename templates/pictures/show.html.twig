@@ -3,33 +3,62 @@
 {% block title picture.title %}
 
 {% block body %}
-    <div>
-        <h1>
-            {{ picture.title }}
-        </h1>
+    <!-- DIV ROW-->
+    <div class="row">
 
-        <p>
-            {{ picture.description }}
-        </p>
+        <!-- DIV COL-->
+        <div class="col-md-6 mx-auto">
+
+            <!-- PICTURE DIV-->
+            <div class="picture bg-white rounded shadow">
+                <div class="mw-100 overflow-hidden">
+                    <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
+                        <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
+                             alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
+                </div>
+
+                <h2 class="h5 text-muted pl-3 pt-3"><a href="{{ path('app_picture_show' , {id: picture.id}) }}"
+                                                       class="text-muted text-decoration-none text-secondary">{{ picture.title }}</a>
+                </h2>
+                <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
+
+                <p class="text-muted pl-3 pb-3">
+                    <small>Submitted
+                        <time datetime="{{ picture.createdAt|date('Y-m-d H:i:s') }}"> {{ picture.createdAt|ago }}</time>
+                        by [OWNER NAME IMAGE]
+                    </small>
+                </p>
+
+                <p class="text-muted pl-3 pb-3">{{ picture.description|u.truncate(9,'...', false) }}</p>
+                <!--  FORM + EDIT + DELETE -->
+                <div class="pb-3 pl-3">
+                    <!-- LINK BUTTON FOR EDIT -->
+                    <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
+                    <!-- END BUTTON LINK FOR EDIT -->
+                    <!-- LINK BUTTON FOR DELETE -->
+                    <a href="#"
+                       onclick="event.preventDefault(); confirm('Are you sure ?') &&
+               document.getElementById('js-picture-delete-form').submit();" class="btn btn-light">Delete</a>
+                    <!-- END BUTTON LINK FOR DELETE -->
+                    <form id="js-picture-delete-form" action="{{ path('app_picture_delete', {id: picture.id}) }}"
+                          method="post"
+                          style="display:none">
+
+                        <!-- insertion d'un token  dans la method DELETE-->
+                        <input type="hidden" name="csrf_token_picture_delete"
+                               value="{{ csrf_token('picture_deletion_' ~ picture.id) }}">
+
+                        <input type="hidden" name="_method" value="DELETE">
+                        <!--  <input type="submit" value="Delete"> -->
+                    </form>
+                    <!-- END LINK FOR DELETE -->
+                </div>
+                <!--  END FORM + EDIT + DELETE -->
+            </div>
+            <!-- END PICTURE DIV-->
+        </div>
+        <!-- END DIV COL-->
     </div>
-
-    <a href="{{ path('app_picture_edit' , {id: picture.id}) }}">Edit</a>
-
-    <a href="#" onclick="event.preventDefault(); confirm('Are you sure ?') &&
-     document.getElementById('js-picture-delete-form').submit();">Delete</a>
-
-    <a href="{{ path('app_pictures_index' , {id: picture.id}) }}">Go Back</a>
-
-    <form id="js-picture-delete-form" action="{{ path('app_picture_delete', {id: picture.id}) }}" method="post"
-          style="display:none">
-
-        <!-- insertion d'un token  dans la method DELETE-->
-        <input type="hidden" name="csrf_token_picture_delete" value="{{ csrf_token('picture_deletion_' ~ picture.id) }}">
-
-        <input type="hidden" name="_method" value="DELETE">
-        <!--  <input type="submit" value="Delete"> -->
-    </form>
-
-
+    <!-- END DIV ROW-->
 
 {% endblock %}

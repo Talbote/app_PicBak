@@ -13,6 +13,8 @@
             <div class="row mb-5">
                 {% for picture in row %}
                     <div class="col-md-4">
+
+                        <!-- PICTURE DIV-->
                         <div class="picture bg-white rounded shadow">
 
 
@@ -24,11 +26,15 @@
 
                             <h2 class="h5 text-muted pl-3 pt-3"><a href="{{ path('app_picture_show' , {id: picture.id}) }}" class="text-muted text-decoration-none text-secondary" >{{ picture.title }}</a></h2>
                             <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
-                               <p>{{ picture.description|u.truncate(9,'...', false) }}</p>
-                            <p>Submitted {{ picture.createdAt|ago }}</p>
-                            <p class="text-muted pl-3 pb-3"><small>Submitted [OWNER NAME IMAGE]</small></p>
+
+                            <!-- <p>Submitted {{ picture.createdAt|ago }}</p> -->
+
+                            <p class="h5 text-muted pl-3 pt-3">{{ picture.description|u.truncate(9,'...', true) }}</p>
+
+                            <p class="text-muted pl-3 pb-3"><small>Submitted by [OWNER NAME IMAGE]</small></p>
 
                         </div>
+                        <!-- END PICTURE DIV-->
                     </div>
                 {% endfor %}
             </div>
