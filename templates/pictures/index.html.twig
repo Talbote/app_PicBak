@@ -4,17 +4,37 @@
 
 {% block body %}
 
-    <h1>Page pictures</h1>
-    <!-- Fonction pluralize pour mettre au pluriel/singulier -->
-    <h2>{{ pluralize(pictures|length,'Picture','Pictures') }}</h2>
-    {% for picture in pictures %}
+    {% if pictures|length > 0 %}
 
-        <div>
-            <h2><a href="{{ path('app_picture_show' , {id: picture.id}) }}">{{ picture.title }}</a></h2>
-            <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
-            <p>{{ picture.description|u.truncate(9,'...', false) }}</p>
-            <p>Submitted {{ picture.createdAt|ago }}</p>
-        </div>
+        <!-- Fonction pluralize pour mettre au pluriel/singulier -->
+        <h1 class="text-center text-muted">{{ pluralize(pictures|length,'Picture','Pictures') }}</h1>
 
-    {% endfor %}
+        {% for row in pictures|batch(3) %}
+            <div class="row mb-5">
+                {% for picture in row %}
+                    <div class="col-md-4">
+                        <div class="picture bg-white rounded shadow">
+
+
+                            <div class="mw-100 overflow-hidden">
+                                <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
+                                    <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
+                                         alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
+                            </div>
+
+                            <h2 class="h5 text-muted pl-3 pt-3"><a href="{{ path('app_picture_show' , {id: picture.id}) }}" class="text-muted text-decoration-none text-secondary" >{{ picture.title }}</a></h2>
+                            <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
+                               <p>{{ picture.description|u.truncate(9,'...', false) }}</p>
+                            <p>Submitted {{ picture.createdAt|ago }}</p>
+                            <p class="text-muted pl-3 pb-3"><small>Submitted [OWNER NAME IMAGE]</small></p>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ 'app_create_pictures' }}">Be the first !</a></p>
+    {% endif %}
 {% endblock %}
