@@ -29,7 +29,7 @@
 
                             <p class="h5 text-muted pl-3 pt-3">{{ picture.description|u.truncate(9,'...', true) }}</p>
 
-                            <p class="text-muted pl-3 pb-3"><small>Submitted by [OWNER NAME IMAGE]</small></p>
+                            <p class="text-muted pl-3 pb-3"><small>Submitted by  {{ picture.user.fullName }}</small></p>
 
                         </div>
                         <!-- END PICTURE DIV-->
