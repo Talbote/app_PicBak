@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Picture;
 use App\Form\PictureType;
 use App\Repository\PictureRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +57,7 @@ class PicturesController extends AbstractController
      * @Route("/picture/create", name="app_picture_create", methods="GET|POST")
      */
 
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepository): Response
     {
 
         $picture = new Picture();
@@ -67,13 +68,15 @@ class PicturesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-           // dd($form->getData());
+            // dd($form->getData());
 
             /*recupere les données dans le form*/
+            $odolinski = $userRepository->findOneBy(['email' => 'adalinski@hotmail.com']);
+            $picture->setUser($odolinski);
             $em->persist($picture);
             $em->flush();
 
-            $this->addFlash('success','Picture successfully created!');
+            $this->addFlash('success', 'Picture successfully created!');
 
             return $this->redirectToRoute('app_pictures_index');
         }
@@ -108,8 +111,7 @@ class PicturesController extends AbstractController
             /*recupere les données dans le form*/
             $em->flush();
 
-            $this->addFlash('success','Picture successfully updated!');
-
+            $this->addFlash('success', 'Picture successfully updated!');
 
 
             return $this->redirectToRoute('app_pictures_index');
@@ -138,12 +140,12 @@ class PicturesController extends AbstractController
     {
         /* si le token est valid on applique la suppression */
 
-        if($this->isCsrfTokenValid('picture_deletion_' . $picture->getId(), $request->request->get('csrf_token_picture_delete'))){
+        if ($this->isCsrfTokenValid('picture_deletion_' . $picture->getId(), $request->request->get('csrf_token_picture_delete'))) {
 
             $em->remove($picture);
             $em->flush();
 
-            $this->addFlash('info','Picture successfully deleted!');
+            $this->addFlash('info', 'Picture successfully deleted!');
         }
 
         return $this->redirectToRoute('app_pictures_index');
