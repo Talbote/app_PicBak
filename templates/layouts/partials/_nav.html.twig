@@ -11,15 +11,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_pictures_index') }}">Pictures</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_picture_create') }}">New picture</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_pictures_index') }}">Account</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_pictures_index') }}">Logout</a>
-                </li>
+                {% if app.user %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_picture_create') }}">New picture</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Logout</a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                    </li>
+                {% endif %}
                 <!--
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true"
