@@ -41,6 +41,7 @@
                         <a href="#"
                            onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-picture-delete-form').submit();"
                            class="btn btn-light">Delete</a>
+
                         <!-- END BUTTON LINK FOR DELETE -->
                         <form id="js-picture-delete-form" action="{{ path('app_picture_delete', {id: picture.id}) }}"
                               method="post"
@@ -53,7 +54,8 @@
                             <input type="hidden" name="_method" value="DELETE">
                             <!--  <input type="submit" value="Delete"> -->
                         </form>
-                        <!-- END LINK FOR DELETE -->
+                        <!-- END BUTTON LINK FOR DELETE -->
+
                     </div>
                 </div>
                 <!--  END FORM + EDIT + DELETE -->

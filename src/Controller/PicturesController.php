@@ -60,32 +60,37 @@ class PicturesController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepository): Response
     {
 
-        $picture = new Picture();
-        $form = $this->createForm(PictureType::class, $picture);
-
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // dd($form->getData());
-
-            /*recupere les données dans le form*/
-            $odolinski = $userRepository->findOneBy(['email' => 'adalinski@hotmail.com']);
-            $picture->setUser($odolinski);
-            $em->persist($picture);
-            $em->flush();
-
-            $this->addFlash('success', 'Picture successfully created!');
-
+        if ($this->getUser() == false) {
             return $this->redirectToRoute('app_pictures_index');
+
+        } else {
+
+            $picture = new Picture();
+            $form = $this->createForm(PictureType::class, $picture);
+
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                // dd($form->getData());
+
+                /*recupere les données dans le form*/
+                $user = $this->getUser();
+                $picture->setUser($user);
+                $em->persist($picture);
+                $em->flush();
+
+                $this->addFlash('success', 'Picture successfully created!');
+
+                return $this->redirectToRoute('app_pictures_index');
+            }
+
+            /*  dd($form); */
+            return $this->render('pictures/create.html.twig', ['form' => $form->createView()]);
+
         }
-
-        /*  dd($form); */
-        return $this->render('pictures/create.html.twig', ['form' => $form->createView()]);
-
     }
-
     /**
      * ########################################################################################################
      * ##############################    EDIT PICTURES    ######################################################
