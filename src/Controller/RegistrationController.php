@@ -63,7 +63,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('emails/registration/confirmation_email.html.twig')
+                    ->htmlTemplate('emails/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
 
@@ -75,7 +75,7 @@ class RegistrationController extends AbstractController
             );
         }
 
-        return $this->render('emails/registration/register.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }

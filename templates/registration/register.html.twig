@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Register ' %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+
+            <h1 class="my-5 text-center">Register</h1>
+            <p class="mb-5 text-center text-muted">Complete the fields</p>
+
+            {{ form_start(registrationForm) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(registrationForm.firstName) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(registrationForm.lastName) }}
+                </div>
+
+            </div>
+            <div>
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+            </div>
+
+
+            <button type="submit" class="btn btn-lg btn-block btn-primary" formnovalidate>Register</button>
+
+            <p class="mt-5 mb-3 text-center text-muted">Already have an account?<a href="{{ path('app_login') }}"> Log
+                    in </a></p>
+
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}
