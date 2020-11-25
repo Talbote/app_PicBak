@@ -10,6 +10,26 @@ body {
 ##############  INDEX  ########
 ############################### */
 
+/*
+################ STYLE PAGINATION
+*/
+
+.pager {
+
+  .style_pagination span {
+
+    @extend .col-1;
+
+  }
+
+
+  .style_pagination span a {
+
+    @extend .text-muted, .text-decoration-none;
+
+  }
+
+}
 
 /*
 ################ FLASH MESSAGE
@@ -39,11 +59,9 @@ body {
 
 }
 
-
 /*
 ################ DIV IMG +  TITLE + DESCRIPTION
 */
-
 
 .vich-image {
 
@@ -54,7 +72,7 @@ body {
 
   img {
 
-    @extend .mb-2, .rounded, .shadow,.img-thumbnail;
+    @extend .mb-2, .rounded, .shadow, .img-thumbnail;
 
   }
 

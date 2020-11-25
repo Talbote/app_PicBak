@@ -7,6 +7,7 @@ use App\Form\PictureType;
 use App\Repository\PictureRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,22 +18,31 @@ class PicturesController extends AbstractController
 
     /**
      * ########################################################################################################
-     * ##############################    INDEX PICTURES   ######################################################
+     * ##############################    INDEX PICTURES LIST !   ######################################################
      * ########################################################################################################
      */
     /**
      * @Route("/", name="app_pictures_index", methods="GET")
      */
-    public function index(PictureRepository $pictureRepository): Response
+    public function index(PictureRepository $pictureRepository, Request $request, PaginatorInterface $paginator): Response
     {
         /* dd($pictureRepository->findAll());  ( recupere tout le tableau) */
 
-        $pictures = $pictureRepository->findBy([], ['createdAt' => 'DESC']);
+        $data = $pictureRepository->findBy([], ['createdAt' => 'DESC']);
+
+        $pictures = $paginator->paginate(
+            $data,
+            $request->query->getInt('page',1),3
+
+        );
 
         /* compact return un tableau pictures */
 
         return $this->render('pictures/index.html.twig', compact('pictures'));
     }
+
+
+
     /**
      * ########################################################################################################
      * ##############################    SHOW PICTURES    ######################################################

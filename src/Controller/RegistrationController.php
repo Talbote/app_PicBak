@@ -60,7 +60,12 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
+                    ->from(new Address(
+                            $this->getParameter('app.mail_from_name'),
+                            $this->getParameter('app.mail_from_address'),
+
+                        )
+                    )
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('emails/confirmation_email.html.twig')
@@ -91,9 +96,9 @@ class RegistrationController extends AbstractController
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            $this->addFlash('error', $exception->getReason());
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_pictures_index');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates

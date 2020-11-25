@@ -22,17 +22,46 @@
                                          alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
                             </div>
 
-                            <h2 class="h5 text-muted pl-3 pt-3"><a href="{{ path('app_picture_show' , {id: picture.id}) }}" class="text-muted text-decoration-none text-secondary" >{{ picture.title }}</a></h2>
+                            <h2 class="h5 text-muted pl-3 pt-3"><a
+                                        href="{{ path('app_picture_show' , {id: picture.id}) }}"
+                                        class="text-muted text-decoration-none text-secondary">{{ picture.title }}</a>
+                            </h2>
                             <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
 
                             <!-- <p>Submitted {{ picture.createdAt|ago }}</p> -->
 
                             <p class="h5 text-muted pl-3 pt-3">{{ picture.description|u.truncate(9,'...', true) }}</p>
 
-                            <p class="text-muted pl-3 pb-3"><small>Submitted by  {{ picture.user.fullName }}</small></p>
+                            <p class="text-muted pl-3 pb-3">
+                                <small>Submitted by {{ picture.user.fullName }}</small>
+                            </p>
+
+                            <!-- LINK BUTTON FOR DELETE -->
+                            <div class="pb-3 pl-3">
+                                <a href="#"
+                                   onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('{{ picture.id }}-js-picture-delete-form').submit();"
+                                   class="btn btn-light">Delete</a>
+
+                                <!-- END BUTTON LINK FOR DELETE -->
+                                <form id="{{ picture.id }}-js-picture-delete-form"
+                                      action="{{ path('app_picture_delete', {id: picture.id}) }}"
+                                      method="post"
+                                      style="display:none">
+
+                                    <!-- insertion d'un token  dans la method DELETE-->
+                                    <input type="hidden" name="csrf_token_picture_delete"
+                                           value="{{ csrf_token('picture_deletion_' ~ picture.id) }}">
+
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <!--  <input type="submit" value="Delete"> -->
+                                </form>
+                            </div>
+                            <!-- END BUTTON LINK FOR DELETE -->
 
                         </div>
                         <!-- END PICTURE DIV-->
+
+
                     </div>
                 {% endfor %}
             </div>
@@ -41,4 +70,13 @@
     {% else %}
         <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ 'app_create_pictures' }}">Be the first !</a></p>
     {% endif %}
+
+
+
+    <div class="style_pagination">
+        {{ knp_pagination_render(pictures) }}
+    </div>
+
+
+
 {% endblock %}
