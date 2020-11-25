@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Picture;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -24,8 +26,8 @@ class PictureType extends AbstractType
                  'image_uri' => true,
                  'asset_helper' => true, */
             ])
-            ->add('title')
-            ->add('description')
+            ->add('title', TextType::class)
+            ->add('description', TextareaType::class)
         ;
     }
 
