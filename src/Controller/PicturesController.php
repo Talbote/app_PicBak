@@ -32,7 +32,7 @@ class PicturesController extends AbstractController
 
         $pictures = $paginator->paginate(
             $data,
-            $request->query->getInt('page',1),3
+            $request->query->getInt('page', 1), 3
 
         );
 
@@ -52,12 +52,21 @@ class PicturesController extends AbstractController
      * @Route("/picture/{id<[0-9]+>}", name="app_picture_show", methods="GET")
      */
 
-    public function show(picture $picture): Response
+    public function show(Picture $picture): Response
     {
+        /* vérification de l'user_id du picture redirection on the page owner or user */
+        $user = $picture->getUser();
+        if ($user !== $this->getUser()) {
 
-        return $this->render('pictures/show.html.twig', compact('picture'));
+
+            return $this->render('pictures/show.html.twig', compact('picture'));
+
+        } else {
+
+
+            return $this->render('pictures/show_owner.html.twig', compact('picture'));
+        }
     }
-
     /**
      * ########################################################################################################
      * ##############################    CREATE PICTURES    ####################################################
@@ -70,37 +79,34 @@ class PicturesController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepository): Response
     {
 
-        if ($this->getUser() == false) {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $picture = new Picture();
+        $form = $this->createForm(PictureType::class, $picture);
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // dd($form->getData());
+
+            /*recupere les données dans le form*/
+            $user = $this->getUser();
+            $picture->setUser($user);
+            $em->persist($picture);
+            $em->flush();
+
+            $this->addFlash('success', 'Picture successfully created!');
+
             return $this->redirectToRoute('app_pictures_index');
-
-        } else {
-
-            $picture = new Picture();
-            $form = $this->createForm(PictureType::class, $picture);
-
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                // dd($form->getData());
-
-                /*recupere les données dans le form*/
-                $user = $this->getUser();
-                $picture->setUser($user);
-                $em->persist($picture);
-                $em->flush();
-
-                $this->addFlash('success', 'Picture successfully created!');
-
-                return $this->redirectToRoute('app_pictures_index');
-            }
-
-            /*  dd($form); */
-            return $this->render('pictures/create.html.twig', ['form' => $form->createView()]);
-
         }
+
+        /*  dd($form); */
+        return $this->render('pictures/create.html.twig', ['form' => $form->createView()]);
+
     }
+
     /**
      * ########################################################################################################
      * ##############################    EDIT PICTURES    ######################################################
@@ -113,34 +119,48 @@ class PicturesController extends AbstractController
 
     public function edit(Request $request, EntityManagerInterface $em, Picture $picture): Response
     {
-        $form = $this->createForm(PictureType::class, $picture, [
 
-            'method' => 'PUT'
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        /* vérification de l'user_id du picture */
 
-        ]);
+        $user = $picture->getUser();
 
-        $form->handleRequest($request);
+        if ($user !== $this->getUser()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-
-
-            /*recupere les données dans le form*/
-            $em->flush();
-
-            $this->addFlash('success', 'Picture successfully updated!');
-
+            $this->addFlash('error', 'Not allowed to do that !');
 
             return $this->redirectToRoute('app_pictures_index');
+
+        } else {
+
+            $form = $this->createForm(PictureType::class, $picture, [
+
+                'method' => 'PUT'
+
+            ]);
+
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+
+                /*recupere les données dans le form*/
+                $em->flush();
+
+                $this->addFlash('success', 'Picture successfully updated!');
+
+
+                return $this->redirectToRoute('app_pictures_index');
+            }
+
+            return $this->render('pictures/edit.html.twig', [
+
+                'picture' => $picture,
+                'form' => $form->createView()
+
+            ]);
         }
-
-        return $this->render('pictures/edit.html.twig', [
-
-            'picture' => $picture,
-            'form' => $form->createView()
-
-        ]);
     }
 
     /**
@@ -156,16 +176,28 @@ class PicturesController extends AbstractController
     public
     function delete(Request $request, Picture $picture, EntityManagerInterface $em): Response
     {
-        /* si le token est valid on applique la suppression */
 
-        if ($this->isCsrfTokenValid('picture_deletion_' . $picture->getId(), $request->request->get('csrf_token_picture_delete'))) {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        /* vérification de l'user_id du picture */
+        $data_user = $picture->getUser();
+        if ($data_user !== $this->getUser()) {
 
-            $em->remove($picture);
-            $em->flush();
+            $this->addFlash('error', 'Not allowed to do that !');
 
-            $this->addFlash('info', 'Picture successfully deleted!');
+            return $this->redirectToRoute('app_pictures_index');
+
+        } else {
+            /* si le token est valid on applique la suppression */
+
+            if ($this->isCsrfTokenValid('picture_deletion_' . $picture->getId(), $request->request->get('csrf_token_picture_delete'))) {
+
+                $em->remove($picture);
+                $em->flush();
+
+                $this->addFlash('info', 'Picture successfully deleted!');
+            }
+
+            return $this->redirectToRoute('app_pictures_index');
         }
-
-        return $this->redirectToRoute('app_pictures_index');
     }
 }

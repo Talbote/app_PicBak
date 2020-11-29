@@ -11,19 +11,19 @@ body {
 ############################### */
 
 /*
-################ STYLE PAGINATION
+################ PAGINATION
 */
 
-.pager {
+.style_pagination {
 
-  .style_pagination span {
+  .pagination span {
 
     @extend .col-1;
 
   }
 
 
-  .style_pagination span a {
+  .pagination span a {
 
     @extend .text-muted, .text-decoration-none;
 
