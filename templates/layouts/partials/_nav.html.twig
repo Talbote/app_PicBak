@@ -9,24 +9,28 @@
         <div class="collapse navbar-collapse" id="navbarsExample03">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_pictures_index') }}">Pics</a>
+                    <a class="nav-link" href="{{ path('app_pictures_index') }}">Home</a>
                 </li>
                 {% if app.user %}
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_picture_create') }}">New picture</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Account</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="event.preventDefault();
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">Account</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown03">
+                            <a class="dropdown-item" href="{{ path('app_profil_show') }}">Profil</a>
+                            <a class="dropdown-item" href="#">Setting</a>
+                            <a class="dropdown-item" href="#" onclick="event.preventDefault();
                        document.getElementById('js-logout-form').submit();">Logout</a>
+
+                            <form id="js-logout-form" action="{{ path('app_logout') }}" method="POST" style="display:none">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                            </form>
+                        </div>
                     </li>
-                    <form id="js-logout-form" action="{{ path('app_logout') }}" method="POST" style="display:none">
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
-                    </form>
 
                 {% else %}
 
@@ -37,6 +41,9 @@
                         <a class="nav-link" href="{{ path('app_login') }}">Login</a>
                     </li>
                 {% endif %}
+
+
+
             </ul>
             <form class="form-inline my-2 my-md-0">
                 <input class="form-control" type="text" placeholder="Search">

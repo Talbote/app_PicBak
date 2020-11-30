@@ -1,0 +1,55 @@
+{% extends 'layouts/base.html.twig' %}
+
+
+   {% block title 'profil ' %}
+{% block body %}
+
+
+    <div class="row">
+
+        <div class="col-md-6 mx-auto">
+
+            <p>LOGO</p>
+
+        </div>
+
+        <div class="col-md-6 mx-auto">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Firstname : {{ user.firstName }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p>Lastname : {{ user.lastName }}</p>
+                </div>
+
+            </div>
+            <div>
+                <p>Your email : {{ user.email }}</p>
+
+                {% if user.isVerified == false %}
+                <p >Account Verified : No </p>
+                {% else %}
+                <p>Account Verified : Yes </p>
+                {% endif %}
+                <p>Account Created :
+                    <time datetime="{{ user.createdAt|date('Y-m-d H:i:s') }}"> {{ user.createdAt|ago }}</time>
+                </p>
+
+                <p class="pt-5 pb-3 text-center text-muted"><a href="{{ path('app_profil_edit') }}"> Edit </a>your Account
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+{% endblock %}
+
+
+
+
+
+

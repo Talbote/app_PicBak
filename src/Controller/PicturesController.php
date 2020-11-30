@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Picture;
 use App\Form\PictureType;
-use App\Repository\PictureRepository;
 use App\Repository\UserRepository;
+use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,11 +58,8 @@ class PicturesController extends AbstractController
         $user = $picture->getUser();
         if ($user !== $this->getUser()) {
 
-
             return $this->render('pictures/show.html.twig', compact('picture'));
-
         } else {
-
 
             return $this->render('pictures/show_owner.html.twig', compact('picture'));
         }
