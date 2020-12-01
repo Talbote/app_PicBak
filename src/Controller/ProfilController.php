@@ -56,36 +56,38 @@ class ProfilController extends AbstractController
      */
 
 
-    public function edit(Request $request, User $user, EntityManagerInterface $em): Response
+    public function edit(Request $request,EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
         /* vérification de l'user_id du picture */
 
+        $user = $this->getUser();
 
-            $form = $this->createForm(UserType::class, $user, [
+        $form = $this->createForm(UserType::class, $user, [
 
-                'method' => 'PUT'
+            'method' => 'PUT'
 
-            ]);
+        ]);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                /*recupere les données dans le form*/
-                $em->flush();
+            /*recupere les données dans le form*/
+            $em->persist($user);
+            $em->flush();
 
-                $this->addFlash('success', 'Picture successfully updated!');
+            $this->addFlash('success', 'Picture successfully updated!');
 
 
-                return $this->redirectToRoute('app_profil_show');
-            }
-
-            return $this->render('profil/edit.html.twig', [
-                'form' => $form->createView()
-
-            ]);
+            return $this->redirectToRoute('app_profil_show');
         }
+
+        return $this->render('profil/edit.html.twig', [
+            'form' => $form->createView()
+
+        ]);
     }
+}
 

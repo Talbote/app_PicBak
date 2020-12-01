@@ -54,13 +54,16 @@ class PicturesController extends AbstractController
 
     public function show(Picture $picture): Response
     {
-        /* vérification de l'user_id du picture redirection on the page owner or user */
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        /* vérification de l'user_id du picture */
+
         $user = $picture->getUser();
+
         if ($user !== $this->getUser()) {
 
             return $this->render('pictures/show.html.twig', compact('picture'));
         } else {
-
             return $this->render('pictures/show_owner.html.twig', compact('picture'));
         }
     }
