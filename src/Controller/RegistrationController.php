@@ -64,6 +64,7 @@ class RegistrationController extends AbstractController
                   /*  ->from(new Address(
                             $this->getParameter('app.mail_from_name'),
                             $this->getParameter('app.mail_from_address')
+
                         )
                     )
                     */
@@ -71,6 +72,8 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('emails/confirmation_email.html.twig')
             );
+
+
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
@@ -85,6 +88,38 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/resend/email", name="app_resend_email")
+     */
+    public function resendUserEmail(Request $request, User $user): Response
+    {
+
+        $user_not_confirmed = $user->getUser();
+
+        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user_not_confirmed,
+            (new TemplatedEmail())
+                ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
+                /*  ->from(new Address(
+                          $this->getParameter('app.mail_from_name'),
+                          $this->getParameter('app.mail_from_address')
+
+                      )
+                  )
+                  */
+                ->to($user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('emails/confirmation_email.html.twig')
+        );
+
+
+        $this->addFlash('info', 'Verification email has been sent');
+
+        return $this->redirectToRoute('app_pictures_index');
+    }
+
+
+
 
     /**
      * @Route("/verify/email", name="app_verify_email")

@@ -4,9 +4,9 @@
 
 {% block body %}
 
-    <h1>Edit Profil #{{ app.user.firstname }}</h1>
+    <h1 >Edit Profil #{{ app.user.firstname }}</h1>
+
 
     {{ include('profil/_form.html.twig', {submitButtonText: 'Update Profil'}) }}
-
 
 {% endblock %}

@@ -9,15 +9,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="users")
+ * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     use Timestampable;
     /**
@@ -45,6 +49,23 @@ class User implements UserInterface
      * @Assert\Email(message="Please enter a valid email address")
      */
     private $email;
+
+    // ... other fields
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="picture_image", fileNameProperty="imageName")
+     * @Assert\Image(maxSize = "10M")
+     *
+     * @var File|null
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageName;
 
     /**
      * @ORM\Column(type="json")
@@ -205,6 +226,44 @@ class User implements UserInterface
         return $this;
     }
 
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->setUpdatedAt(new \DateTimeImmutable);
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
     /**
      * METHODE getFullName();
      */
@@ -224,6 +283,30 @@ class User implements UserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    public function serialize() {
+
+        return serialize(array(
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->password
+
+        ));
+
+    }
+
+    public function unserialize($serialized) {
+
+        list (
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->password
+            ) = unserialize($serialized);
     }
 
 }

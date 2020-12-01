@@ -4,8 +4,6 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +16,17 @@ class UserType extends AbstractType
         $builder
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
-
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image (JPG or PNG file)',
+                'required' => false,
+                'allow_delete' => true,
+                /* 'delete_label' => 'Delete', */
+                'download_uri' => false,
+                'imagine_pattern' => 'squared_thumbail_small'
+                /* 'download_label' => 'Download'
+                 'image_uri' => true,
+                 'asset_helper' => true, */
+            ])
 
         ;
     }
