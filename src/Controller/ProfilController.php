@@ -111,7 +111,7 @@ class ProfilController extends AbstractController
 
         $form = $this->createForm(ChangePasswordFormType::class, null, [
 
-            'current_password_is_required' => 'true'
+            'current_password_is_required' => true
 
         ]);
         $form->handleRequest($request);
