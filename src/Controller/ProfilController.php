@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Picture;
 use App\Form\ChangePasswordFormType;
+use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,27 +26,31 @@ class ProfilController extends AbstractController
      * @Route("/profil/show", name="app_profil_show", methods="GET")
      */
 
-    public function show(): Response
+    public function show(PictureRepository $pictureRepository): Response
     {
+
         $user = $this->getUser();
         $id = $user->getId();
+
+        $pictureRepository->findBy([], ['createdAt' => 'DESC']);
+
+
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
 
 
             if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-                $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
-            } else {
-                $form = $this->createForm(MemberType::class, $user, ['method' => 'POST']);
-            }
 
-            return $this->render('profil/show.html.twig', [
-                'userForm' => $form->createView(), 'id' => $id, 'user' => $user]);
-        } else {
-            return $this->redirectToRoute('error_typeUser'); //Page erreur si mauvais rôle
+
+                $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
+
+                return $this->render('profil/show.html.twig', [
+                    'userForm' => $form->createView(), 'user' => $user  ]);
+
+                return $this->redirectToRoute('error_typeUser'); //Page erreur si mauvais rôle
+            }
         }
     }
-
     /**
      * ########################################################################################################
      * ##############################    EDIT PROFIL    ######################################################
@@ -129,7 +133,6 @@ class ProfilController extends AbstractController
 
             return $this->redirectToRoute('app_profil_show');
         }
-
 
 
         return $this->render('profil/change_password.html.twig', [
