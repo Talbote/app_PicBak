@@ -192,8 +192,9 @@ class User implements UserInterface, \Serializable
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // pour toute information temporaire sensible au niveau des données de  l'utilisateur ,
+        // on nettoyer tout ici  via a la command  $this->plainPassword = null;
+
     }
 
     /**

@@ -5,57 +5,38 @@
 {% block body %}
 
 
+
+
+
+
     <div class="row">
+        <div class="col-md-6 mx-auto text-center">
 
-        <div class="col-md-6 mx-auto">
-            <div class="picture bg-white rounded shadow">
-                <div class="mw-100 rounded-top overflow-hidden">
+            <h1 class="my-5"> Profile</h1>
 
-                    <img src="{{ ( user.imageName ? vich_uploader_asset(user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_small') }}"
-                         alt="{{ user.imageName  }}" class="w-100"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 mx-auto">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>Firstname : {{ user.firstName }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p>Lastname : {{ user.lastName }}</p>
-                </div>
-
-            </div>
-            <div>
-                <p>Your email : {{ user.email }}</p>
-                {% if user.isVerified == false %}
-                    <p>Account Verified : No </p>
-                    <p class="text-muted">Confirme your <a href="{{ path('app_resend_email') }}">Account</a>
-                    </p>
-
-                {% else %}
-                    <p>Account Verified : Yes </p>
-                {% endif %}
-                <p>Account Created :
-                    <time datetime="{{ user.createdAt|date('Y-m-d H:i:s') }}"> {{ user.createdAt|ago }}</time>
+            <img src="{{ ( user.imageName ? vich_uploader_asset(user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_small') }}"
+                 alt="{{ user.imageName }}" class="w-100"/>
+            <p class="lead">{{ user.email }}</p>
+            {% if user.isVerified == false %}
+                <p>Account Verified : No </p>
+                <p class="text-muted">Confirme your <a href="{{ path('app_resend_email') }}">Account</a>
                 </p>
-                <div class="">
-                    <a href="{{ path('app_profil_edit') }}" class="btn btn-light text-muted">Edit Profil</a>
-                    <a href="#" class="btn btn-light text-muted">Change password</a>
-                </div>
 
-            </div>
+            {% else %}
+                <p>Account Verified : Yes </p>
+            {% endif %}
+            <p>Account Created :
+                <time datetime="{{ user.createdAt|date('Y-m-d H:i:s') }}"> {{ user.createdAt|ago }}</time>
+            </p>
+            <h2> {{ app.user.fullName }}</h2>
+            <p>
+                <a href="{{ path('app_profil_edit') }}" class="btn btn-light text-muted">Edit Profil</a>
+                <a href="{{ path('app_profil_change_password') }}" class="btn btn-light text-muted">Change password</a>
+            </p>
 
 
         </div>
-
-
     </div>
 {% endblock %}
-
-
-
-
 
 

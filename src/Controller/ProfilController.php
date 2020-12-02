@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Form\UserType;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class ProfilController extends AbstractController
@@ -56,7 +58,7 @@ class ProfilController extends AbstractController
      */
 
 
-    public function edit(Request $request,EntityManagerInterface $em): Response
+    public function edit(Request $request, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -75,10 +77,9 @@ class ProfilController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             /*recupere les données dans le form*/
-            $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Picture successfully updated!');
+            $this->addFlash('success', 'Account successfully updated!');
 
 
             return $this->redirectToRoute('app_profil_show');
@@ -89,5 +90,52 @@ class ProfilController extends AbstractController
 
         ]);
     }
-}
 
+    /**
+     * ########################################################################################################
+     * ##############################    PROFIL CHANGE PASSWORD    ############################################
+     * ########################################################################################################
+     */
+
+    /**
+     * @Route("/profil/change-password", name="app_profil_change_password", methods="GET|POST")
+     */
+
+
+    public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(ChangePasswordFormType::class, null, [
+
+            'current_password_is_required' => 'true'
+
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form['plainPassword']->getData())
+            );
+
+            /*recupere les données dans le form*/
+            $em->flush();
+            $this->addFlash('success', 'Password successfully changed!');
+
+            return $this->redirectToRoute('app_profil_show');
+        }
+
+
+
+        return $this->render('profil/change_password.html.twig', [
+
+            'form' => $form->createView()
+
+        ]);
+    }
+}
