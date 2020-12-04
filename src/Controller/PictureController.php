@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Picture;
+use App\Form\CommentFormType;
 use App\Form\PictureType;
 use App\Repository\UserRepository;
 use App\Repository\PictureRepository;
@@ -13,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PicturesController extends AbstractController
+class PictureController extends AbstractController
 {
 
     /**
@@ -49,22 +51,48 @@ class PicturesController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/picture/{id<[0-9]+>}", name="app_picture_show", methods="GET")
+     * @Route("/picture/{id<[0-9]+>}", name="app_picture_show", methods="GET|POST")
      */
 
-    public function show(Picture $picture): Response
+    public function show(Picture $picture, Request $request, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
         /* vérification de l'user_id du picture */
+        $data_picture_user = $picture->getUser();
 
-        $user = $picture->getUser();
+        $comment = new Comment();
 
-        if ($user !== $this->getUser()) {
+        // création du formulaire d'ajoute de commentaire
+        $form = $this->createForm(CommentFormType::class, $comment);
 
-            return $this->render('pictures/show.html.twig', compact('picture'));
+        // on récupere  les donnés du formulaire
+        $form->handleRequest($request);
+        // verification du formulaire si  envoyer et donnée valides
+        if($form->isSubmitted() && $form->isValid()){
+
+            $user = $this->getUser();
+
+            $comment->addComment($user);
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash('success', 'comment send');
+
+
+        }
+
+
+        if ($data_picture_user !== $this->getUser()) {
+            return $this->render('pictures/show.html.twig', [
+                'picture' => $picture,
+                'commentForm' => $form->createView()
+            ]);
         } else {
-            return $this->render('pictures/show_owner.html.twig', compact('picture'));
+            return $this->render('pictures/show_owner.html.twig', [
+                'picture' => $picture,
+                'commentForm' => $form->createView()
+            ]);
         }
     }
     /**

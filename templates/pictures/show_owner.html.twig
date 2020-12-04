@@ -33,9 +33,9 @@
                     <p class="text-muted text-break">{{ picture.description|u.truncate(9,'...', false) }}</p>
                     <!-- END DESCRIPTION -->
 
-    {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_USER') %}
 
-        {# Ici le contenu réservé aux utilisateurs connectés #}
+                    {# Ici le contenu réservé aux utilisateurs connectés #}
 
                     <!--  FORM + EDIT + DELETE -->
                     <div>
@@ -64,11 +64,28 @@
                     </div>
                 </div>
                 <!--  END FORM + EDIT + DELETE -->
-    {% endif %}
+                {% endif %}
             </div>
             <!-- END CONTENT PICTURE DIV-->
         </div>
         <!-- END DIV COL-->
+
+        <!-- DIV COL COMMENT-->
+        <div class="col-md-6 mx-auto">
+            <div>
+                <h1> list comments</h1>
+
+            </div>
+            <div>
+                <h1> add comment</h1>
+                <p> {{ form(commentForm) }} </p>
+            </div>
+
+
+        </div>
+        <!-- END DIV COL COMMENT-->
+
+
     </div>
     <!-- END DIV ROW-->
 

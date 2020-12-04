@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Picture;
+use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,7 +24,7 @@ class ProfilController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/profil/show", name="app_profil_show", methods="GET")
+     * @Route("/profil/", name="app_profil_show", methods="GET")
      */
 
     public function show(PictureRepository $pictureRepository): Response
@@ -31,9 +32,6 @@ class ProfilController extends AbstractController
 
         $user = $this->getUser();
         $id = $user->getId();
-
-        $pictureRepository->findBy([], ['createdAt' => 'DESC']);
-
 
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -44,8 +42,7 @@ class ProfilController extends AbstractController
 
                 $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
 
-                return $this->render('profil/show.html.twig', [
-                    'userForm' => $form->createView(), 'user' => $user  ]);
+                return $this->render('profil/show.html.twig', ['userForm' => $form->createView(), 'user' => $user, ]);
 
                 return $this->redirectToRoute('error_typeUser'); //Page erreur si mauvais rôle
             }
