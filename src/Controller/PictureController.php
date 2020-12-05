@@ -47,7 +47,7 @@ class PictureController extends AbstractController
 
     /**
      * ########################################################################################################
-     * ##############################    SHOW PICTURES    ######################################################
+     * ##############################    SHOW PICTURES + CREATE COMMENT    ######################################################
      * ########################################################################################################
      */
     /**
@@ -61,6 +61,7 @@ class PictureController extends AbstractController
         /* vérification de l'user_id du picture */
         $data_picture_user = $picture->getUser();
 
+        //création d'une commentaire
         $comment = new Comment();
 
         // création du formulaire d'ajoute de commentaire
@@ -69,32 +70,32 @@ class PictureController extends AbstractController
         // on récupere  les donnés du formulaire
         $form->handleRequest($request);
         // verification du formulaire si  envoyer et donnée valides
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
+            // recupération de l'utilisateur connecté
             $user = $this->getUser();
 
-            $comment->addComment($user);
+            //création d'un id user / id_picture
+            $comment->setUser($user);
+            $comment->setPicture($picture);
+
+
             $em->persist($comment);
             $em->flush();
 
-            $this->addFlash('success', 'comment send');
-
 
         }
 
+        $comments = $picture->getComments();
 
-        if ($data_picture_user !== $this->getUser()) {
-            return $this->render('pictures/show.html.twig', [
-                'picture' => $picture,
-                'commentForm' => $form->createView()
-            ]);
-        } else {
-            return $this->render('pictures/show_owner.html.twig', [
-                'picture' => $picture,
-                'commentForm' => $form->createView()
-            ]);
-        }
+
+        return $this->render('pictures/show_owner.html.twig', [
+            'picture' => $picture,
+            'comment' => $comments,
+            'commentForm' => $form->createView()
+        ]);
     }
+
     /**
      * ########################################################################################################
      * ##############################    CREATE PICTURES    ####################################################
@@ -193,7 +194,7 @@ class PictureController extends AbstractController
 
     /**
      * ########################################################################################################
-     * ##############################    DELETE PICTURES    ####################################################
+     * ##############################    DELETE PICTURE    ####################################################
      * ########################################################################################################
      */
 
@@ -202,7 +203,7 @@ class PictureController extends AbstractController
      */
 
     public
-    function delete(Request $request, Picture $picture, EntityManagerInterface $em): Response
+    function deletePicture(Request $request, Picture $picture, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -228,4 +229,5 @@ class PictureController extends AbstractController
             return $this->redirectToRoute('app_pictures_index');
         }
     }
+
 }

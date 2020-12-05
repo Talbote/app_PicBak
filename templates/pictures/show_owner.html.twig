@@ -73,8 +73,23 @@
         <!-- DIV COL COMMENT-->
         <div class="col-md-6 mx-auto">
             <div>
-                <h1> list comments</h1>
+                <h1 class="h5  text-center text-muted text-secondary">Comments
+                </h1>
+                {% for comment in comment %}
 
+
+                    <div class="rounded-top pt-3 pl-3 pr-3 bg-light">
+                        <p class="text-bold text-break">{{ comment.user.fullName }}</p>
+                        <p>{{ comment.textComment }} </p>
+                        <p class="text-muted">
+                            <small>
+                                <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>
+                                {{ comment.createdAt|ago }}
+                            </small>
+
+                        </p>
+                    </div>
+                {% endfor %}
             </div>
             <div>
                 <h1> add comment</h1>

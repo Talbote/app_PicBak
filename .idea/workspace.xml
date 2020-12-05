@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c71e23ba-1a8d-472e-9040-236bc1f62172" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Controller/PicturesController.php" afterPath="$PROJECT_DIR$/src/Controller/PictureController.php" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Entity/Comment.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Repository/CommentRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/templates/pictures/show.html.twig" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.yaml" afterPath="$PROJECT_DIR$/config/routes.yaml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller/ProfilController.php" afterPath="$PROJECT_DIR$/src/Controller/ProfilController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller/PictureController.php" afterPath="$PROJECT_DIR$/src/Controller/PictureController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Picture.php" afterPath="$PROJECT_DIR$/src/Entity/Picture.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/User.php" afterPath="$PROJECT_DIR$/src/Entity/User.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Repository/PictureRepository.php" afterPath="$PROJECT_DIR$/src/Repository/PictureRepository.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/layouts/partials/_nav.html.twig" afterPath="$PROJECT_DIR$/templates/layouts/partials/_nav.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/pictures/show.html.twig" afterPath="$PROJECT_DIR$/templates/pictures/show.html.twig" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/pictures/show_owner.html.twig" afterPath="$PROJECT_DIR$/templates/pictures/show_owner.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/profil/show.html.twig" afterPath="$PROJECT_DIR$/templates/profil/show.html.twig" />
     </list>
     <ignored path="app_PicBak.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,10 +33,44 @@
       <file leaf-file-name="PictureController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/PictureController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="76" column="11" selection-start-line="76" selection-start-column="11" selection-end-line="76" selection-end-column="35" />
+            <state relative-caret-position="263">
+              <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
               <folding>
                 <element signature="e#34#57#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show_owner.html.twig" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/pictures/show_owner.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="75" column="43" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
+              <folding>
+                <element signature="e#2469#2489#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/pictures/index.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Picture.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Picture.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1748">
+              <caret line="161" column="31" selection-start-line="161" selection-start-column="20" selection-end-line="161" selection-end-column="31" />
+              <folding>
+                <element signature="e#30#66#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -48,55 +79,11 @@
       <file leaf-file-name="Comment.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/Comment.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="25" selection-end-column="70" />
+            <state relative-caret-position="90">
+              <caret line="32" column="11" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="11" />
               <folding>
                 <element signature="e#30#66#0#PHP" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PictureType.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Form/PictureType.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="23" />
-              <folding>
-                <element signature="e#27#50#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CommentFormType.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Form/CommentFormType.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="35" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="35" />
-              <folding>
-                <element signature="e#28#51#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/pictures/show.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show_owner.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/pictures/show_owner.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -158,13 +145,13 @@
         <option value="$PROJECT_DIR$/templates/profil/show.html.twig" />
         <option value="$PROJECT_DIR$/templates/layouts/partials/_nav.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/PicturesController.php" />
-        <option value="$PROJECT_DIR$/templates/pictures/show.html.twig" />
-        <option value="$PROJECT_DIR$/templates/pictures/show_owner.html.twig" />
+        <option value="$PROJECT_DIR$/src/Form/CommentFormType.php" />
         <option value="$PROJECT_DIR$/src/Entity/Picture.php" />
         <option value="$PROJECT_DIR$/src/Entity/User.php" />
-        <option value="$PROJECT_DIR$/src/Form/CommentFormType.php" />
-        <option value="$PROJECT_DIR$/src/Controller/PictureController.php" />
+        <option value="$PROJECT_DIR$/templates/pictures/show.html.twig" />
         <option value="$PROJECT_DIR$/src/Entity/Comment.php" />
+        <option value="$PROJECT_DIR$/src/Controller/PictureController.php" />
+        <option value="$PROJECT_DIR$/templates/pictures/show_owner.html.twig" />
       </list>
     </option>
   </component>
@@ -251,7 +238,11 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pictures" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -266,10 +257,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Form" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -288,24 +275,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app_PicBak" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app_PicBak" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Controller" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -402,12 +371,12 @@
       <workItem from="1605356986250" duration="11950000" />
       <workItem from="1605454359946" duration="5851000" />
       <workItem from="1605883695989" duration="56982000" />
-      <workItem from="1606314279910" duration="135572000" />
+      <workItem from="1606314279910" duration="151181000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="217432000" />
+    <option name="totallyTimeSpent" value="233041000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -515,14 +484,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/reset_password/email.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/reset_password/check_email.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -770,14 +731,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/pictures/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="25" column="76" selection-start-line="25" selection-start-column="76" selection-end-line="25" selection-end-column="90" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Repository/ResetPasswordRequestRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -860,44 +813,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/pictures/show.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/PictureType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="23" />
-          <folding>
-            <element signature="e#27#50#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="259" column="40" selection-start-line="259" selection-start-column="26" selection-end-line="259" selection-end-column="40" />
-          <folding>
-            <element signature="e#30#66#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Picture.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="165" column="47" selection-start-line="165" selection-start-column="39" selection-end-line="165" selection-end-column="47" />
-          <folding>
-            <element signature="e#30#66#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Form/ChangePasswordFormType.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -906,40 +821,96 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/pictures/show_owner.html.twig">
+    <entry file="file://$PROJECT_DIR$/src/Form/PictureType.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/PictureController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="76" column="11" selection-start-line="76" selection-start-column="11" selection-end-line="76" selection-end-column="35" />
+        <state relative-caret-position="-127">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="9" selection-end-column="48" />
           <folding>
-            <element signature="e#34#57#0#PHP" expanded="true" />
+            <element signature="e#27#50#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Comment.php">
+    <entry file="file://$PROJECT_DIR$/src/Entity/User.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="25" selection-end-column="70" />
+        <state relative-caret-position="330">
+          <caret line="218" column="36" selection-start-line="218" selection-start-column="22" selection-end-line="218" selection-end-column="36" />
           <folding>
-            <element signature="e#30#66#0#PHP" expanded="true" />
+            <element signature="e#30#66#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Form/CommentFormType.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="35" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="35" />
+        <state relative-caret-position="420">
+          <caret line="28" column="11" selection-start-line="28" selection-start-column="11" selection-end-line="28" selection-end-column="11" />
           <folding>
-            <element signature="e#28#51#0#PHP" expanded="true" />
+            <element signature="e#28#51#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/pictures/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/pictures/show_owner.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Comment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="32" column="11" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="11" />
+          <folding>
+            <element signature="e#30#66#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/pictures/show_owner.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-592">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/PictureController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+          <folding>
+            <element signature="e#34#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Picture.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1748">
+          <caret line="161" column="31" selection-start-line="161" selection-start-column="20" selection-end-line="161" selection-end-column="31" />
+          <folding>
+            <element signature="e#30#66#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/pictures/show_owner.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="75" column="43" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
+          <folding>
+            <element signature="e#2469#2489#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>

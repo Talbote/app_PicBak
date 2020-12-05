@@ -79,6 +79,11 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $comments;
+
+    /**
      * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="user", orphanRemoval=true)
      */
     private $pictures;
@@ -88,10 +93,6 @@ class User implements UserInterface, \Serializable
      */
     private $isVerified = false;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="textComment", orphanRemoval=true)
-     */
-    private $comments;
 
 
     public function __construct()
@@ -204,6 +205,36 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTextComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTextComment() === $this) {
+                $comment->setTextComment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Picture[]
      */
     public function getPictures(): Collection
@@ -227,37 +258,6 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($picture->getUser() === $this) {
                 $picture->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setTextComment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getTextComment() === $this) {
-                $comment->setTextComment(null);
             }
         }
 

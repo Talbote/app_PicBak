@@ -7,8 +7,9 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CommentRepository::class)
  * @ORM\Table(name="comments")
+ * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -21,43 +22,61 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     * @ORM\ManyToOne(targetEntity=Picture::class, inversedBy="comments")
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $textComment;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Picture::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $actif;
+    private $picture;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTextComment(): ?Picture
+    public function getTextComment(): ?string
     {
         return $this->textComment;
     }
 
-    public function setTextComment(?Picture $textComment): self
+    public function setTextComment(?string $textComment): self
     {
         $this->textComment = $textComment;
 
         return $this;
     }
 
-    public function getActif(): ?bool
+    public function getPicture(): ?Picture
     {
-        return $this->actif;
+        return $this->picture;
     }
 
-    public function setActif(?bool $actif): self
+    public function setPicture(?Picture $picture): self
     {
-        $this->actif = $actif;
+        $this->picture = $picture;
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 }

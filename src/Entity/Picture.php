@@ -67,9 +67,10 @@ class Picture
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="textComment", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="picture", orphanRemoval=true)
      */
     private $comments;
+
 
     public function __construct()
     {
@@ -184,5 +185,6 @@ class Picture
 
         return $this;
     }
+
 
 }
