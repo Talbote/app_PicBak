@@ -14,11 +14,8 @@ class CommentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('textComment', TextType::class)
-            ->add('send', SubmitType::class)
-
-        ;
+            ->add('send', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

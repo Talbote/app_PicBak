@@ -75,7 +75,7 @@ class PictureController extends AbstractController
             // recupération de l'utilisateur connecté
             $user = $this->getUser();
 
-            //création d'un id user / id_picture
+            //liaison de l'id commentaire à l'id user connecté et l'id_picture
             $comment->setUser($user);
             $comment->setPicture($picture);
 
@@ -86,6 +86,7 @@ class PictureController extends AbstractController
 
         }
 
+        // recupération des commentaires de l'image
         $comments = $picture->getComments();
 
 
@@ -105,7 +106,7 @@ class PictureController extends AbstractController
      * @Route("/picture/create", name="app_picture_create", methods="GET|POST")
      */
 
-    public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepository): Response
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -200,10 +201,11 @@ class PictureController extends AbstractController
 
     /**
      * @Route("/picture/{id<[0-9]+>}/", name="app_picture_delete", methods="DELETE")
+     *
      */
 
     public
-    function deletePicture(Request $request, Picture $picture, EntityManagerInterface $em): Response
+    function deletePicture(Request $request,Comment $comment, Picture $picture, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -224,9 +226,18 @@ class PictureController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('info', 'Picture successfully deleted!');
+
+                return $this->redirectToRoute('app_pictures_index');
             }
 
-            return $this->redirectToRoute('app_pictures_index');
+            if ($this->isCsrfTokenValid('comment_deletion_' . $comment->getId(), $request->request->get('csrf_comment_picture_delete'))) {
+
+                $em->remove($comment);
+                $em->flush();
+
+                $this->addFlash('info', 'Picture successfully deleted!');
+
+            }
         }
     }
 

@@ -30,7 +30,7 @@
                     </p>
                     <!-- END TITLE -->
                     <!-- DESCRIPTION -->
-                    <p class="text-muted text-break">{{ picture.description|u.truncate(9,'...', false) }}</p>
+                    <p class="text-muted text-break">{{ picture.description }}</p>
                     <!-- END DESCRIPTION -->
 
                     {% if is_granted('ROLE_USER') %}
@@ -42,6 +42,7 @@
                         <!-- LINK BUTTON FOR EDIT -->
                         <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
                         <!-- END BUTTON LINK FOR EDIT -->
+
                         <!-- LINK BUTTON FOR DELETE -->
                         <a href="#"
                            onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-picture-delete-form').submit();"
@@ -78,18 +79,21 @@
                 {% for comment in comment %}
 
 
-                    <div class="rounded-top pt-3 pl-3 pr-3 bg-light">
-                        <p class="text-bold text-break">{{ comment.user.fullName }}</p>
-                        <p>{{ comment.textComment }} </p>
-                        <p class="text-muted">
-                            <small>
-                                <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>
-                                {{ comment.createdAt|ago }}
-                            </small>
+                    <div class="rounded-pill p-4 bg-light">
+                        <div class="">
+                            <p class="text-bold text-break">{{ comment.user.fullName }}</p>
+                            <p>{{ comment.textComment }} </p>
+                        </div>
 
-                        </p>
                     </div>
+                    <p class="text-muted">
+                        <small>
+                            <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>
+                            {{ comment.createdAt|ago }}
+                        </small>
+                    </p>
                 {% endfor %}
+
             </div>
             <div>
                 <h1> add comment</h1>
