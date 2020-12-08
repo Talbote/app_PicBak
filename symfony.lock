@@ -84,6 +84,9 @@
     "egulias/email-validator": {
         "version": "2.1.23"
     },
+    "fortawesome/font-awesome": {
+        "version": "5.15.1"
+    },
     "imagine/imagine": {
         "version": "1.2.4"
     },

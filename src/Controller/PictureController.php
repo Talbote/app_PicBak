@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Picture;
+use App\Entity\PostLike;
 use App\Form\CommentFormType;
 use App\Form\PictureType;
+use App\Repository\PostLikeRepository;
 use App\Repository\UserRepository;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -205,7 +207,7 @@ class PictureController extends AbstractController
      */
 
     public
-    function deletePicture(Request $request,Comment $comment, Picture $picture, EntityManagerInterface $em): Response
+    function deletePicture(Request $request, Comment $comment, Picture $picture, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -239,6 +241,66 @@ class PictureController extends AbstractController
 
             }
         }
+    }
+
+
+    /**
+     * ########################################################################################################
+     * ##############################    LIKE PICTURE    ####################################################
+     * ########################################################################################################
+     */
+
+    /**
+     *
+     * @Route("/picture/{id<[0-9]+>}/like", name="app_picture_like", methods="POST|GET|DELETE")
+     * @
+     */
+
+    public function like(Picture $picture, EntityManagerInterface $em, PostLikeRepository $likeRepo): Response
+    {
+
+        $user = $this->getUser();
+
+        if (!$user) {
+
+            return $this->json([
+                'code' => 403,
+                'message' => "Unauhorized"
+
+            ], 403);
+        }
+
+
+        if ($picture->isLikedByUser($user)) {
+
+            $like = $likeRepo->findOneBy([
+                'picture' => $picture,
+                'user' => $user
+            ]);
+
+            $em->remove($like);
+            $em->flush();
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Like removed',
+                'like' => $likeRepo->count(['picture' => $picture])
+            ], 200);
+
+        }
+
+        $like = new PostLike();
+        $like->setPost($picture);
+        $like->setUser($user);
+
+        $em->persist($like);
+        $em->flush($like);
+
+        return $this->json([
+            'code' => 403,
+            'message' => "Good Like Added",
+            'like' => $likeRepo->count(['picture' => $picture])
+        ], 200);
     }
 
 }

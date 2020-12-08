@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\Timestampable;
+use App\Entity\User;
 use App\Repository\PictureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -71,10 +72,16 @@ class Picture
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="post")
+     */
+    private $likes;
+
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
 
@@ -186,5 +193,51 @@ class Picture
         return $this;
     }
 
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getPost() === $this) {
+                $like->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Permet de savoir si cette image est liké par un utilisateur
+     *
+     * @param User $user
+     * @return boulean
+     */
+    public function isLikedByUser(User $user) :bool
+    {
+
+        foreach ($this->likes as $like) {
+
+            if ($like->getUser() === $user) return true;
+        }
+
+        return false;
+    }
 
 }
