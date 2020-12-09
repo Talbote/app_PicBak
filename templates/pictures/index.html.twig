@@ -36,7 +36,7 @@
                                 <small>Submitted by {{ picture.user.fullName }}</small>
                             </p>
 
-                            <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like-link">
+                            <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
                                 {% if app.user and picture.isLikedByUser(app.user) %}
                                     <i class="fas fa-thumbs-up"></i>
                                 {% else %}

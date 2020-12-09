@@ -4,18 +4,15 @@
  * We recommend including the built version of this JavaScript file
  * (and its CSS file) in your base layout (base.html.twig).
  */
-
 // any CSS you import will output into a single css file (app.css in this case)
 const $ = require('jquery');
 const axios = require('axios').default;
-
 
 require('bootstrap');
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 
 import './app.scss';
-
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
@@ -30,36 +27,39 @@ $('.custom-file-input').on('change', function (e) {
 });
 
 // Function Like Pic
-
+// récuperation de toute lesclass a js-like
 
 function onClickBtnLike(even) { // tu dois recevoir un évenement even en parametre
 
-    even.preventDefault(); // event ne bouge pas
-    const url = this.href; // le href du liens sur lequelle on click
+    // event ne bouge pas
+    even.preventDefault();
+    // le href du liens sur lequelle on click.
+    const url = this.href;
     const spanCount = this.querySelector('span.js-likes');
-    const icone = this.querySelector('i');
+    const like = this.querySelector('i');
 
+    // recuperé l'URL avec axios
+    // quand il aura une reponse
+    // met dans la fonction response ->  console.log(response);
+    // response renvois des données -> data qui contient de ce qui est revenu du serveur
     axios.get(url).then(function (response) {
 
         console.log(response);
 
+        // chercher les likes dans le data
         spanCount.textContent = response.data.likes;
 
-        // si tu contiens actuellement la class fas = le pousse est remplit -> l'user à deja liker
-        // Alors on remplace la class fas par Far = pousse vide .
-        if (icone.classList.constains('fas')) {
-            icone.classList.replace('fas', 'far');
+        if (like.classList.contains('fas')) {
+
+            like.classList.replace('fas', 'far')
+        } else {
+            like.classList.replace('far', 'fas');
         }
-        else {
-            icone.classList.replace('far', 'fas');
-        }
+
 
     });
-
-    // récuperation de toute lesclass a js-like
-    document.querySelectorAll('a.js-like').forEach(function (link) { // sur chaque liens
-        // quand on click sur le lien , on appel une fonction
-        link.addEventListener('Click', onClickBtnLike);
-    })
 }
 
+document.querySelectorAll('a.js-like').forEach(function (link) {
+    link.addEventListener('click', onClickBtnLike);
+})
