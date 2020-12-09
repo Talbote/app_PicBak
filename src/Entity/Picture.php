@@ -73,7 +73,7 @@ class Picture
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="post")
+     * @ORM\OneToMany(targetEntity=PictureLike::class, mappedBy="picture")
      */
     private $likes;
 
@@ -193,35 +193,6 @@ class Picture
         return $this;
     }
 
-    /**
-     * @return Collection|PostLike[]
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(PostLike $like): self
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-            $like->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(PostLike $like): self
-    {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getPost() === $this) {
-                $like->setPost(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * Permet de savoir si cette image est liké par un utilisateur
@@ -238,6 +209,36 @@ class Picture
         }
 
         return false;
+    }
+
+    /**
+     * @return Collection|PictureLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PictureLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setPicture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PictureLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getPicture() === $this) {
+                $like->setPicture(null);
+            }
+        }
+
+        return $this;
     }
 
 }

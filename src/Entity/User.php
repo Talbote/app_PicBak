@@ -94,9 +94,10 @@ class User implements UserInterface, \Serializable
     private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=PictureLike::class, mappedBy="user")
      */
     private $likes;
+
 
 
 
@@ -104,6 +105,7 @@ class User implements UserInterface, \Serializable
     {
         $this->pictures = new ArrayCollection();
         $this->likes = new ArrayCollection();
+
     }
 
 
@@ -357,14 +359,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return Collection|PostLike[]
+     * @return Collection|PictureLike[]
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(PostLike $like): self
+    public function addLike(PictureLike $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
@@ -374,7 +376,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function removeLike(PostLike $like): self
+    public function removeLike(PictureLike $like): self
     {
         if ($this->likes->removeElement($like)) {
             // set the owning side to null (unless already changed)
@@ -385,5 +387,6 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
 
 }

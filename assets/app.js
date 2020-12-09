@@ -7,10 +7,15 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 const $ = require('jquery');
+const axios = require('axios').default;
+
+
 require('bootstrap');
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
+
 import './app.scss';
+
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
@@ -26,15 +31,18 @@ $('.custom-file-input').on('change', function (e) {
 
 // Function Like Pic
 
-function onClickBtnLike(even) {
 
-    even.preventDefault();
+function onClickBtnLike(even) { // tu dois recevoir un évenement even en parametre
 
-    const url = this.href;
+    even.preventDefault(); // event ne bouge pas
+    const url = this.href; // le href du liens sur lequelle on click
     const spanCount = this.querySelector('span.js-likes');
     const icone = this.querySelector('i');
 
     axios.get(url).then(function (response) {
+
+        console.log(response);
+
         spanCount.textContent = response.data.likes;
 
         // si tu contiens actuellement la class fas = le pousse est remplit -> l'user à deja liker
@@ -48,11 +56,10 @@ function onClickBtnLike(even) {
 
     });
 
-    document.querySelectorAll('a.js-like').forEach(function (link) {
-
+    // récuperation de toute lesclass a js-like
+    document.querySelectorAll('a.js-like').forEach(function (link) { // sur chaque liens
+        // quand on click sur le lien , on appel une fonction
         link.addEventListener('Click', onClickBtnLike);
-
-
     })
 }
 

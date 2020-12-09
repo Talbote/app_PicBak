@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\PostLikeRepository;
+use App\Repository\PictureLikeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
 
 /**
- * @ORM\Table(name="postlikes")
- * @ORM\Entity(repositoryClass=PostLikeRepository::class)
+ * @ORM\Table(name="post_likes")
+ * @ORM\Entity(repositoryClass=PictureLikeRepository::class)
  * @ORM\HasLifecycleCallbacks()
- *
  */
-class PostLike
+class PictureLike
 {
     use Timestampable;
     /**
@@ -25,7 +24,7 @@ class PostLike
     /**
      * @ORM\ManyToOne(targetEntity=Picture::class, inversedBy="likes")
      */
-    private $post;
+    private $picture;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="likes")
@@ -37,14 +36,14 @@ class PostLike
         return $this->id;
     }
 
-    public function getPost(): ?Picture
+    public function getPicture(): ?Picture
     {
-        return $this->post;
+        return $this->picture;
     }
 
-    public function setPost(?Picture $post): self
+    public function setPicture(?Picture $picture): self
     {
-        $this->post = $post;
+        $this->picture = $picture;
 
         return $this;
     }

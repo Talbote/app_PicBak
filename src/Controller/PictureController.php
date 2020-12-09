@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Picture;
-use App\Entity\PostLike;
+use App\Entity\PictureLike;
 use App\Form\CommentFormType;
 use App\Form\PictureType;
-use App\Repository\PostLikeRepository;
+use App\Repository\PictureLikeRepository;
 use App\Repository\UserRepository;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -252,13 +252,14 @@ class PictureController extends AbstractController
 
     /**
      *
-     * @Route("/picture/{id<[0-9]+>}/like", name="app_picture_like", methods="POST|GET|DELETE")
+     * @Route("/picture/{id<[0-9]+>}/like", name="app_picture_like", methods="GET")
      * @
      */
 
-    public function like(Picture $picture, EntityManagerInterface $em, PostLikeRepository $likeRepo): Response
+    public function like(Picture $picture, EntityManagerInterface $em, PictureLikeRepository $likeRepo): Response
     {
 
+        //récuperer l'utilisateur courant
         $user = $this->getUser();
 
         if (!$user) {
@@ -266,21 +267,24 @@ class PictureController extends AbstractController
             return $this->json([
                 'code' => 403,
                 'message' => "Unauhorized"
-
             ], 403);
         }
 
-
+// verification si un "utilisateur connecté" à déja liké une  picture
         if ($picture->isLikedByUser($user)) {
+
+            //retrouve le like de l'utilisateur connecté
 
             $like = $likeRepo->findOneBy([
                 'picture' => $picture,
                 'user' => $user
             ]);
 
+            //supprime ce like
             $em->remove($like);
             $em->flush();
 
+            // on retourne les informations en Json
             return $this->json([
                 'code' => 200,
                 'message' => 'Like removed',
@@ -289,8 +293,11 @@ class PictureController extends AbstractController
 
         }
 
-        $like = new PostLike();
-        $like->setPost($picture);
+        // sinon on crée un nouveau like
+        $like = new PictureLike();
+        // on définit la Picture que l'utilisateur a aimé
+        $like->setPicture($picture);
+        // on définit l'utilisateur qui a aimé la Picture
         $like->setUser($user);
 
         $em->persist($like);
