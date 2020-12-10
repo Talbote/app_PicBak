@@ -288,7 +288,7 @@ class PictureController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => 'Like removed',
-                'like' => $likeRepo->count(['picture' => $picture])
+                'likes' => $likeRepo->count(['picture' => $picture])
             ], 200);
 
         }
@@ -306,7 +306,7 @@ class PictureController extends AbstractController
         return $this->json([
             'code' => 403,
             'message' => "Good Like Added",
-            'like' => $likeRepo->count(['picture' => $picture])
+            'likes' => $likeRepo->count(['picture' => $picture])
         ], 200);
     }
 
