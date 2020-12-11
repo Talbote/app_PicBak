@@ -35,12 +35,8 @@
 
                     {% if is_granted('ROLE_USER') %}
 
-                    {# Ici le contenu réservé aux utilisateurs connectés #}
-
                     <!--  FORM + EDIT + DELETE -->
                     <div>
-
-
                         <!-- LINK BUTTON FOR EDIT -->
                         <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
                         <!-- END BUTTON LINK FOR EDIT -->
@@ -105,51 +101,64 @@
                     <!-- SEND COMMENT -->
 
                     <div class="row">
+
                         {{ form_start(commentForm) }}
-                        {{ form_row(commentForm.textComment) }}
+                        {{ form_row(commentForm.textComment, {'label': 'send', 'attr': {'class': 'userCmnt'}}) }}
+                        {{ form_widget(commentForm.send, {'label': 'send', 'attr': {'class': 'commentBtn'}}) }}
                         {{ form_end(commentForm) }}
+
                     </div>
                     <!-- END SEND COMMENT -->
                     <div>
                         <h1 class="h5  text-center text-muted text-secondary">Comments
                         </h1>
 
-                        {% for comment in comment %}
 
 
-                            <div class="headings d-flex justify-content-between align-items-center mb-3">
-                            </div>
 
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="user d-flex flex-row align-items-center">
-                                        <img src="https://i.imgur.com/hczKIze.jpg" width="30"
-                                             class="user-img rounded-circle mr-2">
-                                        <span><small
-                                                    class="font-weight-bold text-primary">{{ comment.user.fullName }}</small>
+
+
+
+                            <div id="cmntContr">
+
+
+                            {% for comment in comment %}
+
+
+                                <div class="headings d-flex justify-content-between align-items-center mb-3">
+                                </div>
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="user d-flex flex-row align-items-center">
+                                            <img src="https://i.imgur.com/hczKIze.jpg" width="30"
+                                                 class="user-img rounded-circle mr-2">
+                                            <span><small
+                                                        class="font-weight-bold text-primary">{{ comment.user.fullName }}</small>
                                                 <small class="font-weight-bold text-break">{{ comment.textComment }}</small>
                                             </span></div>
-                                    <small>
-                                        <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
-                                    </small>
-                                </div>
-                                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                                    <div class="reply px-4">
-                                        <small>Remove</small>
-                                        <span class="dots"></span>
-                                        <small>Reply</small>
-                                        <span class="dots"></span>
-                                        <small>Translate</small>
+                                        <small>
+                                            <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
+                                        </small>
                                     </div>
-                                    <div class="icons align-items-center">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-check-circle-o check-icon"></i>
+                                    <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                        <div class="reply px-4">
+                                            <small>Remove</small>
+                                            <span class="dots"></span>
+                                            <small>Reply</small>
+                                            <span class="dots"></span>
+                                            <small>Translate</small>
+                                        </div>
+                                        <div class="icons align-items-center">
+                                            <i class="fa fa-star text-warning"></i>
+                                            <i class="fa fa-check-circle-o check-icon"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+
 
                         {% endfor %}
-
+                            </div>
                     </div>
                 </div>
             </div>

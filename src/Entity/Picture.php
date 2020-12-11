@@ -73,7 +73,7 @@ class Picture
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=PictureLike::class, mappedBy="picture")
+     * @ORM\OneToMany(targetEntity=PictureLike::class, mappedBy="picture", orphanRemoval=true)
      */
     private $likes;
 

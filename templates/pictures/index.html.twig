@@ -41,9 +41,9 @@
                         <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
 
                             {% if app.user and picture.isLikedByUser(app.user) %}
-                                <svg class="far-svg far fa-thumbs-up"></svg>
-                            {% else %}
                                 <svg class="fas-svg fas fa-thumbs-up"></svg>
+                            {% else %}
+                                <svg class="far-svg far fa-thumbs-up"></svg>
                             {% endif %}
                             <span class="js-likes">{{ picture.likes | length }}</span>
                             <span class="js-label">Like</span>

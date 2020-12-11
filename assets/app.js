@@ -25,8 +25,10 @@ $('.custom-file-input').on('change', function (e) {
     $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
 
 });
+/*###########################################################################
+ ############################# JS LIKE / NO LIKE ############################
+ ############################################################################ */
 
-// ################### FONCTION LIKE / NO LIKE
 // récuperation de toute lesclass a js-like
 
 function onClickBtnLike(even) { // tu dois recevoir un évenement even en parametre
@@ -53,7 +55,7 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
             const code = response.data.code;
 
 
-            if (code == 403) {
+            if (code == 200) {
 
                 if (spanIcon.classList.contains('far-svg')) {
 
@@ -66,7 +68,7 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
 
             } else {
 
-                if (code == 200) {
+                if (code == 403) {
 
                     if (spanIcon.classList.contains('fas-svg')) {
 
@@ -84,4 +86,37 @@ document.querySelectorAll('a.js-like').forEach(function (link) {
     link.addEventListener('click', onClickBtnLike);
 })
 
+/*###########################################################################
+ ########################### COMMENT JS #####################################
+ ############################################################################ */
 
+
+function onClickBtnComment(even) { // tu dois recevoir un évenement even en parametre
+
+    // event ne bouge pas
+    even.preventDefault();
+    // le href du liens sur lequelle on click.
+    const url = this.href;
+
+
+    if (url != null) {
+
+        const val2 = url.substr(6);
+
+        axios.get(val2).then(function (response) {
+
+            console.log(response);
+
+            });
+
+        //......
+    }
+
+
+
+};
+
+
+document.querySelectorAll('button.commentBtn').forEach(function (link) {
+    link.addEventListener('click', onClickBtnComment);
+})
