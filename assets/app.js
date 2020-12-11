@@ -26,7 +26,11 @@ $('.custom-file-input').on('change', function (e) {
 
 });
 
-// Function Like Pic
+// #####################################################################################
+// #################################  GESTION LIKES ####################################
+// #####################################################################################
+
+
 // récuperation de toute lesclass a js-like
 
 function onClickBtnLike(even) { // tu dois recevoir un évenement even en parametre
@@ -40,6 +44,7 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
     const spanCount = this.querySelector('span.js-likes');
     const url = this.href;
 
+    ///console.log(spanCount, spanIcon, url);
 
 
     // recuperé l'URL avec axios
@@ -51,25 +56,16 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
 
         spanCount.textContent = response.data.likes;
 
-        const dataPrefixFas = $('fas-svg');
-        const dataPrefixFar = $('far-svg');
+        if (spanIcon.classList.contains('fas-svg')) {
 
-        if (spanIcon.classList.contains('far-svg')){
+            spanIcon.classList.add('fas');
+            console.log('fas')
+        }
 
-            $('.far-svg').attr('data-prefix','fas')
+        if (spanIcon.classList.contains('far-svg')) {
 
-            spanIcon.classList.replace('far-svg','fas-svg')
-
-        } else {
-
-
-            if (spanIcon.classList.contains('fas-svg')) {
-
-                $('.fas-svg').attr('data-prefix','far')
-
-                spanIcon.classList.replace('fas-svg','far-svg')
-
-            }
+            spanIcon.classList.add('fas');
+            console.log('fas')
         }
 
     });
@@ -79,3 +75,20 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
 document.querySelectorAll('a.js-like').forEach(function (link) {
     link.addEventListener('click', onClickBtnLike);
 })
+
+
+// #####################################################################################
+// ###########################  GESTION COMMENTAIRES ###################################
+// #####################################################################################
+
+
+const commentCount = this.querySelector('p.js-comments');
+const url = this.href;
+
+
+axios.get(url).then(function (response) {
+
+    console.log(response);
+
+
+}

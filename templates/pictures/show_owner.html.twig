@@ -39,6 +39,8 @@
 
                     <!--  FORM + EDIT + DELETE -->
                     <div>
+
+
                         <!-- LINK BUTTON FOR EDIT -->
                         <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
                         <!-- END BUTTON LINK FOR EDIT -->
@@ -47,6 +49,24 @@
                         <a href="#"
                            onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-picture-delete-form').submit();"
                            class="btn btn-light">Delete</a>
+
+                        <!-- LINK LIKE -->
+                        <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
+
+                            {% if app.user and picture.isLikedByUser(app.user) %}
+                                <svg class="fas-svg fas fa-thumbs-up"></svg>
+                            {% else %}
+                                <svg class="far-svg far fa-thumbs-up"></svg>
+                            {% endif %}
+                            <span class="js-likes">{{ picture.likes | length }}</span>
+                            <span class="js-label">Like</span>
+                        </a>
+                        <!-- END LINK LIKE  -->
+
+
+                        <!-- COUNT COMMENTS -->
+                        <span class="js-comments text-muted">{{ picture.comments | length }} comments</span>
+                        <!-- END COUNT COMMENTS -->
 
                         <!-- END BUTTON LINK FOR DELETE -->
                         <form id="js-picture-delete-form" action="{{ path('app_picture_delete', {id: picture.id}) }}"
@@ -63,44 +83,67 @@
                         <!-- END BUTTON LINK FOR DELETE -->
 
                     </div>
+
                 </div>
                 <!--  END FORM + EDIT + DELETE -->
                 {% endif %}
             </div>
+
             <!-- END CONTENT PICTURE DIV-->
         </div>
         <!-- END DIV COL-->
 
         <!-- DIV COL COMMENT-->
         <div class="col-md-6 mx-auto">
-            <div>
-                <h1 class="h5  text-center text-muted text-secondary">Comments
-                </h1>
-                {% for comment in comment %}
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8">
+                    <div>
+                        <p><i class="far fa-comment"></i> {{ form(commentForm) }}  </p>
+                    </div>
+
+                    <div>
+                        <h1 class="h5  text-center text-muted text-secondary">Comments
+                        </h1>
+
+                        {% for comment in comment %}
 
 
-                    <div class="rounded-pill p-4 bg-light">
-                        <div class="">
-                            <p class="text-bold text-break">{{ comment.user.fullName }}</p>
-                            <p>{{ comment.textComment }} </p>
-                        </div>
+                            <div class="headings d-flex justify-content-between align-items-center mb-3">
+                            </div>
+
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="user d-flex flex-row align-items-center">
+                                        <img src="https://i.imgur.com/hczKIze.jpg" width="30"
+                                             class="user-img rounded-circle mr-2">
+                                        <span><small
+                                                    class="font-weight-bold text-primary">{{ comment.user.fullName }}</small>
+                                                <small class="font-weight-bold text-break">{{ comment.textComment }}</small>
+                                            </span></div>
+                                    <small>
+                                        <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
+                                    </small>
+                                </div>
+                                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                    <div class="reply px-4">
+                                        <small>Remove</small>
+                                        <span class="dots"></span>
+                                        <small>Reply</small>
+                                        <span class="dots"></span>
+                                        <small>Translate</small>
+                                    </div>
+                                    <div class="icons align-items-center">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-check-circle-o check-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
 
                     </div>
-                    <p class="text-muted">
-                        <small>
-                            <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>
-                            {{ comment.createdAt|ago }}
-                        </small>
-                    </p>
-                {% endfor %}
-
+                </div>
             </div>
-            <div>
-                <h1> add comment</h1>
-                <p> {{ form(commentForm) }} </p>
-            </div>
-
-
         </div>
         <!-- END DIV COL COMMENT-->
 

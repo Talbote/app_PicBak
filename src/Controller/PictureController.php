@@ -7,6 +7,7 @@ use App\Entity\Picture;
 use App\Entity\PictureLike;
 use App\Form\CommentFormType;
 use App\Form\PictureType;
+use App\Repository\CommentRepository;
 use App\Repository\PictureLikeRepository;
 use App\Repository\UserRepository;
 use App\Repository\PictureRepository;
@@ -53,10 +54,10 @@ class PictureController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/picture/{id<[0-9]+>}", name="app_picture_show", methods="GET|POST")
+     * @Route("/picture/{id<[0-9]+>}/", name="app_picture_show", methods="GET|POST")
      */
 
-    public function show(Picture $picture, Request $request, EntityManagerInterface $em): Response
+    public function show(Picture $picture, Request $request, EntityManagerInterface $em,CommentRepository $commentRepository): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -81,9 +82,15 @@ class PictureController extends AbstractController
             $comment->setUser($user);
             $comment->setPicture($picture);
 
-
             $em->persist($comment);
             $em->flush();
+
+
+            return $this->json([
+                'code' => 403,
+                'messages' => "Good comment Added",
+                'comments' => $commentRepository->count(['picture' => $picture])
+            ], 200);
 
 
         }
