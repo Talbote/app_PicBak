@@ -53,7 +53,7 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
             const code = response.data.code;
 
 
-            if (code == 200) {
+            if (code == 403) {
 
                 if (spanIcon.classList.contains('far-svg')) {
 
@@ -66,7 +66,7 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
 
             } else {
 
-                if (code == 403) {
+                if (code == 200) {
 
                     if (spanIcon.classList.contains('fas-svg')) {
 
