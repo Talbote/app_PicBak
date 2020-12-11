@@ -99,9 +99,17 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-8">
                     <div>
-                        <p><i class="far fa-comment"></i> {{ form(commentForm) }}  </p>
+                        <p><i class="far fa-comment"></i></p>
                     </div>
 
+                    <!-- SEND COMMENT -->
+
+                    <div class="row">
+                        {{ form_start(commentForm) }}
+                        {{ form_row(commentForm.textComment) }}
+                        {{ form_end(commentForm) }}
+                    </div>
+                    <!-- END SEND COMMENT -->
                     <div>
                         <h1 class="h5  text-center text-muted text-secondary">Comments
                         </h1>
@@ -139,6 +147,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         {% endfor %}
 
                     </div>

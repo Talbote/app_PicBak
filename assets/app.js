@@ -26,11 +26,7 @@ $('.custom-file-input').on('change', function (e) {
 
 });
 
-// #####################################################################################
-// #################################  GESTION LIKES ####################################
-// #####################################################################################
-
-
+// ################### FONCTION LIKE / NO LIKE
 // récuperation de toute lesclass a js-like
 
 function onClickBtnLike(even) { // tu dois recevoir un évenement even en parametre
@@ -44,51 +40,48 @@ function onClickBtnLike(even) { // tu dois recevoir un évenement even en parame
     const spanCount = this.querySelector('span.js-likes');
     const url = this.href;
 
-    ///console.log(spanCount, spanIcon, url);
-
 
     // recuperé l'URL avec axios
     // quand il aura une reponse
     // met dans la fonction response ->  console.log(response);
     // response renvois des données -> data qui contient de ce qui est revenu du serveur
     axios.get(url).then(function (response) {
-        // chercher les likes dans le data
+            // chercher les likes dans le data
+            spanCount.textContent = response.data.likes;
 
-        spanCount.textContent = response.data.likes;
 
-        if (spanIcon.classList.contains('fas-svg')) {
+            const code = response.data.code;
 
-            spanIcon.classList.add('fas');
-            console.log('fas')
+
+            if (code == 200) {
+
+                if (spanIcon.classList.contains('far-svg')) {
+
+
+                    $('.far-svg').attr('data-prefix', 'fas')
+
+                    spanIcon.classList.replace('far-svg', 'fas-svg')
+
+                }
+
+            } else {
+
+                if (code == 403) {
+
+                    if (spanIcon.classList.contains('fas-svg')) {
+
+                        $('.fas-svg').attr('data-prefix', 'far')
+
+                        spanIcon.classList.replace('fas-svg', 'far-svg')
+                    }
+                }
+            }
         }
-
-        if (spanIcon.classList.contains('far-svg')) {
-
-            spanIcon.classList.add('fas');
-            console.log('fas')
-        }
-
-    });
+    )
 }
-
 
 document.querySelectorAll('a.js-like').forEach(function (link) {
     link.addEventListener('click', onClickBtnLike);
 })
 
 
-// #####################################################################################
-// ###########################  GESTION COMMENTAIRES ###################################
-// #####################################################################################
-
-
-const commentCount = this.querySelector('p.js-comments');
-const url = this.href;
-
-
-axios.get(url).then(function (response) {
-
-    console.log(response);
-
-
-}
