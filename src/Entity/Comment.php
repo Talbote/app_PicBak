@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\Timestampable;
+
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\Timestampable;
 
 /**
  * @ORM\Table(name="comments")

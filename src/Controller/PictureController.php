@@ -88,6 +88,7 @@ class PictureController extends AbstractController
 
             return $this->json([
                 'code' => 403,
+                'textComment' => $comment->getTextComment('textComment'),
                 'messages' => "Good comment Added",
                 'comments' => $commentRepository->count(['picture' => $picture])
             ], 200);
@@ -97,7 +98,6 @@ class PictureController extends AbstractController
 
         // recupération des commentaires de l'image
         $comments = $picture->getComments();
-
 
         return $this->render('pictures/show_owner.html.twig', [
             'picture' => $picture,
@@ -214,7 +214,7 @@ class PictureController extends AbstractController
      */
 
     public
-    function deletePicture(Request $request, Comment $comment, Picture $picture, EntityManagerInterface $em): Response
+    function deletePicture(Request $request, Picture $picture, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -229,7 +229,8 @@ class PictureController extends AbstractController
         } else {
             /* si le token est valid on applique la suppression */
 
-            if ($this->isCsrfTokenValid('picture_deletion_' . $picture->getId(), $request->request->get('csrf_token_picture_delete'))) {
+            if ($this->isCsrfTokenValid('picture_deletion_' . $picture->getId(),
+                $request->request->get('csrf_token_picture_delete'))) {
 
                 $em->remove($picture);
                 $em->flush();
@@ -239,14 +240,6 @@ class PictureController extends AbstractController
                 return $this->redirectToRoute('app_pictures_index');
             }
 
-            if ($this->isCsrfTokenValid('comment_deletion_' . $comment->getId(), $request->request->get('csrf_comment_picture_delete'))) {
-
-                $em->remove($comment);
-                $em->flush();
-
-                $this->addFlash('info', 'Picture successfully deleted!');
-
-            }
         }
     }
 
@@ -294,6 +287,7 @@ class PictureController extends AbstractController
             // on retourne les informations en Json
             return $this->json([
                 'code' => 200,
+                'picture' => $picture->getId(),
                 'message' => 'Like removed',
                 'likes' => $likeRepo->count(['picture' => $picture])
             ], 200);
@@ -312,6 +306,7 @@ class PictureController extends AbstractController
 
         return $this->json([
             'code' => 403,
+            'picture' => $picture->getId(),
             'message' => "Good Like Added",
             'likes' => $likeRepo->count(['picture' => $picture])
         ], 200);

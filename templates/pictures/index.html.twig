@@ -11,61 +11,57 @@
 
         {% for row in pictures|batch(3) %}
             <div class="row mb-5">
-            {% for picture in row %}
-                <div class="col-md-4">
+                {% for picture in row %}
+                    <div class="col-md-4">
 
-                    <!-- PICTURE DIV-------------------------------------->
+                        <!-- PICTURE DIV-------------------------------------->
 
-                    <div class="picture bg-white rounded shadow">
-                        <div class="mw-100 rounded-top overflow-hidden">
-                            <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
-                                <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
-                                     alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
-                        </div>
+                        <div class="picture bg-white rounded shadow">
+                            <div class="mw-100 rounded-top overflow-hidden">
+                                <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
+                                    <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
+                                         alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
+                            </div>
 
-                        <h2 class="h5 text-muted pl-3 pt-3"><a
-                                    href="{{ path('app_picture_show' , {id: picture.id}) }}"
-                                    class="text-muted text-decoration-none text-secondary">{{ picture.title }}</a>
-                        </h2>
-                        <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
+                            <h2 class="h5 text-muted pl-3 pt-3"><a
+                                        href="{{ path('app_picture_show' , {id: picture.id}) }}"
+                                        class="text-muted text-decoration-none text-secondary">{{ picture.title }}</a>
+                            </h2>
+                            <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
 
-                        <!-- <p>Submitted {{ picture.createdAt|ago }}</p> -->
+                            <!-- <p>Submitted {{ picture.createdAt|ago }}</p> -->
 
-                        <p class="h5 text-muted pl-3 pt-3">{{ picture.description|u.truncate(9,'...', true) }}</p>
+                            <p class="h5 text-muted pl-3 pt-3">{{ picture.description|u.truncate(9,'...', true) }}</p>
 
-                        <p class="text-muted pl-3 pb-3">
-                            <small>Submitted by {{ picture.user.fullName }}</small>
-                        </p>
+                            <p class="text-muted pl-3 pb-3">
+                                <small>Submitted by {{ picture.user.fullName }}</small>
+                            </p>
 
-                        <!-- LINK LIKE  -->
-                        <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
+                            <!-- LINK LIKE  -->
+                            <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
 
-                            {% if app.user and picture.isLikedByUser(app.user) %}
-                                <svg class="fas-svg fas fa-thumbs-up"></svg>
-                            {% else %}
-                                <svg class="far-svg far fa-thumbs-up"></svg>
-                            {% endif %}
-                            <span class="js-likes">{{ picture.likes | length }}</span>
-                            <span class="js-label">Like</span>
-                        </a>
-                        <!-- END LINK LIKE  -->
+                                {% if app.user and picture.isLikedByUser(app.user) %}
+                                    <svg class="far-svg far fa-thumbs-up"></svg>
+                                {% else %}
+                                    <svg class="fas-svg fas fa-thumbs-up"></svg>
+                                {% endif %}
+                                <span class="js-likes">{{ picture.likes | length }}</span>
+                                <span class="js-label">Like</span>
+                            </a>
+                            <!-- END LINK LIKE  -->
 
-                        <!-- COUNT COMMENTS -->
+                            <!-- COUNT COMMENTS -->
                             <span class="js-comments text-muted">{{ picture.comments | length }} comments</span>
-                        <!-- END COUNT COMMENTS -->
+                            <!-- END COUNT COMMENTS -->
+
+                        </div>
+                        <!-- END PICTURE DIV-------------------------------------->
 
                     </div>
-
-                    <!-- END PICTURE DIV-------------------------------------->
-
-
-                </div>
-                <!-- END PICTURE DIV-->
-
-
-                </div>
-            {% endfor %}
+                    <!-- END PICTURE DIV-->
+                {% endfor %}
             </div>
+
 
         {% endfor %}
     {% else %}
