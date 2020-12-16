@@ -55,6 +55,7 @@ class PictureController extends AbstractController
      */
     /**
      * @Route("/picture/{id<[0-9]+>}/", name="app_picture_show", methods="GET|POST")
+     *
      */
 
     public function show(Picture $picture, Request $request, EntityManagerInterface $em,CommentRepository $commentRepository): Response
@@ -82,17 +83,17 @@ class PictureController extends AbstractController
             $comment->setUser($user);
             $comment->setPicture($picture);
 
+            // sauvegarde des données
             $em->persist($comment);
             $em->flush();
 
-
+            // on retourne  les données du commentaire en JSON
             return $this->json([
                 'code' => 403,
                 'textComment' => $comment->getTextComment('textComment'),
                 'messages' => "Good comment Added",
                 'comments' => $commentRepository->count(['picture' => $picture])
             ], 200);
-
 
         }
 
@@ -239,7 +240,6 @@ class PictureController extends AbstractController
 
                 return $this->redirectToRoute('app_pictures_index');
             }
-
         }
     }
 

@@ -17,7 +17,7 @@ class CommentFormType extends AbstractType
     {
         $builder
             ->add('textComment', TextType::class)
-            ->add('send', SubmitType::class)
+            ->add('submit', SubmitType::class)
         ;
 
         $builder

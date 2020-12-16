@@ -9,20 +9,13 @@
 
 
             <!-- SEND COMMENT -->
-            <!-- LINK LIKE -->
+            <div class="row">
 
-                <div class="row">
-
-                    {{ form_start(commentForm) }}
-
-                    {{ form_row(commentForm.textComment ) }}
-                    <a href="{{ path('app_picture_show', {'id' : picture.id }) }}" class="btn btn-link js-form-comment">
-                    {{ form_widget(commentForm.send ) }}
-                    </a>
-                    {{ form_end(commentForm) }}
-
-                </div>
-
+                {{ form_start(commentForm,  {'method': 'POST'} ) }}
+                {{ form_widget(commentForm.textComment) }}
+                {{ form_widget(commentForm.submit, { 'attr': {'class': 'js-form-comment','label': 'Send'} }) }}
+                {{ form_end(commentForm) }}
+            </div>
             <!-- END SEND COMMENT -->
 
 
