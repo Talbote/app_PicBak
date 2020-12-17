@@ -19,14 +19,6 @@ class CommentFormType extends AbstractType
             ->add('textComment', TextType::class)
             ->add('submit', SubmitType::class)
         ;
-
-        $builder
-            ->get('textComment')->addEventListener(
-                FormEvents::POST_SUBMIT,
-                function(FormEvent $event){
-                    $form = $event->getForm();
-                }
-            );
     }
 
 

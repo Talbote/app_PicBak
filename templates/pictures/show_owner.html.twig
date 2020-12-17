@@ -40,10 +40,11 @@
                         <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
                         <!-- END BUTTON LINK FOR EDIT -->
 
-                        <!-- LINK BUTTON FOR DELETE -->
+
                         <a href="#"
                            onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-picture-delete-form').submit();"
                            class="btn btn-light">Delete</a>
+                        <!-- LINK BUTTON FOR DELETE -->
 
                         <!-- LINK LIKE -->
                         <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">

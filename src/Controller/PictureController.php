@@ -33,10 +33,11 @@ class PictureController extends AbstractController
     {
         /* dd($pictureRepository->findAll());  ( recupere tout le tableau) */
 
-        $data = $pictureRepository->findBy([], ['createdAt' => 'DESC']);
+        $data_pictures = $pictureRepository->findBy([], ['createdAt' => 'DESC']);
+
 
         $pictures = $paginator->paginate(
-            $data,
+            $data_pictures,
             $request->query->getInt('page', 1), 3
 
         );
@@ -58,12 +59,11 @@ class PictureController extends AbstractController
      *
      */
 
-    public function show(Picture $picture, Request $request, EntityManagerInterface $em,CommentRepository $commentRepository): Response
+    public function showALL(Picture $picture, Request $request, EntityManagerInterface $em, CommentRepository $commentRepository): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
-        /* vérification de l'user_id du picture */
-        $data_picture_user = $picture->getUser();
+
 
         //création d'une commentaire
         $comment = new Comment();
@@ -83,6 +83,7 @@ class PictureController extends AbstractController
             $comment->setUser($user);
             $comment->setPicture($picture);
 
+
             // sauvegarde des données
             $em->persist($comment);
             $em->flush();
@@ -97,13 +98,15 @@ class PictureController extends AbstractController
 
         }
 
-        // recupération des commentaires de l'image
+        $user = $this->getUser();
         $comments = $picture->getComments();
+
 
         return $this->render('pictures/show_owner.html.twig', [
             'picture' => $picture,
             'comment' => $comments,
-            'commentForm' => $form->createView()
+            'commentForm' => $form->createView(),
+            'user' => $user
         ]);
     }
 
@@ -116,7 +119,7 @@ class PictureController extends AbstractController
      * @Route("/picture/create", name="app_picture_create", methods="GET|POST")
      */
 
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function createPicture(Request $request, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -149,7 +152,7 @@ class PictureController extends AbstractController
 
     /**
      * ########################################################################################################
-     * ##############################    EDIT PICTURES    ######################################################
+     * ##############################    EDIT PICTURE    ######################################################
      * ########################################################################################################
      */
 
@@ -157,7 +160,7 @@ class PictureController extends AbstractController
      * @Route("/picture/{id<[0-9]+>}/edit", name="app_picture_edit", methods="GET|PUT")
      */
 
-    public function edit(Request $request, EntityManagerInterface $em, Picture $picture): Response
+    public function editPicture(Request $request, EntityManagerInterface $em, Picture $picture): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -227,21 +230,126 @@ class PictureController extends AbstractController
 
             return $this->redirectToRoute('app_pictures_index');
 
+
         } else {
             /* si le token est valid on applique la suppression */
 
             if ($this->isCsrfTokenValid('picture_deletion_' . $picture->getId(),
-                $request->request->get('csrf_token_picture_delete'))) {
+                $request->request->get('csrf_token_picture_delete'))
+            ) {
 
                 $em->remove($picture);
                 $em->flush();
 
-                $this->addFlash('info', 'Picture successfully deleted!');
+                $this->addFlash('info', 'picture successfully deleted!');
+
+
+            }
+            return $this->redirectToRoute('app_pictures_index');
+        }
+    }
+
+
+    /**
+     * ########################################################################################################
+     * ##############################    EDIT COMMENT    ######################################################
+     * ########################################################################################################
+     */
+
+    /**
+     * @Route("/picture/{id<[0-9]+>}/comment/edit", name="app_comment_edit", methods="GET|PUT")
+     */
+
+    public function editComment(Request $request, EntityManagerInterface $em, Comment $comment): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        /* vérification de l'user_id du picture */
+
+        $user = $comment->getUser();
+
+        if ($user !== $this->getUser()) {
+
+            $this->addFlash('error', 'Not allowed to do that !');
+
+            return $this->redirectToRoute('app_pictures_index');
+
+        } else {
+
+            $form = $this->createForm(CommentFormType::class, $comment, [
+
+                'method' => 'PUT'
+
+            ]);
+
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+
+                /*recupere les données dans le form*/
+                $em->flush();
+
+                $this->addFlash('success', 'Picture successfully updated!');
+
 
                 return $this->redirectToRoute('app_pictures_index');
             }
+
+            return $this->render('comment/edit.html.twig', [
+
+                'picture' => $comment,
+                'form' => $form->createView()
+
+            ]);
         }
     }
+
+    /**
+     * ########################################################################################################
+     * ##############################    DELETE COMMENT    ####################################################
+     * ########################################################################################################
+     */
+
+    /**
+     * @Route("/picture/{id<[0-9]+>}/comment/delete/", name="app_comment_delete", methods="DELETE")
+     *
+     */
+
+    public
+    function delete(Request $request, Comment $comment, EntityManagerInterface $em): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        /* vérification de l'user_id du picture */
+
+        $data_user = $comment->getUser();
+
+        if ($data_user !== $this->getUser()) {
+
+            $this->addFlash('error', 'Not allowed to do that !');
+
+            return $this->redirectToRoute('app_pictures_index');
+
+        } else {
+            /* si le token est valid on applique la suppression */
+
+            if ($this->isCsrfTokenValid('comment_deletion_' . $comment->getId(),
+                $request->request->get('csrf_token_comment_delete'))
+            ) {
+
+                $em->remove($comment);
+                $em->flush();
+
+                $this->addFlash('info', 'Comment successfully deleted!');
+            }
+        }
+
+        return $this->redirectToRoute('app_pictures_index');
+    }
+
+
 
 
     /**
@@ -311,5 +419,6 @@ class PictureController extends AbstractController
             'likes' => $likeRepo->count(['picture' => $picture])
         ], 200);
     }
+
 
 }
