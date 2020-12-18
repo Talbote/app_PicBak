@@ -311,15 +311,6 @@ class User implements UserInterface, \Serializable
     }
 
 
-    /**
-     * METHODE getFullName();
-     */
-
-    public function getFullName(): string
-    {
-        return (string) $this->getFirstName() . '  ' . $this->getLastName();
-    }
-
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -388,5 +379,13 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * METHODE getFullName();
+     */
+
+    public function getFullName(): string
+    {
+        return (string) $this->getFirstName() . '  ' . $this->getLastName();
+    }
 
 }

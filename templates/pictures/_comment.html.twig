@@ -28,8 +28,17 @@
                         <div class="card p-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="user d-flex flex-row align-items-center">
-                                    <img src="{{ ( user.imageName ? vich_uploader_asset(user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
-                                         alt="{{ user.fullName }}" class="w-25 shadow rounded-circle"/>
+
+
+
+                                    {% if user is defined is not null %}
+                                        <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
+                                             alt="" class="w-25 shadow rounded-circle"/>
+                                    {% else %}
+                                        {% set title = 'image non trouver !' %}
+                                    {% endif %}
+
+
                                     <span>
                                         <small class="font-weight-bold text-primary">
                                             {{ comment.user.fullName }}
@@ -45,20 +54,23 @@
                             </div>
                             <div class="action d-flex justify-content-between mt-2 align-items-center">
                                 <div class="reply px-4">
+
                                     <a href="#"
                                        onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
                                        class="btn btn-light">
                                         <small>Remove</small>
                                     </a>
-                                    <span class="dots"></span>
-                                    <small>Reply</small>
-                                    <span class="dots"></span>
+
                                     <small>
                                         <!-- LINK BUTTON FOR EDIT -->
                                         <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
                                            class="btn btn-light">Edit</a>
                                         <!-- END BUTTON LINK FOR EDIT -->
                                     </small>
+                                    <!-- LINK BUTTON FOR EDIT -->
+                                    <a href="#"
+                                       class="btn btn-light">reply</a>
+                                    <!-- END BUTTON LINK FOR EDIT -->
                                 </div>
                             </div>
                         </div>

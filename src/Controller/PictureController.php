@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\User;
 use App\Entity\Picture;
 use App\Entity\PictureLike;
 use App\Form\CommentFormType;
@@ -64,7 +65,6 @@ class PictureController extends AbstractController
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-
         //création d'une commentaire
         $comment = new Comment();
 
@@ -84,6 +84,8 @@ class PictureController extends AbstractController
             $comment->setPicture($picture);
 
 
+
+
             // sauvegarde des données
             $em->persist($comment);
             $em->flush();
@@ -98,15 +100,21 @@ class PictureController extends AbstractController
 
         }
 
-        $user = $this->getUser();
+
+
+
         $comments = $picture->getComments();
 
 
         return $this->render('pictures/show_owner.html.twig', [
-            'picture' => $picture,
             'comment' => $comments,
+            'picture' => $picture,
             'commentForm' => $form->createView(),
-            'user' => $user
+
+
+
+
+
         ]);
     }
 
@@ -224,6 +232,7 @@ class PictureController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         /* vérification de l'user_id du picture */
         $data_user = $picture->getUser();
+
         if ($data_user !== $this->getUser()) {
 
             $this->addFlash('error', 'Not allowed to do that !');
@@ -318,22 +327,15 @@ class PictureController extends AbstractController
      */
 
     public
-    function delete(Request $request, Comment $comment, EntityManagerInterface $em): Response
+    function delete(Request $request,Comment $comment, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
         /* vérification de l'user_id du picture */
 
-        $data_user = $comment->getUser();
+        $owner_comment = $comment->getUser();
 
-        if ($data_user !== $this->getUser()) {
-
-            $this->addFlash('error', 'Not allowed to do that !');
-
-            return $this->redirectToRoute('app_pictures_index');
-
-        } else {
-            /* si le token est valid on applique la suppression */
+        if ($owner_comment === $this->getUser()) {
 
             if ($this->isCsrfTokenValid('comment_deletion_' . $comment->getId(),
                 $request->request->get('csrf_token_comment_delete'))
@@ -344,6 +346,15 @@ class PictureController extends AbstractController
 
                 $this->addFlash('info', 'Comment successfully deleted!');
             }
+
+        } else {
+
+            $this->addFlash('error', 'Not allowed to do that !');
+
+            return $this->redirectToRoute('app_pictures_index');
+            /* si le token est valid on applique la suppression */
+
+
         }
 
         return $this->redirectToRoute('app_pictures_index');

@@ -27,7 +27,7 @@ class ProfilController extends AbstractController
      * @Route("/profil/", name="app_profil_show", methods="GET")
      */
 
-    public function show(PictureRepository $pictureRepository): Response
+    public function show(): Response
     {
 
         $user = $this->getUser();
