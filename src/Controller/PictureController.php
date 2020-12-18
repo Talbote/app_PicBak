@@ -326,16 +326,17 @@ class PictureController extends AbstractController
      *
      */
 
-    public
-    function delete(Request $request,Comment $comment, EntityManagerInterface $em): Response
+    public function delete(Request $request,Comment $comment, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
         /* vérification de l'user_id du picture */
 
         $owner_comment = $comment->getUser();
+        $owner_picture = $comment->getPicture()->getUser();
 
-        if ($owner_comment === $this->getUser()) {
+
+        if ($owner_comment === $this->getUser() || $owner_picture === $this->getUser() ) {
 
             if ($this->isCsrfTokenValid('comment_deletion_' . $comment->getId(),
                 $request->request->get('csrf_token_comment_delete'))
