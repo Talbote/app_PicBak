@@ -31,7 +31,7 @@ class ProfilController extends AbstractController
     {
 
         $user = $this->getUser();
-        $id = $user->getId();
+
 
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {

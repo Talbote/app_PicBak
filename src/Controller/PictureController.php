@@ -390,7 +390,7 @@ class PictureController extends AbstractController
             ], 403);
         }
 
-// verification si un "utilisateur connecté" à déja liké une  picture
+// verification si un "utilisateur connecté" à déja liké une picture
         if ($picture->isLikedByUser($user)) {
 
             //retrouve le like de l'utilisateur connecté
