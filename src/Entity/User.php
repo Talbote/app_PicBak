@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+
+use App\Entity\Traits\Haspremium;
 use App\Entity\Traits\Timestampable;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,6 +26,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class User implements UserInterface, \Serializable
 {
     use Timestampable;
+    use Haspremium;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

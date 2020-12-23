@@ -33,7 +33,6 @@
                                 <div class="user d-flex flex-row align-items-center">
 
 
-
                                     {% if user is defined is not null %}
                                         <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
                                              alt="" class="w-25 shadow rounded-circle"/>

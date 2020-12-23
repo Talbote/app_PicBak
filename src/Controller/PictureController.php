@@ -300,7 +300,7 @@ class PictureController extends AbstractController
                 /*recupere les données dans le form*/
                 $em->flush();
 
-                $this->addFlash('success', 'Picture successfully updated!');
+                $this->addFlash('success', 'Comment successfully updated!');
 
 
                 return $this->redirectToRoute('app_pictures_index');
@@ -431,6 +431,8 @@ class PictureController extends AbstractController
             'likes' => $likeRepo->count(['picture' => $picture])
         ], 200);
     }
+
+
 
 
 }

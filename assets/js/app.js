@@ -1,31 +1,34 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-// any CSS you import will output into a single css file (app.css in this case)
+// LIBRARY LIST
 const $ = require('jquery');
-const axios = require('axios').default;
 
+// BOOTSTRAP + FONTAWESOME + SCSS
 require('bootstrap');
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 
-import './app.scss';
+import '../scss/app.scss';
 
-// DISPLAY IMAGE
 
-// ALERT  à chaque message selectionné + récupération du nom du fichier IMAGE
-$('.custom-file-input').on('change', function (e) {
-    var inputFile = e.currentTarget;
-    $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
 
-});
 
-//LIKE
+/*########################################################################################################
+ ####################################### LIST JS CODE  ##################################################
+ ########################################################################################################*/
 
+/*###########################
+ ############## STRIPE ######
+ ###########################*/
+
+import '@stripe/stripe-js';
+
+
+
+
+/*###########################
+ ############## LIKE #######
+###########################*/
 // récuperation de toute lesclass a js-like
+const axios = require('axios').default;
 
 function onClickBtnLike(event) { // tu dois recevoir un évenement even en parametre
 
@@ -74,6 +77,21 @@ function onClickBtnLike(event) { // tu dois recevoir un évenement even en param
 document.querySelectorAll('a.js-like').forEach(function (link) {
     link.addEventListener('click', onClickBtnLike);
 })
+
+
+
+/*#####################################
+ ############## GET NAME  IMAGE #######
+ ######################################*/
+
+// ALERT  à chaque message selectionné + récupération du nom du fichier IMAGE
+$('.custom-file-input').on('change', function (e) {
+    var inputFile = e.currentTarget;
+    $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+
+});
+
+
 
 
 

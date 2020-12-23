@@ -24,6 +24,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false">Account</a>
+
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
 
                             <a class="dropdown-item" href="{{ path('app_profil_show')}}">Profil</a>
@@ -32,11 +33,15 @@
                             <a class="dropdown-item" href="#" onclick="event.preventDefault();
                        document.getElementById('js-logout-form').submit();">Logout</a>
 
+
+
                             <form id="js-logout-form" action="{{ path('app_logout') }}" method="POST" style="display:none">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
                             </form>
                         </div>
                     </li>
+
+                    <span class="label label-premium"><i class="fa fa-money" aria-hidden="true"></i> Premium</span>
 
                 {% else %}
 

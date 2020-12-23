@@ -21,6 +21,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "node-sass": "4.14.1"
+        "@stripe/stripe-js": "^1.11.0",
+        "node-sass": "4.14.1",
+        "stripe": "^8.129.0"
     }
 }
