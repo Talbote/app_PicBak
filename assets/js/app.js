@@ -1,4 +1,5 @@
 // LIBRARY LIST
+
 const $ = require('jquery');
 
 // BOOTSTRAP + FONTAWESOME + SCSS
@@ -9,8 +10,6 @@ require('@fortawesome/fontawesome-free/js/all.js');
 import '../scss/app.scss';
 
 
-
-
 /*########################################################################################################
  ####################################### LIST JS CODE  ##################################################
  ########################################################################################################*/
@@ -19,14 +18,11 @@ import '../scss/app.scss';
  ############## STRIPE ######
  ###########################*/
 
-import '@stripe/stripe-js';
-
-
-
+import '../js/stripe/stripe.js';
 
 /*###########################
  ############## LIKE #######
-###########################*/
+ ###########################*/
 // récuperation de toute lesclass a js-like
 const axios = require('axios').default;
 
@@ -79,7 +75,6 @@ document.querySelectorAll('a.js-like').forEach(function (link) {
 })
 
 
-
 /*#####################################
  ############## GET NAME  IMAGE #######
  ######################################*/
@@ -92,10 +87,7 @@ $('.custom-file-input').on('change', function (e) {
 });
 
 
-
-
-
-// COMMMENT
+// COMMENT
 
 function submitComment(event) { // tu dois recevoir un évenement even en parametre
 
@@ -114,8 +106,7 @@ document.querySelectorAll('a.js-form-comment').forEach(function (link) {
     link.addEventListener('click', submitComment);
 });
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
+
 
 
 

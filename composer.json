@@ -46,10 +46,10 @@
         "symfony/yaml": "5.1.*",
         "symfonycasts/reset-password-bundle": "^1.1",
         "symfonycasts/verify-email-bundle": "^1.0",
-        "twig/extensions": "^1.5",
-        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/extra-bundle": "^3.1",
+        "twig/intl-extra": "^3.1",
         "twig/string-extra": "^3.1",
-        "twig/twig": "^2.12|^3.0",
+        "twig/twig": "^3.1",
         "vich/uploader-bundle": "^1.15"
     },
     "require-dev": {

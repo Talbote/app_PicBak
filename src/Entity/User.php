@@ -98,11 +98,16 @@ class User implements UserInterface, \Serializable
     private $isVerified = false;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="charge_id", type="string", length=255, nullable=true)
+     */
+    protected $chargeId;
+
+    /**
      * @ORM\OneToMany(targetEntity=PictureLike::class, mappedBy="user")
      */
     private $likes;
-
-
 
 
     public function __construct()
@@ -161,7 +166,7 @@ class User implements UserInterface, \Serializable
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -188,7 +193,7 @@ class User implements UserInterface, \Serializable
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -327,9 +332,28 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @param string $chargeId
+     * @return $this
+     */
+    public function setChargeId($chargeId)
+    {
+        $this->chargeId = $chargeId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChargeId()
+    {
+        return $this->chargeId;
+    }
 
 
-    public function serialize() {
+    public function serialize()
+    {
 
         return serialize(array(
             $this->id,
@@ -342,7 +366,8 @@ class User implements UserInterface, \Serializable
 
     }
 
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
 
         list (
             $this->id,
@@ -389,7 +414,7 @@ class User implements UserInterface, \Serializable
 
     public function getFullName(): string
     {
-        return (string) $this->getFirstName() . '  ' . $this->getLastName();
+        return (string)$this->getFirstName() . '  ' . $this->getLastName();
     }
 
 }

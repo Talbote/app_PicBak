@@ -20,6 +20,7 @@
 {{ include('layouts/partials/_footer.html.twig') }}
 
 {% block javascripts %}
+    <script src="https://js.stripe.com/v3/"></script>
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
 </body>

@@ -36,6 +36,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function findPremiumByChargeId($chargeId)
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->andWhere('u.premium = :premium')
+            ->andWhere('u.chargeId = :chargeId')
+            ->setParameters([
+                'premium' => true,
+                'chargeId' => $chargeId,
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

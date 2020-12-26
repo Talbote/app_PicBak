@@ -617,6 +617,9 @@
     "twig/extra-bundle": {
         "version": "v3.1.1"
     },
+    "twig/intl-extra": {
+        "version": "v3.1.1"
+    },
     "twig/string-extra": {
         "version": "v3.1.1"
     },
@@ -634,9 +637,6 @@
         "files": [
             "config/packages/vich_uploader.yaml"
         ]
-    },
-    "webimpress/safe-writer": {
-        "version": "2.1.0"
     },
     "webmozart/assert": {
         "version": "1.9.1"
