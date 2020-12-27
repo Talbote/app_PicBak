@@ -52,27 +52,13 @@ class PremiumController extends AbstractController
 
     }
 
-
-    /**
-     * @Route("/checkout-session/", name="checkout_session")
-     */
-    public function checkoutAction(Request $request): Response
-    {
-        \Stripe\Stripe::setApiKey('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
-
-        $id = $request->getQueryString()['sessionId'];
-        $checkout_session = \Stripe\Checkout\Session::retrieve($id);
-
-        return $this->json($checkout_session);
-    }
-
-
     /**
      * @Route("/success/", name="success")
      */
     public function success(): Response
     {
 
+        return $this->render('premium/success.html.twig');
     }
 
     /**
@@ -81,5 +67,6 @@ class PremiumController extends AbstractController
     public function error(): Response
     {
 
+        return $this->render('premium/error.html.twig');
     }
 }
