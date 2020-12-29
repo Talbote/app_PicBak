@@ -24,80 +24,124 @@ class PremiumController extends AbstractController
     public function createSubscription(EntityManagerInterface $em): Response
     {
 
+        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
 
         $user = $this->getUser();
 
         if ($user->isPremium(true)) {
-            return $this->redirectToRoute('app_pictures_index');
+
+            return $this->render('premium/status.html.twig');
         }
 
+        if($user->getChargeId() == null ){
 
-        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
-
-        $success_url = 'success_url';
-        $cancel_url = 'cancel_url';
-
-        $checkout_session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'recurring' => [
-                        'interval' => 'week',
+            $create_checkout_session = \Stripe\Checkout\Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'recurring' => [
+                            'interval' => 'week',
+                        ],
+                        'unit_amount' => 300,
+                        'product_data' => [
+                            'name' => 'PicBak Plus+',
+                            'images' => ["https://i.imgur.com/EHyR2nP.png"],
+                        ],
                     ],
-                    'unit_amount' => 300,
-                    'product_data' => [
-                        'name' => 'PicBak Plus+',
-                        'images' => ["https://i.imgur.com/EHyR2nP.png"],
-                    ],
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'subscription',
-            $success_url => $this->generateUrl('success', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            $cancel_url => $this->generateUrl('error', [], UrlGeneratorInterface::ABSOLUTE_URL),
-        ]);
+                    'quantity' => 1,
+                ]],
+                'mode' => 'subscription',
+                'success_url' => $this->generateUrl('success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'cancel_url' => $this->generateUrl('error', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            ]);
 
-        if ($success_url) {
-            $user->setPremium(true);
+            $user->setChargeId($create_checkout_session->id);
             $em->flush();
 
+
+            return $this->json([
+                'id' => $create_checkout_session->id,
+            ]);
+
+        }else{
+
+
+            $apiKey = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+            $chargeId = $user->getChargeId();
+
+            $load_checkout_session = $apiKey->checkout->sessions->retrieve($chargeId, [
+
+            ]);
+            return $this->json([
+                'id' => $load_checkout_session->id,
+            ]);
         }
-
-        return new JsonResponse([
-            'id' => $checkout_session->id,
-        ]);
-
-
     }
 
     /**
      * @Route("/success/", name="success")
      */
-    public function successSubscription(): Response
+    public function successSubscription(EntityManagerInterface $em): Response
+    {
+
+
+        $user = $this->getUser();
+        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+        $chargeId = $user->getChargeId();
+
+        $client_status = $load_checkout_session->checkout->sessions->retrieve($chargeId, [] );
+
+        if($client_status->payment_status == "paid"){
+
+            $user->setPremium(true);
+            $em->flush();
+
+            return $this->render('premium/success.html.twig');
+
+        } else {
+
+            $user->setPremium(false);
+            $em->flush();
+            return $this->render('pictures/index.html.twig');
+
+        }
+    }
+
+    /**
+     * @Route("/status/", name="status")
+     */
+    public function statusSubscription(): Response
     {
 
         $user = $this->getUser();
 
-        if ($user->isPremium(false)) {
+        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
 
-            return $this->redirectToRoute('app_pictures_index');
+        $chargeId = $user->getChargeId();
 
-        }
+        $client_status = $load_checkout_session->checkout->sessions->retrieve(
+            $chargeId,
+            []
+        );
 
-        $premium = $user->getPremium();
+       dd($client_status);
 
-        return $this->redirectToRoute('success', [
-            'premium' => $premium,
-        ]);
+        return $this->render('premium/status.html.twig');
 
     }
+
 
     /**
      * @Route("/error/", name="error")
      */
-    public function errorSubscription(): Response
+    public function errorSubscription(EntityManagerInterface $em): Response
     {
+
+        $user = $this->getUser();
+        $user->setPremium(false);
+        $em->flush();
+
 
         return $this->render('premium/error.html.twig');
     }

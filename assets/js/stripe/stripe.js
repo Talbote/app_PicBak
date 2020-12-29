@@ -28,25 +28,8 @@ checkoutButton.addEventListener('click', function () {
         .catch(function (error) {
             console.error('Error:', error);
         })
-        .then(onSubscriptionComplete);
 
 });
 
-
-function onSubscriptionComplete(session) {
-
-
-    $user = $this->getUser();
-
-    /* Payment was successful.
-    if (session.subscription.status === 'active') {
-
-        alert("Hello! I am an alert box!!");
-        console.log(session.subscription.items.data[0].price.product);
-        // Change your UI to show a success message to your customer.
-        // Call your backend to grant access to your service based on
-
-    }*/
-}
 
 
