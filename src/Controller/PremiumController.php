@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Stripe\ApiOperations\All;
+use Stripe\Charge;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,10 +21,21 @@ class PremiumController extends AbstractController
     /**
      * @Route("/create-checkout-session", name="checkout")
      */
-    public function createSubscription(): Response
+    public function createSubscription(EntityManagerInterface $em): Response
     {
 
-        \Stripe\Stripe::setApiKey('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
+
+        $user = $this->getUser();
+
+        if ($user->isPremium(true)) {
+            return $this->redirectToRoute('app_pictures_index');
+        }
+
+
+        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
+
+        $success_url = 'success_url';
+        $cancel_url = 'cancel_url';
 
         $checkout_session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
@@ -40,13 +54,21 @@ class PremiumController extends AbstractController
                 'quantity' => 1,
             ]],
             'mode' => 'subscription',
-            'success_url' => $this->generateUrl('success', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->generateUrl('error', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            $success_url => $this->generateUrl('success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            $cancel_url => $this->generateUrl('error', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
+
+        if ($success_url) {
+            $user->setPremium(true);
+            $em->flush();
+
+        }
 
         return new JsonResponse([
             'id' => $checkout_session->id,
         ]);
+
+
     }
 
     /**
@@ -54,10 +76,21 @@ class PremiumController extends AbstractController
      */
     public function successSubscription(): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
 
+        $user = $this->getUser();
 
-        return $this->render('premium/success.html.twig');
+        if ($user->isPremium(false)) {
+
+            return $this->redirectToRoute('app_pictures_index');
+
+        }
+
+        $premium = $user->getPremium();
+
+        return $this->redirectToRoute('success', [
+            'premium' => $premium,
+        ]);
+
     }
 
     /**
@@ -68,39 +101,6 @@ class PremiumController extends AbstractController
 
         return $this->render('premium/error.html.twig');
     }
-
-    /**
-     * @Route("/status/", name="status")
-     */
-    public function statusSubscription(): Response
-    {
-
-        //req_yWe9QR6My88lxB
-        $stripe = new \Stripe\StripeClient("sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E");
-        $customer = $stripe->customers->create();
-        echo $customer->getLastResponse()->headers["Request-Id"];
-        dd( $stripe->events->all(['limit' => 3]));
-
-        return $this->render('premium/status.html.twig');
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**

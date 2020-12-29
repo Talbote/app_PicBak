@@ -15,7 +15,6 @@ checkoutButton.addEventListener('click', function () {
         .then(function (session) {
             return stripe.redirectToCheckout({sessionId: session.id});
 
-
         })
 
         .then(function (result) {
@@ -36,7 +35,10 @@ checkoutButton.addEventListener('click', function () {
 
 function onSubscriptionComplete(session) {
 
-    // Payment was successful.
+
+    $user = $this->getUser();
+
+    /* Payment was successful.
     if (session.subscription.status === 'active') {
 
         alert("Hello! I am an alert box!!");
@@ -44,6 +46,7 @@ function onSubscriptionComplete(session) {
         // Change your UI to show a success message to your customer.
         // Call your backend to grant access to your service based on
 
-    }
+    }*/
 }
+
 
