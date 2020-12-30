@@ -102,8 +102,7 @@ class RegistrationController extends AbstractController
                 ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
                 /*  ->from(new Address(
                           $this->getParameter('app.mail_from_name'),
-                          $this->getParameter('app.mail_from_address')
-
+                          $this->getParameter('app.mail_from_address'
                       )
                   )
                   */

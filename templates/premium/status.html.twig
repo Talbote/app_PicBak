@@ -1,15 +1,24 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title "Premium status" %}
+{% block title "PicBak Plus status" %}
 
 {% block body %}
 
+    <p> PicBak Plus </p>
+    <p> {{ app.user.fullName }}</p>
 
-    <section>
-        <p>
-            STATUS
-        </p>
-    </section>
+    <p> {{ subscription.status }}</p>
+    {% if subscription.status == "active" %}
+        <p> {{ subscription.current_period_start|date('Y-m-d H:i:s') }} </p>
+        <p> {{ subscription.current_period_end|date('Y-m-d H:i:s') }} </p>
+    {% else %}
+
+        <p>you don't have a subscription</p>
+
+
+        <p class="mt-5 mb-3 text-center text-muted">   Not yet a subscriber? <a href="{{ path('app_register') }}">Create an account</a></p>
+
+    {% endif %}
 
 
 {% endblock %}

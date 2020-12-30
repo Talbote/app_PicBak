@@ -100,9 +100,6 @@ class PictureController extends AbstractController
 
         }
 
-
-
-
         $comments = $picture->getComments();
 
 
@@ -110,11 +107,6 @@ class PictureController extends AbstractController
             'comment' => $comments,
             'picture' => $picture,
             'commentForm' => $form->createView(),
-
-
-
-
-
         ]);
     }
 

@@ -3,11 +3,7 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\ApiOperations\All;
-use Stripe\Charge;
-use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,9 +13,28 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PremiumController extends AbstractController
 {
 
+    /**
+     * @Route("/subscriber", name="app_subscriber")
+     */
+    public function index(): Response
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        if ($user->isPremium(true)) {
+
+            return $this->redirectToRoute('app_subscriber_status');
+
+        }
+
+        return $this->render('premium/index.html.twig');
+    }
+
 
     /**
-     * @Route("/create-checkout-session", name="checkout")
+     * @Route("/create-checkout-session", name="app_checkout")
      */
     public function createSubscription(EntityManagerInterface $em): Response
     {
@@ -33,7 +48,7 @@ class PremiumController extends AbstractController
             return $this->render('premium/status.html.twig');
         }
 
-        if($user->getChargeId() == null ){
+        if ($user->getChargeId() == null) {
 
             $create_checkout_session = \Stripe\Checkout\Session::create([
                 'payment_method_types' => ['card'],
@@ -52,8 +67,8 @@ class PremiumController extends AbstractController
                     'quantity' => 1,
                 ]],
                 'mode' => 'subscription',
-                'success_url' => $this->generateUrl('success', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'cancel_url' => $this->generateUrl('error', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'success_url' => $this->generateUrl('app_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'cancel_url' => $this->generateUrl('app_error', [], UrlGeneratorInterface::ABSOLUTE_URL),
             ]);
 
             $user->setChargeId($create_checkout_session->id);
@@ -64,7 +79,7 @@ class PremiumController extends AbstractController
                 'id' => $create_checkout_session->id,
             ]);
 
-        }else{
+        } else {
 
 
             $apiKey = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
@@ -80,7 +95,7 @@ class PremiumController extends AbstractController
     }
 
     /**
-     * @Route("/success/", name="success")
+     * @Route("/success", name="app_success")
      */
     public function successSubscription(EntityManagerInterface $em): Response
     {
@@ -90,9 +105,9 @@ class PremiumController extends AbstractController
         $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
         $chargeId = $user->getChargeId();
 
-        $client_status = $load_checkout_session->checkout->sessions->retrieve($chargeId, [] );
+        $client_status = $load_checkout_session->checkout->sessions->retrieve($chargeId, []);
 
-        if($client_status->payment_status == "paid"){
+        if ($client_status->payment_status == "paid") {
 
             $user->setPremium(true);
             $em->flush();
@@ -109,43 +124,55 @@ class PremiumController extends AbstractController
     }
 
     /**
-     * @Route("/status/", name="status")
+     * @Route("/error", name="app_error")
      */
-    public function statusSubscription(): Response
+    public function errorSubscription(): Response
     {
-
-        $user = $this->getUser();
-
-        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
-
-        $chargeId = $user->getChargeId();
-
-        $client_status = $load_checkout_session->checkout->sessions->retrieve(
-            $chargeId,
-            []
-        );
-
-       dd($client_status);
-
-        return $this->render('premium/status.html.twig');
-
-    }
-
-
-    /**
-     * @Route("/error/", name="error")
-     */
-    public function errorSubscription(EntityManagerInterface $em): Response
-    {
-
-        $user = $this->getUser();
-        $user->setPremium(false);
-        $em->flush();
-
 
         return $this->render('premium/error.html.twig');
     }
 
+    /**
+     * @Route("/subscriber_status", name="app_subscriber_status", methods="GET")
+     */
+    public function statusSubscription(): Response
+    {
+        $user = $this->getUser();
+        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+        $chargeId = $user->getChargeId();
+
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if ($chargeId) {
+
+            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
+                $chargeId,
+                []
+            );
+
+            $subscription = $clientChargeId->subscription;
+
+
+            $user_subscription = $load_checkout_session->subscriptions->retrieve(
+                $subscription,
+                []
+            );
+
+
+            return $this->render('premium/status.html.twig', [
+                'subscription' => $user_subscription,
+                'user' => $user,
+            ]);
+
+
+        } else {
+
+            return $this->redirectToRoute('app_index_picture');
+
+        }
+
+    }
 
     /**
      * @Route("/cancel-subscription", name="app_cancel_subscription")
