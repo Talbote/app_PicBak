@@ -28,11 +28,16 @@
                 {% endif %}
 
             </div>
-            {% if subscription.current_period_end == true %}
-                <p class="mt-5 mb-3 text-center text-muted">The subscription will end at the end of the programmed period.</p>
-            {% else %}
+            {% if subscription.cancel_at_period_end == false %}
                 <p class="mt-5 mb-3 text-center text-muted"><a href="{{ path('app_subscription_cancel') }}">Canceled</a>
                     subscription</p>
+
+            {% else %}
+                <p class="mt-5 mb-3 text-center text-muted">The subscription will end at the scheduled period.</p>
+
+                <p class="mt-5 mb-3 text-center text-muted"><a href="{{ path('app_subscription_reactivating_canceled') }}">Reactivate</a>
+                    subscription</p>
+
             {% endif %}
         </div>
     </div>

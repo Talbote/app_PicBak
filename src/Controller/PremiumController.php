@@ -242,7 +242,7 @@ class PremiumController extends AbstractController
                 'items' => [
                     [
                         'id' => $subscription->items->data[0]->id,
-                        'price' => $id_price,
+                       
                     ],
                 ],
             ]);
