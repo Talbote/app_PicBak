@@ -3,21 +3,26 @@
 
     <div class="row d-flex justify-content-center">
         <div class="col-md-8">
-            <div>
-                <i class="far fa-paper-plane text-muted"></i>
-            </div>
+
 
 
             <!-- SEND COMMENT -->
-            <div class="row">
-                {{ form_start(commentForm) }}
-                {{ form_widget(commentForm.textComment) }}
-                <div class="w-25">
-                    {{ form_widget(commentForm.submit, { 'attr': {'class': 'js-form-comment '} }) }}
-                </div>
 
-                {{ form_end(commentForm) }}
+
+             {{ form_start(commentForm) }}
+            <div class="row">
+                {{ form_errors(commentForm) }}
             </div>
+
+            <div class="row">
+                <div class="col">
+                    {{ form_widget(commentForm.textComment) }}
+                </div>
+                <div class="col far fa-paper-plane " id="some-custom-id">
+                    {{ form_widget(commentForm.submit, { 'attr': {'class':'text-muted js-form-comment '} }) }}
+                </div>
+            </div>
+            {{ form_end(commentForm) }}
             <!-- END SEND COMMENT -->
 
 

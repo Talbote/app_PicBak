@@ -27,10 +27,15 @@ class ProfilController extends AbstractController
      * @Route("/profil/", name="app_profil_show", methods="GET")
      */
 
-    public function show(): Response
+    public function show(PictureRepository $pictureRepository): Response
     {
 
         $user = $this->getUser();
+        $id = $user->getId();
+
+        $pictures_user =$pictureRepository->findByUserId($id);
+
+
 
 
 
@@ -42,7 +47,10 @@ class ProfilController extends AbstractController
 
                 $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
 
-                return $this->render('profil/show.html.twig', ['userForm' => $form->createView(), 'user' => $user, ]);
+                return $this->render('profil/show.html.twig', [
+                    'userForm' => $form->createView(),
+                    'user' => $user,
+                    'pictures' => $pictures_user ]);
 
                 return $this->redirectToRoute('error_typeUser'); //Page erreur si mauvais rôle
             }

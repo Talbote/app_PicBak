@@ -49,14 +49,18 @@ class PictureRepository extends ServiceEntityRepository
     */
 
 
-    public function getFilterPic(array $user)
+    public function findByUserId($id)
     {
-        $qb = $this->createQueryBuilder('a');
-        // On fait une jointure avec l'entité Categorie, avec pour alias « c »
-        $qb ->join('a.user', 'c')
-            ->where($qb->expr()->in('c.id', $user)); // Puis on filtre sur le nom des catégories à l'aide d'un IN
-        // Enfin, on retourne le résultat
-        return $qb->getQuery()
+
+        $qb = $this->createQueryBuilder('u');
+
+        $qb->leftJoin('u.user', 's')
+            ->andWhere('s.id like :id')
+            ->setParameter('id', $id);
+
+
+        return $qb
+            ->getQuery()
             ->getResult();
     }
 

@@ -26,9 +26,12 @@
                 <a href="{{ path('app_profil_edit') }}" class="btn btn-light text-muted">Edit Profil</a>
                 <a href="{{ path('app_profil_change_password') }}" class="btn btn-light text-muted">Change password</a>
             </p>
-
         </div>
     </div>
+
+
+        {{ include('profil/_pictures_user.html.twig')}}
+
 
 
 {% endblock %}
