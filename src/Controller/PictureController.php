@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Entity\Picture;
@@ -135,8 +136,11 @@ class PictureController extends AbstractController
             // dd($form->getData());
 
             /*recupere les données dans le form*/
+
+
             $user = $this->getUser();
             $picture->setUser($user);
+
             $em->persist($picture);
             $em->flush();
 

@@ -78,6 +78,11 @@ class Picture
      */
     private $likes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="picture")
+     */
+    private $category;
+
 
     public function __construct()
     {
@@ -238,6 +243,18 @@ class Picture
                 $like->setPicture(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
