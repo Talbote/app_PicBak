@@ -14,7 +14,7 @@ class PremiumController extends AbstractController
 {
 
     /**
-     * @Route("/subscriber", name="app_subscriber")
+     * @Route("/subscriber", name="app_subscriber_index", methods="GET")
      */
     public function index(): Response
     {
@@ -95,7 +95,7 @@ class PremiumController extends AbstractController
     }
 
     /**
-     * @Route("/success", name="app_success")
+     * @Route("/success", name="app_success", methods="GET")
      */
     public function successSubscription(EntityManagerInterface $em): Response
     {
@@ -116,10 +116,7 @@ class PremiumController extends AbstractController
 
         } else {
 
-            $user->setPremium(false);
-            $em->flush();
-            return $this->render('pictures/index.html.twig');
-
+            return $this->redirectToRoute('app_pictures_index');
         }
     }
 
@@ -133,14 +130,13 @@ class PremiumController extends AbstractController
     }
 
     /**
-     * @Route("/subscriber_status", name="app_subscriber_status", methods="GET")
+     * @Route("/subscriber-status", name="app_subscriber_status", methods="GET")
      */
     public function statusSubscription(): Response
     {
         $user = $this->getUser();
         $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
         $chargeId = $user->getChargeId();
-
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -152,7 +148,6 @@ class PremiumController extends AbstractController
             );
 
             $subscription = $clientChargeId->subscription;
-
 
             $user_subscription = $load_checkout_session->subscriptions->retrieve(
                 $subscription,
@@ -168,53 +163,94 @@ class PremiumController extends AbstractController
 
         } else {
 
-            return $this->redirectToRoute('app_index_picture');
+            return $this->redirectToRoute('app_pictures_index');
 
         }
 
     }
 
     /**
-     * @Route("/cancel-subscription", name="app_cancel_subscription")
+     * @Route("/subscription-cancel", name="app_subscription_cancel")
      */
     public function cancelSubscription(): Response
     {
 
-        \Stripe\Stripe::setApiKey('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
+        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
 
-        \Stripe\Subscription::update(
-            'sub_IeIZGmw0cNpyxA',
-            [
-                'cancel_at_period_end' => true,
-            ]
-        );
+        $user = $this->getUser();
 
-        return $this->render('premium/cancel.html.twig');
+        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+        $chargeId = $user->getChargeId();
+
+        if ($chargeId) {
+
+            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
+                $chargeId,
+                []
+            );
+
+            $subscription = $clientChargeId->subscription;
+
+            \Stripe\Subscription::update(
+                $subscription,
+                [
+                    'cancel_at_period_end' => true,
+                ]
+            );
+
+            return $this->render('premium/cancel.html.twig');
+
+        }
+
+        return $this->redirectToRoute('app_subscriber_index');
 
     }
 
     /**
-     * @Route("/reactivating-canceled-subscriptions", name="app_reactivating_canceled_subscription")
+     * @Route("/subscriptions-reactivating-canceled", name="app_subscription_reactivating_canceled")
      */
     public function reactivatingSubscription(): Response
     {
 
-        \Stripe\Stripe::setApiKey('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
+        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
+        $user = $this->getUser();
 
-        $subscription = \Stripe\Subscription::retrieve('sub_IeIZGmw0cNpyxA');
-        \Stripe\Subscription::update('sub_IeIZGmw0cNpyxA', [
-            'cancel_at_period_end' => false,
-            'proration_behavior' => 'create_prorations',
-            'items' => [
-                [
-                    'id' => $subscription->items->data[0]->id,
-                    'price' => 'price_1I2zxtL4sACyrZxiE6cTWgYA',
+        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+        $chargeId = $user->getChargeId();
+
+
+        if ($chargeId) {
+            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
+                $chargeId,
+                []
+            );
+
+            $subscription_user = $clientChargeId->subscription;
+            $subscription = \Stripe\Subscription::retrieve($subscription_user);
+
+
+            $items = $subscription->items;
+            $data = $items->data;
+            $price = $data[0]->price;
+            $id_price = $price->id;
+
+
+
+            \Stripe\Subscription::update($subscription_user, [
+                'cancel_at_period_end' => false,
+                'proration_behavior' => 'create_prorations',
+                'items' => [
+                    [
+                        'id' => $subscription->items->data[0]->id,
+                        'price' => $id_price,
+                    ],
                 ],
-            ],
-        ]);
+            ]);
 
-        return $this->render('premium/reactivating.html.twig');
+            return $this->render('premium/reactivating.html.twig');
+
+        }
+
     }
-
 
 }
