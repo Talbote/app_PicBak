@@ -33,15 +33,18 @@ class PictureController extends AbstractController
      */
     public function index(PictureRepository $pictureRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        /* dd($pictureRepository->findAll());  ( recupere tout le tableau) */
+        /*
+        dd($pictureRepository->findAll());  ( recupere tout le tableau)
+         */
 
-        $data_pictures = $pictureRepository->findBy([], ['createdAt' => 'DESC']);
+        $data_pictures = $pictureRepository->findBy([], [
+            'createdAt' => 'DESC'
+        ]);
 
 
         $pictures = $paginator->paginate(
             $data_pictures,
             $request->query->getInt('page', 1), 3
-
         );
 
         /* compact return un tableau pictures */

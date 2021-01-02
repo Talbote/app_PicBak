@@ -3,6 +3,8 @@
 namespace App\Form;
 use App\Entity\Picture;
 use App\Entity\Category;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,7 +30,20 @@ class PictureType extends AbstractType
             ])
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('category')
+
+            ->add('categories',EntityType::class,array(
+                'class'=>'App:Category',
+                'placeholder'=>'select a category',
+                'property_path'=>'category',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        //->where('u.valide = 1')
+                        ->orderBy('u.name', 'ASC');
+                },
+
+                'label_format'=>'Categories'
+                )
+            )
         ;
     }
 
