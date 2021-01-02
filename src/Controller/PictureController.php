@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\User;
@@ -9,6 +10,7 @@ use App\Entity\Picture;
 use App\Entity\PictureLike;
 use App\Form\CommentFormType;
 use App\Form\PictureType;
+use App\Form\SearchFormType;
 use App\Repository\CommentRepository;
 use App\Repository\PictureLikeRepository;
 use App\Repository\UserRepository;
@@ -33,24 +35,31 @@ class PictureController extends AbstractController
      */
     public function index(PictureRepository $pictureRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        /*
-        dd($pictureRepository->findAll());  ( recupere tout le tableau)
-         */
 
-        $data_pictures = $pictureRepository->findBy([], [
+        $pictureRepository->findBy([], [
             'createdAt' => 'DESC'
         ]);
 
+        $data = new SearchData();
+        $form = $this->createForm(SearchFormType::class, $data);
+        $form->handleRequest($request);
 
         $pictures = $paginator->paginate(
-            $data_pictures,
-            $request->query->getInt('page', 1), 3
+            $pictureRepository->findSearch($data),
+            $request->query->getInt('page', 1), 30
         );
 
-        /* compact return un tableau pictures */
+        return $this->render('pictures/index.html.twig', [
+            'pictures' => $pictures,
+            'form' => $form->createView()
 
-        return $this->render('pictures/index.html.twig', compact('pictures'));
+        ]);
+
     }
+
+
+
+
 
 
 
@@ -86,8 +95,6 @@ class PictureController extends AbstractController
             //liaison de l'id commentaire à l'id user connecté et l'id_picture
             $comment->setUser($user);
             $comment->setPicture($picture);
-
-
 
 
             // sauvegarde des données
@@ -325,7 +332,7 @@ class PictureController extends AbstractController
      *
      */
 
-    public function delete(Request $request,Comment $comment, EntityManagerInterface $em): Response
+    public function delete(Request $request, Comment $comment, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -335,7 +342,7 @@ class PictureController extends AbstractController
         $owner_picture = $comment->getPicture()->getUser();
 
 
-        if ($owner_comment === $this->getUser() || $owner_picture === $this->getUser() ) {
+        if ($owner_comment === $this->getUser() || $owner_picture === $this->getUser()) {
 
             if ($this->isCsrfTokenValid('comment_deletion_' . $comment->getId(),
                 $request->request->get('csrf_token_comment_delete'))
@@ -430,8 +437,6 @@ class PictureController extends AbstractController
             'likes' => $likeRepo->count(['picture' => $picture])
         ], 200);
     }
-
-
 
 
 }

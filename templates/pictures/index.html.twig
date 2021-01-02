@@ -4,6 +4,8 @@
 
 {% block body %}
 
+    {% include 'pictures/_filter.html.twig'  %}
+
     {% if pictures|length > 0 %}
 
         <!-- Fonction pluralize pour mettre au pluriel/singulier -->
