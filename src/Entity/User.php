@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -34,6 +35,14 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     *
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="Please enter your nick name")
+     *
+     */
+    private $nickName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -109,6 +118,21 @@ class User implements UserInterface, \Serializable
      */
     private $likes;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     *
+     * @Gedmo\Slug(fields={"nickName"})
+     */
+    private $slug;
+
+
+    /**
+     * @return mixed
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
 
     public function __construct()
     {
@@ -415,6 +439,18 @@ class User implements UserInterface, \Serializable
     public function getFullName(): string
     {
         return (string)$this->getFirstName() . '  ' . $this->getLastName();
+    }
+
+    public function getNickName(): ?string
+    {
+        return $this->nickName;
+    }
+
+    public function setNickName(string $nickName): self
+    {
+        $this->nickName = $nickName;
+
+        return $this;
     }
 
 }

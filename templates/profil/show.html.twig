@@ -23,8 +23,8 @@
             </p>
             <h2> {{ app.user.fullName }}</h2>
             <p>
-                <a href="{{ path('app_profil_edit') }}" class="btn btn-light text-muted">Edit Profil</a>
-                <a href="{{ path('app_profil_change_password') }}" class="btn btn-light text-muted">Change password</a>
+                <a href="{{ path('app_profil_edit',{'slug': app.user.slug}) }}" class="btn btn-light text-muted">Edit Profil</a>
+                <a href="{{ path('app_profil_change_password',{'slug': app.user.slug}) }}" class="btn btn-light text-muted">Change password</a>
             </p>
         </div>
     </div>

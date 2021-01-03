@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Form;
+
 use App\Entity\Picture;
 use App\Entity\Category;
 use Doctrine\ORM\EntityRepository;
@@ -21,7 +22,7 @@ class PictureType extends AbstractType
                 'label' => 'Image (JPG or PNG file)',
                 'required' => false,
                 'allow_delete' => true,
-               /* 'delete_label' => 'Delete', */
+                /* 'delete_label' => 'Delete', */
                 'download_uri' => false,
                 'imagine_pattern' => 'squared_thumbail_medium'
                 /* 'download_label' => 'Download'
@@ -30,21 +31,20 @@ class PictureType extends AbstractType
             ])
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
+            ->add('categories', EntityType::class, array(
+                    'class' => 'App:Category',
+                    'placeholder' => 'select a category',
+                    'property_path' => 'category',
+                    'required' => true,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            //->where('u.valide = 1')
+                            ->orderBy('u.name', 'ASC');
+                    },
 
-            ->add('categories',EntityType::class,array(
-                'class'=>'App:Category',
-                'placeholder'=>'select a category',
-                'property_path'=>'category',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        //->where('u.valide = 1')
-                        ->orderBy('u.name', 'ASC');
-                },
-
-                'label_format'=>'Categories'
+                    'label_format' => 'Categories'
                 )
-            )
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

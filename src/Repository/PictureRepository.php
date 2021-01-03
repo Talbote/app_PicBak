@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Data\SearchData;
+use App\Entity\Category;
 use App\Entity\Picture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,7 +49,7 @@ class PictureRepository extends ServiceEntityRepository
 
     public function findSearch(SearchData $search): PaginationInterface
     {
-        /* Jointure entre les images et categories*/
+        /* Jointure entre les pictures et categories*/
         $query = $this
             ->createQueryBuilder('p')
             ->select('c', 'p')
@@ -64,13 +65,16 @@ class PictureRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('c.id IN (:categories)')
                 ->setParameter('categories', $search->categories);
+        } else {
+
         }
 
         $query = $query->getQuery();
 
         return $this->pagination->paginate(
             $query,
-            1,13
+            1,
+            15
         );
 
     }

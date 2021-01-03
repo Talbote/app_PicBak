@@ -24,7 +24,7 @@ class ProfilController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/profil/", name="app_profil_show", methods="GET")
+     * @Route("/profil/{slug}", name="app_profil_show", methods="GET")
      */
 
     public function show(PictureRepository $pictureRepository): Response
@@ -32,12 +32,7 @@ class ProfilController extends AbstractController
 
         $user = $this->getUser();
         $id = $user->getId();
-
-        $pictures_user =$pictureRepository->findByUserId($id);
-
-
-
-
+        $pictures_user = $pictureRepository->findByUserId($id);
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
 
@@ -50,7 +45,9 @@ class ProfilController extends AbstractController
                 return $this->render('profil/show.html.twig', [
                     'userForm' => $form->createView(),
                     'user' => $user,
-                    'pictures' => $pictures_user ]);
+                    'pictures' => $pictures_user,
+                    'slug' => $user->getSlug()
+                ]);
 
                 return $this->redirectToRoute('error_typeUser'); //Page erreur si mauvais rôle
             }
@@ -63,7 +60,7 @@ class ProfilController extends AbstractController
      */
 
     /**
-     * @Route("/profil/edit", name="app_profil_edit", methods="GET|PUT")
+     * @Route("/profil/{slug}/edit", name="app_profil_edit", methods="GET|PUT")
      */
 
 
@@ -91,11 +88,15 @@ class ProfilController extends AbstractController
             $this->addFlash('success', 'Account successfully updated!');
 
 
-            return $this->redirectToRoute('app_profil_show');
+            return $this->redirectToRoute('app_profil_show',[
+                'slug' => $user->getSlug()
+
+            ]);
         }
 
         return $this->render('profil/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'slug' => $user->getSlug()
 
         ]);
     }
@@ -107,7 +108,7 @@ class ProfilController extends AbstractController
      */
 
     /**
-     * @Route("/profil/change-password", name="app_profil_change_password", methods="GET|POST")
+     * @Route("/profil/{slug}/change-password", name="app_profil_change_password", methods="GET|POST")
      */
 
 

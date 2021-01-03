@@ -13,11 +13,11 @@ use App\Repository\CommentRepository;
 use App\Repository\PictureLikeRepository;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class PictureController extends AbstractController
 {
@@ -33,17 +33,35 @@ class PictureController extends AbstractController
     public function index(PictureRepository $pictureRepository, Request $request): Response
     {
 
+
+
+
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
         $form->handleRequest($request);
-        $pictures = $pictureRepository->findSearch($data);
 
-        return $this->render('pictures/index.html.twig', [
-            'form' => $form->createView(),
-            'pictures' => $pictures,
+        if($form->isSubmitted($request)&& $form->isValid()){
+
+            $pictures = $pictureRepository->findSearch($data);
+
+            return $this->render('pictures/index.html.twig', [
+                'form' => $form->createView(),
+                'pictures' => $pictures,
+            ]);
+
+        } else {
+            
+            $pictures = $pictureRepository->findAll();
+            $form->handleRequest($request);
+
+            return $this->render('pictures/index.html.twig', [
+                'form' => $form->createView(),
+                'pictures' => $pictures,
+            ]);
 
 
-        ]);
+
+        }
 
     }
 

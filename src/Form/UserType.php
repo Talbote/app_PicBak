@@ -14,6 +14,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('nickName', TextType::class)
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('imageFile', VichImageType::class, [
