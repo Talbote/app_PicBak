@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
-use App\Entity\Category;
 use App\Entity\Comment;
-use App\Entity\User;
 use App\Entity\Picture;
 use App\Entity\PictureLike;
 use App\Form\CommentFormType;
@@ -13,14 +11,13 @@ use App\Form\PictureType;
 use App\Form\SearchFormType;
 use App\Repository\CommentRepository;
 use App\Repository\PictureLikeRepository;
-use App\Repository\UserRepository;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class PictureController extends AbstractController
 {
@@ -33,25 +30,18 @@ class PictureController extends AbstractController
     /**
      * @Route("/", name="app_pictures_index", methods="GET")
      */
-    public function index(PictureRepository $pictureRepository, Request $request, PaginatorInterface $paginator): Response
+    public function index(PictureRepository $pictureRepository, Request $request): Response
     {
-
-        $pictureRepository->findBy([], [
-            'createdAt' => 'DESC'
-        ]);
 
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
         $form->handleRequest($request);
-
-        $pictures = $paginator->paginate(
-            $pictureRepository->findSearch($data),
-            $request->query->getInt('page', 1), 30
-        );
+        $pictures = $pictureRepository->findSearch($data);
 
         return $this->render('pictures/index.html.twig', [
+            'form' => $form->createView(),
             'pictures' => $pictures,
-            'form' => $form->createView()
+
 
         ]);
 

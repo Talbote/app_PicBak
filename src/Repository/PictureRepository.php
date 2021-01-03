@@ -6,6 +6,9 @@ use App\Data\SearchData;
 use App\Entity\Picture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+
 
 /**
  * @method Picture|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,10 +18,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PictureRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $pagination)
     {
         parent::__construct($registry, Picture::class);
+        $this->pagination = $pagination;
     }
+
+    /*Recupere les images d'un utilisateur */
 
     public function findByUserId($id)
     {
@@ -34,9 +40,15 @@ class PictureRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Récupere les images avec une recherche
+     * @return PaginationInterface
+     *
+     */
 
-    public function findSearch(SearchData $search) : array
+    public function findSearch(SearchData $search): PaginationInterface
     {
+        /* Jointure entre les images et categories*/
         $query = $this
             ->createQueryBuilder('p')
             ->select('c', 'p')
@@ -46,11 +58,24 @@ class PictureRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('p.title LIKE :q')
                 ->setParameter('q', "%{$search->q}%");
-
         }
 
-        return $query->getQuery()->getResult();
+        if (!empty($search->categories)) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }
+
+        $query = $query->getQuery();
+
+        return $this->pagination->paginate(
+            $query,
+            1,13
+        );
+
     }
 
 
 }
+
+

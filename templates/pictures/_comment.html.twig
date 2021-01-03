@@ -5,11 +5,10 @@
         <div class="col-md-8">
 
 
-
             <!-- SEND COMMENT -->
 
 
-             {{ form_start(commentForm) }}
+            {{ form_start(commentForm) }}
             <div class="row">
                 {{ form_errors(commentForm) }}
             </div>
@@ -18,8 +17,9 @@
                 <div class="col">
                     {{ form_widget(commentForm.textComment) }}
                 </div>
-                <div class="col far fa-paper-plane " id="some-custom-id">
-                    {{ form_widget(commentForm.submit, { 'attr': {'class':'text-muted js-form-comment '} }) }}
+                <div class="" id="some-custom-id">
+
+                    <button type="submit" class="w-100 text-muted js-form-comment col far fa-paper-plane "></button>
                 </div>
             </div>
             {{ form_end(commentForm) }}
@@ -32,18 +32,19 @@
                 <div id="cmntContr">
                     {% for comment in comment %}
                         <div class="headings d-flex justify-content-between align-items-center mb-3">
-                        </div>
-                        <div class="card p-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="user d-flex flex-row align-items-center">
+                            {% if user is defined is not null %}
+                                <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
+                                     alt="" class="w-25 shadow rounded-circle"/>
+                            {% else %}
+                                {% set title = 'image non trouver !' %}
+                            {% endif %}
+
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+
+                                    <div class="user d-flex flex-row align-items-center">
 
 
-                                    {% if user is defined is not null %}
-                                        <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
-                                             alt="" class="w-25 shadow rounded-circle"/>
-                                    {% else %}
-                                        {% set title = 'image non trouver !' %}
-                                    {% endif %}
 
 
                                     <span>
@@ -54,54 +55,51 @@
                                                     {{ comment.textComment }}
                                                 </small>
                                             </span>
-                                </div>
-                                <small>
-                                    <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
-                                </small>
-                            </div>
-                            <div class="action d-flex justify-content-between mt-2 align-items-center">
-                                <div class="reply px-4">
-
-                                    <a href="#"
-                                       onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
-                                       class="btn btn-light">
-                                        <small>Remove</small>
-                                    </a>
-
+                                    </div>
                                     <small>
-                                        <!-- LINK BUTTON FOR EDIT -->
-                                        <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
-                                           class="btn btn-light">Edit</a>
-                                        <!-- END BUTTON LINK FOR EDIT -->
+                                        <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
                                     </small>
-                                    <!-- LINK BUTTON FOR EDIT -->
-                                    <a href="#"
-                                       class="btn btn-light">reply</a>
-                                    <!-- END BUTTON LINK FOR EDIT -->
+                                </div>
+                                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                    <div class="reply px-4">
+
+                                        <a href="#"
+                                           onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
+                                           class="btn btn-light">
+                                            <small>Remove</small>
+                                        </a>
+
+                                        <small>
+                                            <!-- LINK BUTTON FOR EDIT -->
+                                            <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
+                                               class="btn btn-light">Edit</a>
+                                            <!-- END BUTTON LINK FOR EDIT -->
+                                        </small>
+                                        <!-- LINK BUTTON FOR EDIT -->
+                                        <a href="#"
+                                           class="btn btn-light">reply</a>
+                                        <!-- END BUTTON LINK FOR EDIT -->
+                                    </div>
                                 </div>
                             </div>
+
+
+                            <!-- END BUTTON LINK FOR DELETE -->
+                            <form id="js-comment-delete-form{{ comment.id }}"
+                                  action="{{ path('app_comment_delete', {id: comment.id}) }}"
+                                  method="post"
+                                  style="display:none">
+
+                                <!-- insertion d'un token  dans la method DELETE-->
+                                <input type="hidden" name="csrf_token_comment_delete"
+                                       value="{{ csrf_token('comment_deletion_' ~ comment.id) }}">
+
+                                <input type="hidden" name="_method" value="DELETE">
+                                <!--  <input type="submit" value="Delete"> -->
+                            </form>
+                            <!-- END BUTTON LINK FOR DELETE -->
                         </div>
-
-
-
-
-                        <!-- END BUTTON LINK FOR DELETE -->
-                        <form id="js-comment-delete-form{{ comment.id }}"
-                              action="{{ path('app_comment_delete', {id: comment.id}) }}"
-                              method="post"
-                              style="display:none">
-
-                            <!-- insertion d'un token  dans la method DELETE-->
-                            <input type="hidden" name="csrf_token_comment_delete"
-                                   value="{{ csrf_token('comment_deletion_' ~ comment.id) }}">
-
-                            <input type="hidden" name="_method" value="DELETE">
-                            <!--  <input type="submit" value="Delete"> -->
-                        </form>
-                        <!-- END BUTTON LINK FOR DELETE -->
-
                     {% endfor %}
-
 
                 </div>
             </div>
