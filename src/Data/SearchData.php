@@ -17,11 +17,11 @@ class SearchData
      */
     public $q = '';
 
-
     /*
     * @var Category[]
     */
 
     public $categories = [];
+
 
 }

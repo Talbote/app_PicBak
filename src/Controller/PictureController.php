@@ -33,9 +33,6 @@ class PictureController extends AbstractController
     public function index(PictureRepository $pictureRepository, Request $request): Response
     {
 
-
-
-
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
         $form->handleRequest($request);
@@ -59,17 +56,9 @@ class PictureController extends AbstractController
                 'pictures' => $pictures,
             ]);
 
-
-
         }
 
     }
-
-
-
-
-
-
 
     /**
      * ########################################################################################################
@@ -158,6 +147,7 @@ class PictureController extends AbstractController
 
             $user = $this->getUser();
             $picture->setUser($user);
+
 
             $em->persist($picture);
             $em->flush();

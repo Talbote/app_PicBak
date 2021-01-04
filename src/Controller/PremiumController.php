@@ -229,10 +229,10 @@ class PremiumController extends AbstractController
             $subscription = \Stripe\Subscription::retrieve($subscription_user);
 
 
-            $items = $subscription->items;
+           /* $items = $subscription->items;
             $data = $items->data;
             $price = $data[0]->price;
-            $id_price = $price->id;
+            $id_price = $price->id; */
 
 
 

@@ -51,9 +51,7 @@ class PictureRepository extends ServiceEntityRepository
     {
         /* Jointure entre les pictures et categories*/
         $query = $this
-            ->createQueryBuilder('p')
-            ->select('c', 'p')
-            ->join('p.category', 'c');
+            ->createQueryBuilder('p');
 
         if (!empty($search->q)) {
             $query = $query
@@ -63,9 +61,10 @@ class PictureRepository extends ServiceEntityRepository
 
         if (!empty($search->categories)) {
             $query = $query
+                ->select('c', 'p')
+                ->join('p.category', 'c')
                 ->andWhere('c.id IN (:categories)')
                 ->setParameter('categories', $search->categories);
-        } else {
 
         }
 

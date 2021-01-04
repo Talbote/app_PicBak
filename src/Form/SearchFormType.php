@@ -27,8 +27,9 @@ class SearchFormType extends AbstractType
                 'required' => false,
                 'class' => Category::class,
                 'expanded' => true,
-                'multiple' => true
+                'multiple' => true,
             ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -49,6 +49,7 @@ class Category
     public function getPicture(): Collection
     {
         return $this->picture;
+
     }
 
     public function addPicture(Picture $picture): self

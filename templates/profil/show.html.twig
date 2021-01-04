@@ -19,18 +19,24 @@
                 <p>Account Verified : Yes </p>
             {% endif %}
             <p>Account Created :
-                <time datetime="{{ user.createdAt|date('Y-m-d H:i:s') }}"><small>{{ user.createdAt|ago }} </small></time>
+                <time datetime="{{ user.createdAt|date('Y-m-d H:i:s') }}">
+                    <small>{{ user.createdAt|ago }} </small>
+                </time>
             </p>
-            <h2> {{ app.user.fullName }}</h2>
+            <h2> {{ user.fullName }}</h2>
             <p>
-                <a href="{{ path('app_profil_edit',{'slug': app.user.slug}) }}" class="btn btn-light text-muted">Edit Profil</a>
-                <a href="{{ path('app_profil_change_password',{'slug': app.user.slug}) }}" class="btn btn-light text-muted">Change password</a>
+                {% if user.id == app.user.id %}
+                    <a href="{{ path('app_profil_edit',{'slug': user.slug}) }}" class="btn btn-light text-muted">Edit
+                        Profil</a>
+                    <a href="{{ path('app_profil_change_password',{'slug': user.slug}) }}"
+                       class="btn btn-light text-muted">Change password</a>
+                {% endif %}
             </p>
         </div>
     </div>
 
 
-        {{ include('profil/_pictures_user.html.twig')}}
+    {{ include('profil/_pictures_user.html.twig') }}
 
 
 

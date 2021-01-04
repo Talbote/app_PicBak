@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Picture;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Repository\PictureRepository;
@@ -27,14 +26,37 @@ class ProfilController extends AbstractController
      * @Route("/profil/{slug}", name="app_profil_show", methods="GET")
      */
 
-    public function show(PictureRepository $pictureRepository): Response
+    public function show(User $user, PictureRepository $pictureRepository): Response
     {
 
-        $user = $this->getUser();
-        $id = $user->getId();
-        $pictures_user = $pictureRepository->findByUserId($id);
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+
+        if ($user != $this->getUser()) {
+
+
+
+            $id = $user->getId();
+
+
+            $pictures_user = $pictureRepository->findByUserId($id);
+
+
+            $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
+
+            return $this->render('profil/show.html.twig', [
+                'userForm' => $form->createView(),
+                'user' => $user,
+                'pictures' => $pictures_user,
+                'slug' => $user->getSlug()
+            ]);
+
+            return $this->redirectToRoute('error_typeUser'); //Page erreur si mauvais rôle
+
+        } else {
+
+            $id = $user->getId();
+            $pictures_user = $pictureRepository->findByUserId($id);
 
 
             if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
@@ -53,6 +75,8 @@ class ProfilController extends AbstractController
             }
         }
     }
+
+
     /**
      * ########################################################################################################
      * ##############################    EDIT PROFIL    ######################################################
@@ -88,7 +112,7 @@ class ProfilController extends AbstractController
             $this->addFlash('success', 'Account successfully updated!');
 
 
-            return $this->redirectToRoute('app_profil_show',[
+            return $this->redirectToRoute('app_profil_show', [
                 'slug' => $user->getSlug()
 
             ]);
