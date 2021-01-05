@@ -38,5 +38,4 @@ trait Haspremium
         return $this->premium;
     }
 
-
 }

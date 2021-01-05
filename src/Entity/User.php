@@ -23,6 +23,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"nickName"}, message="There is already an account with this nick name")
  */
 class User implements UserInterface, \Serializable
 {
@@ -145,6 +146,18 @@ class User implements UserInterface, \Serializable
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getNickName(): ?string
+    {
+        return $this->nickName;
+    }
+
+    public function setNickName(string $nickName): self
+    {
+        $this->nickName = $nickName;
+
+        return $this;
     }
 
     public function getFirstName(): ?string
@@ -439,18 +452,6 @@ class User implements UserInterface, \Serializable
     public function getFullName(): string
     {
         return (string)$this->getFirstName() . '  ' . $this->getLastName();
-    }
-
-    public function getNickName(): ?string
-    {
-        return $this->nickName;
-    }
-
-    public function setNickName(string $nickName): self
-    {
-        $this->nickName = $nickName;
-
-        return $this;
     }
 
 }

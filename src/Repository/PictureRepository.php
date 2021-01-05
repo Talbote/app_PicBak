@@ -53,11 +53,14 @@ class PictureRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('p');
 
+
         if (!empty($search->q)) {
             $query = $query
                 ->andWhere('p.title LIKE :q')
                 ->setParameter('q', "%{$search->q}%");
         }
+
+
 
         if (!empty($search->categories)) {
             $query = $query

@@ -20,44 +20,18 @@ class PremiumController extends AbstractController
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
-
         $user = $this->getUser();
-        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
-        $chargeId = $user->getChargeId();
 
 
-        if ($chargeId) {
-            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
-                $chargeId,
-                []
-            );
-            $subscription = $clientChargeId->subscription;
-            $user_subscription = $load_checkout_session->subscriptions->retrieve(
-                $subscription,
-                []
-            );
+        if ($user->isPremium()) {
 
-            $subscription_status = $user_subscription->status;
+            return $this->redirectToRoute('app_subscriber_status');
 
-            if($subscription_status == "active"){
+        } else {
 
-                $user->setPremium(true);
-                $em->flush();
-
-                return $this->redirectToRoute('app_subscriber_status');
-
-            } else {
-
-                $user->setPremium(false);
-                $em->flush();
-
-            }
-
+            return $this->render('premium/index.html.twig');
         }
-
-        return $this->render('premium/index.html.twig');
     }
-
 
     /**
      * @Route("/create-checkout-session", name="app_checkout")
@@ -120,31 +94,53 @@ class PremiumController extends AbstractController
         }
     }
 
+
     /**
      * @Route("/success", name="app_success", methods="GET")
      */
     public function successSubscription(EntityManagerInterface $em): Response
     {
-
-
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+
         $chargeId = $user->getChargeId();
 
-        $client_status = $load_checkout_session->checkout->sessions->retrieve($chargeId, []);
 
-        if ($client_status->payment_status == "paid") {
 
-            $user->setPremium(true);
-            $em->flush();
+            $load_checkout_session = new \Stripe\StripeClient('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
+            $client_status = $load_checkout_session->checkout->sessions->retrieve(
+                $chargeId, []
+            );
 
-            return $this->render('premium/success.html.twig');
+            $subscription = $client_status->subscription;
+            $user_subscription = $load_checkout_session->subscriptions->retrieve(
+                $subscription, []
+            );
 
-        } else {
 
-            return $this->redirectToRoute('app_pictures_index');
-        }
+
+            if ($user_subscription->status == "active") {
+
+                $user->setPremium(true);
+                $em->flush();
+            }
+
+            if ($user_subscription->status == "canceled") {
+
+                $user->setChargeId(false);
+                $user->setPremium(false);
+                $em->flush();
+            }
+            if ($user_subscription->status == "unpaid") {
+
+                $user->setPremium(false);
+                $em->flush();
+            }
+
+
+        return $this->render('premium/success.html.twig');
     }
+
 
     /**
      * @Route("/error", name="app_error")
@@ -158,27 +154,49 @@ class PremiumController extends AbstractController
     /**
      * @Route("/subscriber-status", name="app_subscriber_status", methods="GET")
      */
-    public function statusSubscription(): Response
+    public function statusSubscription(EntityManagerInterface $em): Response
     {
-        $user = $this->getUser();
-        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
-        $chargeId = $user->getChargeId();
-
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        if ($chargeId) {
+        $user = $this->getUser();
 
-            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
-                $chargeId,
-                []
-            );
+        if ($user->isPremium()) {
 
-            $subscription = $clientChargeId->subscription;
 
+            $user = $this->getUser();
+            $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+            $chargeId = $user->getChargeId();
+
+            $client_status = $load_checkout_session->checkout->sessions->retrieve($chargeId, []);
+
+            $subscription = $client_status->subscription;
             $user_subscription = $load_checkout_session->subscriptions->retrieve(
                 $subscription,
                 []
             );
+
+
+            if ($user_subscription->status == "canceled") {
+
+                $user = $this->getUser();
+
+                $user->setChargeId(false);
+                $user->setPremium(false);
+                $em->flush();
+
+                return $this->redirectToRoute('app_pictures_index');
+
+            }
+            if ($user_subscription->status == "active") {
+
+                $user->setPremium(true);
+                $em->flush();
+            }
+            if ($user_subscription->status == "unpaid") {
+
+                $user->setPremium(false);
+                $em->flush();
+            }
 
 
             return $this->render('premium/status.html.twig', [
@@ -186,13 +204,10 @@ class PremiumController extends AbstractController
                 'user' => $user,
             ]);
 
-
-        } else {
-
-            return $this->redirectToRoute('app_pictures_index');
-
         }
 
+
+        return $this->redirectToRoute('app_pictures_index');
     }
 
     /**
@@ -205,26 +220,30 @@ class PremiumController extends AbstractController
 
         $user = $this->getUser();
 
-        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
-        $chargeId = $user->getChargeId();
+        if ($user->isPremium()) {
 
-        if ($chargeId) {
+            $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+            $chargeId = $user->getChargeId();
 
-            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
-                $chargeId,
-                []
-            );
+            if ($chargeId) {
 
-            $subscription = $clientChargeId->subscription;
+                $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
+                    $chargeId,
+                    []
+                );
 
-            \Stripe\Subscription::update(
-                $subscription,
-                [
-                    'cancel_at_period_end' => true,
-                ]
-            );
+                $subscription = $clientChargeId->subscription;
 
-            return $this->render('premium/cancel.html.twig');
+                \Stripe\Subscription::update(
+                    $subscription,
+                    [
+                        'cancel_at_period_end' => true,
+                    ]
+                );
+
+                return $this->render('premium/cancel.html.twig');
+
+            }
 
         }
 
@@ -255,11 +274,10 @@ class PremiumController extends AbstractController
             $subscription = \Stripe\Subscription::retrieve($subscription_user);
 
 
-           /* $items = $subscription->items;
-            $data = $items->data;
-            $price = $data[0]->price;
-            $id_price = $price->id; */
-
+            /* $items = $subscription->items;
+             $data = $items->data;
+             $price = $data[0]->price;
+             $id_price = $price->id; */
 
 
             \Stripe\Subscription::update($subscription_user, [
@@ -268,7 +286,7 @@ class PremiumController extends AbstractController
                 'items' => [
                     [
                         'id' => $subscription->items->data[0]->id,
-                       
+
                     ],
                 ],
             ]);
