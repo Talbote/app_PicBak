@@ -106,36 +106,34 @@ class PremiumController extends AbstractController
         $chargeId = $user->getChargeId();
 
 
+        $load_checkout_session = new \Stripe\StripeClient('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
+        $client_status = $load_checkout_session->checkout->sessions->retrieve(
+            $chargeId, []
+        );
 
-            $load_checkout_session = new \Stripe\StripeClient('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
-            $client_status = $load_checkout_session->checkout->sessions->retrieve(
-                $chargeId, []
-            );
-
-            $subscription = $client_status->subscription;
-            $user_subscription = $load_checkout_session->subscriptions->retrieve(
-                $subscription, []
-            );
-
+        $subscription = $client_status->subscription;
+        $user_subscription = $load_checkout_session->subscriptions->retrieve(
+            $subscription, []
+        );
 
 
-            if ($user_subscription->status == "active") {
+        if ($user_subscription->status == "active") {
 
-                $user->setPremium(true);
-                $em->flush();
-            }
+            $user->setPremium(true);
+            $em->flush();
+        }
 
-            if ($user_subscription->status == "canceled") {
+        if ($user_subscription->status == "canceled") {
 
-                $user->setChargeId(false);
-                $user->setPremium(false);
-                $em->flush();
-            }
-            if ($user_subscription->status == "unpaid") {
+            $user->setChargeId(false);
+            $user->setPremium(false);
+            $em->flush();
+        }
+        if ($user_subscription->status == "unpaid") {
 
-                $user->setPremium(false);
-                $em->flush();
-            }
+            $user->setPremium(false);
+            $em->flush();
+        }
 
 
         return $this->render('premium/success.html.twig');
@@ -257,44 +255,48 @@ class PremiumController extends AbstractController
     public function reactivatingSubscription(): Response
     {
 
+
         \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
         $user = $this->getUser();
 
-        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
-        $chargeId = $user->getChargeId();
+        if ($user->isPremium()) {
+
+            $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+            $chargeId = $user->getChargeId();
 
 
-        if ($chargeId) {
-            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
-                $chargeId,
-                []
-            );
+            if ($chargeId) {
+                $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
+                    $chargeId,
+                    []
+                );
 
-            $subscription_user = $clientChargeId->subscription;
-            $subscription = \Stripe\Subscription::retrieve($subscription_user);
-
-
-            /* $items = $subscription->items;
-             $data = $items->data;
-             $price = $data[0]->price;
-             $id_price = $price->id; */
+                $subscription_user = $clientChargeId->subscription;
+                $subscription = \Stripe\Subscription::retrieve($subscription_user);
 
 
-            \Stripe\Subscription::update($subscription_user, [
-                'cancel_at_period_end' => false,
-                'proration_behavior' => 'create_prorations',
-                'items' => [
-                    [
-                        'id' => $subscription->items->data[0]->id,
+                /* $items = $subscription->items;
+                 $data = $items->data;
+                 $price = $data[0]->price;
+                 $id_price = $price->id; */
 
+
+                \Stripe\Subscription::update($subscription_user, [
+                    'cancel_at_period_end' => false,
+                    'proration_behavior' => 'create_prorations',
+                    'items' => [
+                        [
+                            'id' => $subscription->items->data[0]->id,
+
+                        ],
                     ],
-                ],
-            ]);
+                ]);
 
-            return $this->render('premium/reactivating.html.twig');
+                return $this->render('premium/reactivating.html.twig');
 
+            }
         }
-
+        return $this->redirectToRoute('app_pictures_index');
     }
 
 }

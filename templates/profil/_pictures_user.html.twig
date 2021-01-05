@@ -57,7 +57,8 @@
     {% endfor %}
 {% else %}
     {% if user.id == app.user.id %}
-        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ path('app_picture_create') }}">Be the first !</a>
+        <p class="h1 mt-5 text-center">No Pictures yet.
+            <a href="{{ path('app_picture_create') }}">Post photos !</a>
         </p>
     {% else %}
         <p class="h1 mt-5 text-center">No Pictures yet.</p>
