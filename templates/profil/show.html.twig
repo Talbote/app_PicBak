@@ -9,11 +9,13 @@
 
             <h1 class="my-5 "> Profile</h1>
             <img src="{{ ( user.imageName ? vich_uploader_asset(user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
-                 alt="{{ user.fullName }}" class="w-25 shadow rounded-circle"/>
+                 alt="{{ user.slug }}" class="w-25 shadow rounded-circle"/>
             <p class="pt-5 lead">{{ user.email }}</p>
             {% if user.isVerified == false %}
                 <p>Account Verified : No </p>
-                <p class="text-muted">Confirme your <a href="{{ path('app_resend_email') }}">Account</a>
+                {% if user.id == app.user.id %}
+                    <p class="text-muted">Confirme your <a href="{{ path('app_resend_email') }}">Account</a>
+                {% endif %}
                 </p>
             {% else %}
                 <p>Account Verified : Yes </p>
@@ -23,7 +25,7 @@
                     <small>{{ user.createdAt|ago }} </small>
                 </time>
             </p>
-            <h2> {{ user.fullName }}</h2>
+            <h2> {{ user.slug }}</h2>
             <p>
                 {% if user.id == app.user.id %}
                     <a href="{{ path('app_profil_edit',{'slug': user.slug}) }}" class="btn btn-light text-muted">Edit

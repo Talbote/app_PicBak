@@ -1,64 +1,67 @@
 {% if pictures|length > 0 %}
 
-        <!-- Fonction pluralize pour mettre au pluriel/singulier -->
-        <h1 class="text-center text-muted">{{ pluralize(pictures|length,'Picture','Pictures') }}</h1>
+    <!-- Fonction pluralize pour mettre au pluriel/singulier -->
+    <h1 class="text-center text-muted">{{ pluralize(pictures|length,'Picture','Pictures') }}</h1>
 
-        {% for row in pictures|batch(3) %}
-                <div class="row mb-5">
-                        {% for picture in row %}
-                                <div class="col-md-4">
-                                        <!-- PICTURE DIV-------------------------------------->
+    {% for row in pictures|batch(3) %}
+        <div class="row mb-5">
+            {% for picture in row %}
+                <div class="col-md-4">
+                    <!-- PICTURE DIV-------------------------------------->
 
-                                        <div class="picture bg-white rounded shadow">
-                                                <div class="mw-100 rounded-top overflow-hidden">
-                                                        <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
-                                                                <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
-                                                                     alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
-                                                </div>
+                    <div class="picture bg-white rounded shadow">
+                        <div class="mw-100 rounded-top overflow-hidden">
+                            <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
+                                <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
+                                     alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
+                        </div>
 
-                                                <h2 class="h5 text-muted pl-3 pt-3"><a
-                                                                href="{{ path('app_picture_show' , {id: picture.id}) }}"
-                                                                class="text-muted text-decoration-none text-secondary">{{ picture.title }}</a>
-                                                </h2>
-                                                <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
+                        <h2 class="h5 text-muted pl-3 pt-3"><a
+                                    href="{{ path('app_picture_show' , {id: picture.id}) }}"
+                                    class="text-muted text-decoration-none text-secondary">{{ picture.title }}</a>
+                        </h2>
+                        <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
 
-                                                <!-- <p>Submitted {{ picture.createdAt|ago }}</p> -->
+                        <!-- <p>Submitted {{ picture.createdAt|ago }}</p> -->
 
-                                                <p class="h5 text-muted pl-3 pt-3">{{ picture.description|u.truncate(9,'...', true) }}</p>
+                        <p class="text-muted pl-3 pb-3">
+                            <small>Submitted by {{ picture.user.slug }}</small>
+                        </p>
 
-                                                <p class="text-muted pl-3 pb-3">
-                                                        <small>Submitted by {{ picture.user.fullName }}</small>
-                                                </p>
+                        <!-- LINK LIKE  -->
+                        <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
 
-                                                <!-- LINK LIKE  -->
-                                                <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
+                            {% if app.user and picture.isLikedByUser(app.user) %}
+                                <svg class="far-svg far fa-thumbs-up"></svg>
+                            {% else %}
+                                <svg class="fas-svg fas fa-thumbs-up"></svg>
+                            {% endif %}
+                            <span class="js-likes">{{ picture.likes | length }}</span>
+                            <span class="js-label">Like</span>
+                        </a>
+                        <!-- END LINK LIKE  -->
 
-                                                        {% if app.user and picture.isLikedByUser(app.user) %}
-                                                                <svg class="far-svg far fa-thumbs-up"></svg>
-                                                        {% else %}
-                                                                <svg class="fas-svg fas fa-thumbs-up"></svg>
-                                                        {% endif %}
-                                                        <span class="js-likes">{{ picture.likes | length }}</span>
-                                                        <span class="js-label">Like</span>
-                                                </a>
-                                                <!-- END LINK LIKE  -->
+                        <!-- COUNT COMMENTS -->
+                        <span class="js-comments text-muted">{{ picture.comments | length }} comments</span>
+                        <!-- END COUNT COMMENTS -->
 
-                                                <!-- COUNT COMMENTS -->
-                                                <span class="js-comments text-muted">{{ picture.comments | length }} comments</span>
-                                                <!-- END COUNT COMMENTS -->
+                    </div>
+                    <!-- END PICTURE DIV-------------------------------------->
 
-                                        </div>
-                                        <!-- END PICTURE DIV-------------------------------------->
-
-                                </div>
-                                <!-- END PICTURE DIV-->
-                        {% endfor %}
                 </div>
+                <!-- END PICTURE DIV-->
+            {% endfor %}
+        </div>
 
 
-        {% endfor %}
+    {% endfor %}
 {% else %}
-        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ 'app_create_pictures' }}">Be the first !</a></p>
+    {% if user.id == app.user.id %}
+        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ path('app_picture_create') }}">Be the first !</a>
+        </p>
+    {% else %}
+        <p class="h1 mt-5 text-center">No Pictures yet.</p>
+    {% endif %}
 {% endif %}
 
 

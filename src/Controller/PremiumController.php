@@ -16,16 +16,42 @@ class PremiumController extends AbstractController
     /**
      * @Route("/subscriber", name="app_subscriber_index", methods="GET")
      */
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
+        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+        $chargeId = $user->getChargeId();
 
-        if ($user->isPremium(true)) {
 
-            return $this->redirectToRoute('app_subscriber_status');
+        if ($chargeId) {
+            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
+                $chargeId,
+                []
+            );
+            $subscription = $clientChargeId->subscription;
+            $user_subscription = $load_checkout_session->subscriptions->retrieve(
+                $subscription,
+                []
+            );
+
+            $subscription_status = $user_subscription->status;
+
+            if($subscription_status == "active"){
+
+                $user->setPremium(true);
+                $em->flush();
+
+                return $this->redirectToRoute('app_subscriber_status');
+
+            } else {
+
+                $user->setPremium(false);
+                $em->flush();
+
+            }
 
         }
 

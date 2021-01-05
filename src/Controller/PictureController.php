@@ -30,12 +30,42 @@ class PictureController extends AbstractController
     /**
      * @Route("/", name="app_pictures_index", methods="GET")
      */
-    public function index(PictureRepository $pictureRepository, Request $request): Response
+    public function index(PictureRepository $pictureRepository,EntityManagerInterface $em, Request $request): Response
     {
+
+        $user = $this->getUser();
+        $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
+        $chargeId = $user->getChargeId();
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if ($chargeId) {
+            $clientChargeId = $load_checkout_session->checkout->sessions->retrieve(
+                $chargeId,
+                []
+            );
+            $subscription = $clientChargeId->subscription;
+            $user_subscription = $load_checkout_session->subscriptions->retrieve(
+                $subscription,
+                []
+            );
+
+           $subscription_status = $user_subscription->status;
+
+            if($subscription_status !== "active"){
+
+                $user->setPremium(false);
+                $em->flush();
+
+            }
+
+        }
 
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
         $form->handleRequest($request);
+
+
 
         if($form->isSubmitted($request)&& $form->isValid()){
 
@@ -47,13 +77,14 @@ class PictureController extends AbstractController
             ]);
 
         } else {
-            
+
             $pictures = $pictureRepository->findAll();
             $form->handleRequest($request);
 
             return $this->render('pictures/index.html.twig', [
                 'form' => $form->createView(),
                 'pictures' => $pictures,
+                'subscription' => $subscription
             ]);
 
         }

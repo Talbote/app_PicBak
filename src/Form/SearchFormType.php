@@ -22,6 +22,8 @@ class SearchFormType extends AbstractType
                     'placeholder' => 'Search Picture'
                 )
             ])
+
+
             ->add('categories', EntityType::class, [
                 'label' => false,
                 'required' => false,

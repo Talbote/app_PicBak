@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {% include 'pictures/_filter.html.twig'  %}
+    {% include 'pictures/_filter.html.twig' %}
 
     {% if pictures|length > 0 %}
 
@@ -28,14 +28,10 @@
                                         href="{{ path('app_picture_show' , {id: picture.id}) }}"
                                         class="text-muted text-decoration-none text-secondary">{{ picture.title }}</a>
                             </h2>
-                            <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
 
-                            <!-- <p>Submitted {{ picture.createdAt|ago }}</p> -->
-
-                            <p class="h5 text-muted pl-3 pt-3">{{ picture.description|u.truncate(9,'...', true) }}</p>
 
                             <p class="text-muted pl-3 pb-3">
-                                <small>Submitted by {{ picture.user.fullName }}</small>
+                                <small>by {{ picture.user.slug }}</small>
                             </p>
 
                             <!-- LINK LIKE  -->
@@ -66,7 +62,7 @@
 
         {% endfor %}
     {% else %}
-        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ 'app_create_pictures' }}">Be the first !</a></p>
+        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ path('app_picture_create') }}">Be the first !</a></p>
     {% endif %}
 
 

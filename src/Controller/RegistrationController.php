@@ -92,10 +92,11 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/resend/email", name="app_resend_email")
      */
-    public function resendUserEmail(Request $request, User $user): Response
+    public function resendUserEmail(Request $request): Response
     {
 
-        $user_not_confirmed = $user->getUser();
+        $user = $this->getUser();
+        $user_not_confirmed = $user;
 
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user_not_confirmed,
             (new TemplatedEmail())
