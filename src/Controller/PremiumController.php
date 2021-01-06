@@ -102,38 +102,7 @@ class PremiumController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-
-        $chargeId = $user->getChargeId();
-
-
-        $load_checkout_session = new \Stripe\StripeClient('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
-        $client_status = $load_checkout_session->checkout->sessions->retrieve(
-            $chargeId, []
-        );
-
-        $subscription = $client_status->subscription;
-        $user_subscription = $load_checkout_session->subscriptions->retrieve(
-            $subscription, []
-        );
-
-
-        if ($user_subscription->status == "active") {
-
-            $user->setPremium(true);
-            $em->flush();
-        }
-
-        if ($user_subscription->status == "canceled") {
-
-            $user->setChargeId(false);
-            $user->setPremium(false);
-            $em->flush();
-        }
-        if ($user_subscription->status == "unpaid") {
-
-            $user->setPremium(false);
-            $em->flush();
-        }
+        $user->isSubscriber($user,$em);
 
 
         return $this->render('premium/success.html.twig');
@@ -157,9 +126,9 @@ class PremiumController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
+        $user->isSubscriber($user,$em);
 
         if ($user->isPremium()) {
-
 
             $user = $this->getUser();
             $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
@@ -172,29 +141,6 @@ class PremiumController extends AbstractController
                 $subscription,
                 []
             );
-
-
-            if ($user_subscription->status == "canceled") {
-
-                $user = $this->getUser();
-
-                $user->setChargeId(false);
-                $user->setPremium(false);
-                $em->flush();
-
-                return $this->redirectToRoute('app_pictures_index');
-
-            }
-            if ($user_subscription->status == "active") {
-
-                $user->setPremium(true);
-                $em->flush();
-            }
-            if ($user_subscription->status == "unpaid") {
-
-                $user->setPremium(false);
-                $em->flush();
-            }
 
 
             return $this->render('premium/status.html.twig', [
@@ -211,12 +157,14 @@ class PremiumController extends AbstractController
     /**
      * @Route("/subscription-cancel", name="app_subscription_cancel")
      */
-    public function cancelSubscription(): Response
+    public function cancelSubscription(EntityManagerInterface $em): Response
     {
 
         \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
 
         $user = $this->getUser();
+
+        $user->isSubscriber($user,$em);
 
         if ($user->isPremium()) {
 

@@ -24,7 +24,7 @@
                     <p class="text-muted">
                         <small>Submitted
                             <time datetime="{{ picture.createdAt|date('Y-m-d H:i:s') }}"> {{ picture.createdAt|ago }}</time>
-                            by {{ picture.user.fullName }}
+                            by {{ picture.user.slug }}
                         </small>
                     </p>
                     <!-- END TITLE -->

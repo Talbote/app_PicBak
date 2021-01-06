@@ -30,9 +30,12 @@ class PictureController extends AbstractController
     /**
      * @Route("/", name="app_pictures_index", methods="GET")
      */
-    public function index(PictureRepository $pictureRepository,Request $request): Response
+    public function index(PictureRepository $pictureRepository,Request $request,EntityManagerInterface $em): Response
     {
 
+
+        $user = $this->getUser();
+        $user->isSubscriber($user, $em);
 
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
@@ -50,7 +53,7 @@ class PictureController extends AbstractController
 
     /**
      * ########################################################################################################
-     * ##############################    SHOW PICTURES + CREATE COMMENT    ######################################################
+     * ##############################    SHOW OWNER PICTURES + CREATE COMMENT    ######################################################
      * ########################################################################################################
      */
     /**
@@ -87,12 +90,12 @@ class PictureController extends AbstractController
             $em->flush();
 
             // on retourne  les données du commentaire en JSON
-            return $this->json([
+          /*  return $this->json([
                 'code' => 403,
                 'textComment' => $comment->getTextComment('textComment'),
                 'messages' => "Good comment Added",
                 'comments' => $commentRepository->count(['picture' => $picture])
-            ], 200);
+            ], 200); */
 
         }
 
@@ -249,110 +252,6 @@ class PictureController extends AbstractController
             return $this->redirectToRoute('app_pictures_index');
         }
     }
-
-
-    /**
-     * ########################################################################################################
-     * ##############################    EDIT COMMENT    ######################################################
-     * ########################################################################################################
-     */
-
-    /**
-     * @Route("/picture/{id<[0-9]+>}/comment/edit", name="app_comment_edit", methods="GET|PUT")
-     */
-
-    public function editComment(Request $request, EntityManagerInterface $em, Comment $comment): Response
-    {
-
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        /* vérification de l'user_id du picture */
-
-        $user = $comment->getUser();
-
-        if ($user !== $this->getUser()) {
-
-            $this->addFlash('error', 'Not allowed to do that !');
-
-            return $this->redirectToRoute('app_pictures_index');
-
-        } else {
-
-            $form = $this->createForm(CommentFormType::class, $comment, [
-
-                'method' => 'PUT'
-
-            ]);
-
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-
-
-                /*recupere les données dans le form*/
-                $em->flush();
-
-                $this->addFlash('success', 'Comment successfully updated!');
-
-
-                return $this->redirectToRoute('app_pictures_index');
-            }
-
-            return $this->render('comment/edit.html.twig', [
-
-                'picture' => $comment,
-                'form' => $form->createView()
-
-            ]);
-        }
-    }
-
-    /**
-     * ########################################################################################################
-     * ##############################    DELETE COMMENT    ####################################################
-     * ########################################################################################################
-     */
-
-    /**
-     * @Route("/picture/{id<[0-9]+>}/comment/delete/", name="app_comment_delete", methods="DELETE")
-     *
-     */
-
-    public function delete(Request $request, Comment $comment, EntityManagerInterface $em): Response
-    {
-
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        /* vérification de l'user_id du picture */
-
-        $owner_comment = $comment->getUser();
-        $owner_picture = $comment->getPicture()->getUser();
-
-
-        if ($owner_comment === $this->getUser() || $owner_picture === $this->getUser()) {
-
-            if ($this->isCsrfTokenValid('comment_deletion_' . $comment->getId(),
-                $request->request->get('csrf_token_comment_delete'))
-            ) {
-
-                $em->remove($comment);
-                $em->flush();
-
-                $this->addFlash('info', 'Comment successfully deleted!');
-            }
-
-        } else {
-
-            $this->addFlash('error', 'Not allowed to do that !');
-
-            return $this->redirectToRoute('app_pictures_index');
-            /* si le token est valid on applique la suppression */
-
-
-        }
-
-        return $this->redirectToRoute('app_pictures_index');
-    }
-
 
 
 

@@ -8,6 +8,7 @@ use App\Entity\Traits\Timestampable;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -139,6 +140,7 @@ class User implements UserInterface, \Serializable
     {
         $this->pictures = new ArrayCollection();
         $this->likes = new ArrayCollection();
+
 
     }
 
@@ -386,6 +388,49 @@ class User implements UserInterface, \Serializable
     public function getChargeId()
     {
         return $this->chargeId;
+    }
+
+
+    /**
+     * si l'utilisateur est abonné
+     */
+    public function isSubscriber(User $user, EntityManagerInterface $em)
+    {
+
+        if ($user->getChargeId(true)) {
+
+            $load_checkout_session = new \Stripe\StripeClient('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
+            $chargeId = $user->getChargeId();
+
+            $client_status = $load_checkout_session->checkout->sessions->retrieve($chargeId, []);
+
+            $subscription = $client_status->subscription;
+            $user_subscription = $load_checkout_session->subscriptions->retrieve(
+                $subscription,
+                []
+            );
+
+            if ($user_subscription->status == "canceled") {
+
+                $user->setChargeId(false);
+                $user->setPremium(false);
+                $em->flush();
+
+            }
+            if ($user_subscription->status == "active") {
+
+                $user->setPremium(true);
+                $em->flush();
+            }
+            if ($user_subscription->status == "unpaid") {
+
+                $user->setPremium(false);
+                $em->flush();
+            }
+
+        }
+        return false;
+
     }
 
 

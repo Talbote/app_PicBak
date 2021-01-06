@@ -82,7 +82,7 @@ document.querySelectorAll('a.js-like').forEach(function (link) {
 
 
 /*#####################################
- ############## GET NAME  IMAGE #######
+ ##############  IMAGE ################
  ######################################*/
 
 // ALERT  à chaque message selectionné + récupération du nom du fichier IMAGE
@@ -93,8 +93,36 @@ $('.custom-file-input').on('change', function (e) {
 });
 
 
-// COMMENT
+/*#####################################
+ ##############  COMMENT ################
+ ######################################*/
 
+
+// DELETE ///
+
+const comments = document.getElementById('comments-js');
+
+if (comments) {
+    comments.addEventListener('click', e => {
+        if(e.target.className === 'btn btn-danger delete-item'
+){
+        const id = e.target.getAttribute('data-id');
+        const id = 123;
+        console.log('/supprimerVideo/${id}')
+        /supprimerVideo/${id}
+        console.log(`/supprimerVideo/${id}`)
+        /supprimerVideo/123
+            method: 'DELETE'
+        }).then(res = > window.location.reload()
+    )
+        ;
+    }
+})
+    ;
+}
+
+
+// CREATE ///
 function submitComment(event) { // tu dois recevoir un évenement even en parametre
 
     event.preventDefault();
