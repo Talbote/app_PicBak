@@ -31,7 +31,7 @@ class CommentController extends AbstractController
      */
 
     /**
-     * @Route("picture/comment/{id<[0-9]+>}/edit", name="app_comment_edit", methods="GET|PUT")
+     * @Route("comment/{id<[0-9]+>}/edit", name="app_comment_edit", methods="GET|PUT")
      */
 
     public function editComment(Request $request, EntityManagerInterface $em, Comment $comment): Response
@@ -41,6 +41,7 @@ class CommentController extends AbstractController
         /* vérification de l'user_id du picture */
 
         $user = $comment->getUser();
+        $id_picture = $comment->getPicture()->getId();
 
         if ($user !== $this->getUser()) {
 
@@ -68,7 +69,7 @@ class CommentController extends AbstractController
                 $this->addFlash('success', 'Comment successfully updated!');
 
 
-                return $this->redirectToRoute('app_pictures_index');
+                return $this->redirectToRoute('app_picture_show', ['id'=>$id_picture]);
             }
 
             return $this->render('comment/edit.html.twig', [
@@ -87,11 +88,11 @@ class CommentController extends AbstractController
      */
 
     /**
-     * @Route("/picture/comment/{id<[0-9]+>}/delete", name="app_comment_delete", methods="DELETE")
+     * @Route("/picture/{id<[0-9]+>}/comment/", name="app_comment_delete", methods="DELETE")
      *
      */
 
-    public function delete(Request $request, Comment $comment, EntityManagerInterface $em): Response
+    public function delete( Request $request, Comment $comment, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -99,6 +100,7 @@ class CommentController extends AbstractController
 
         $owner_comment = $comment->getUser();
         $owner_picture = $comment->getPicture()->getUser();
+        $id_picture = $comment->getPicture()->getId();
 
 
         if ($owner_comment === $this->getUser() || $owner_picture === $this->getUser()) {
@@ -107,17 +109,16 @@ class CommentController extends AbstractController
                 $request->request->get('csrf_token_comment_delete'))
             ) {
 
+
                 $em->remove($comment);
                 $em->flush();
 
-                $this->addFlash('info', 'Comment successfully deleted!');
-
-                return $this->redirect($this->generateUrl('app_picture_show'));
+                return $this->redirectToRoute('app_picture_show', ['id'=>$id_picture]);
             }
 
         } else {
 
-            $this->addFlash('error', 'Not allowed to do that !');
+            $this->addFlash('error', 'Not allowed to delete this comment');
 
             return $this->redirectToRoute('app_pictures_index');
             /* si le token est valid on applique la suppression */

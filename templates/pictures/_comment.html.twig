@@ -37,48 +37,34 @@
                                 {% set title = 'image non trouver !' %}
                             {% endif %}
 
-                            <div class="card p-3">
-                                <div class="d-flex justify-content-between align-items-center">
-
-                                    <div class="user d-flex flex-row align-items-center">
+                            <p> {{ comment.user.slug }}</p>
+                            <p> {{ comment.textComment }}</p>
 
 
+                            <small>
+                                <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
+                            </small>
 
 
-                                    <span>
-                                        <small class="font-weight-bold text-primary">
-                                            {{ comment.user.fullName }}
-                                        </small>
-                                                <small class="font-weight-bold text-break">
-                                                    {{ comment.textComment }}
-                                                </small>
-                                            </span>
-                                    </div>
-                                    <small>
-                                        <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
-                                    </small>
-                                </div>
-                                <div class="action d-flex ">
-                                    <div class="reply px-4  ">
-
-                                        <div class="dropdown">
-                                            <button  type="button" id="dropdownMenuButton"
-                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                ...
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a href="#"
-                                                   onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
-                                                   class="dropdown-item btn btn-light">
-                                                    <small>Remove</small>
-                                                </a>
-                                                <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
-                                                   class="dropdown-item btn btn-light"><small>Edit</small></a>
-                                                <a href="#"
-                                                   class="dropdown-item btn btn-light"><small>Reply</small></a>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="dropdown">
+                                <button type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    ...
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a href="#"
+                                       onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
+                                       class="dropdown-item btn btn-light">
+                                        <small>Remove</small>
+                                    </a>
+                                    <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
+                                       class="dropdown-item btn btn-light">
+                                        <small>Edit</small>
+                                    </a>
+                                    <a href="#"
+                                       class="dropdown-item btn btn-light">
+                                        <small>Reply</small>
+                                    </a>
                                 </div>
                             </div>
 

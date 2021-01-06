@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 
+
 // BOOTSTRAP + FONTAWESOME + SCSS
 require('bootstrap');
 require('@fortawesome/fontawesome-free/css/all.min.css');
@@ -30,6 +31,7 @@ import '../js/stripe/stripe.js';
  ############## LIKE #######
  ###########################*/
 // récuperation de toute lesclass a js-like
+
 const axios = require('axios').default;
 
 function onClickBtnLike(event) { // tu dois recevoir un évenement even en parametre
@@ -96,49 +98,8 @@ $('.custom-file-input').on('change', function (e) {
 /*#####################################
  ##############  COMMENT ################
  ######################################*/
-
-
 // DELETE ///
 
-const comments = document.getElementById('comments-js');
-
-if (comments) {
-    comments.addEventListener('click', e => {
-        if(e.target.className === 'btn btn-danger delete-item'
-){
-        const id = e.target.getAttribute('data-id');
-        const id = 123;
-        console.log('/supprimerVideo/${id}')
-        /supprimerVideo/${id}
-        console.log(`/supprimerVideo/${id}`)
-        /supprimerVideo/123
-            method: 'DELETE'
-        }).then(res = > window.location.reload()
-    )
-        ;
-    }
-})
-    ;
-}
-
-
-// CREATE ///
-function submitComment(event) { // tu dois recevoir un évenement even en parametre
-
-    event.preventDefault();
-
-    const url = this.href
-
-    axios.post(url).then(function (response) {
-
-        console.log(response);
-
-    });
-}
-
-document.querySelectorAll('a.js-form-comment').forEach(function (link) {
-    link.addEventListener('click', submitComment);
-});
 
 
 

@@ -36,7 +36,7 @@ if (document.getElementById('checkout-button')) {
 
 }else {
 
-    console.log('okay');
+   // console.log('okay');
 
 }
 
