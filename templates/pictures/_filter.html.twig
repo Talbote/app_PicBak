@@ -1,13 +1,22 @@
-{{ form_start(form) }}
-{{ form_row(form.q) }}
+<div class="">
+        {{ form_start(form) }}
+        <div class="col-md-4 mx-auto">
+                {{ form_row(form.q) }}
+        </div>
 
+        {% if app.user and app.user.isPremium == true %}
+                <div class="col-md-4 mx-auto">
+                        <h4 class="text-center text-muted">Categories</h4>
+                        <div class="col mx-auto">
+                                {{ form_row(form.categories) }}
+                        </div>
 
-{% if app.user and app.user.isPremium == true %}
-        <h4>categories</h4>
-        {{ form_row(form.categories) }}
-{% endif %}
+                </div>
+        {% endif %}
+        <div class="mt-3 mb-5 mb-3 col-md-2 mx-auto">
+                <button type="submit" class="col mx-auto btn btn-danger "> Apply</button>
+        </div>
 
-<button type="submit" class="btn btn-primary w-100"> Apply</button>
-{{ form_end(form) }}
-
+        {{ form_end(form) }}
+</div>
 

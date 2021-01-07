@@ -90,6 +90,9 @@
     "fortawesome/font-awesome": {
         "version": "5.15.1"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.2"
+    },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
         "recipe": {
