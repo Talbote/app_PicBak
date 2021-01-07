@@ -1,94 +1,100 @@
-<!-- DIV COL COMMENT-->
-<div class="col-md-6 mx-auto">
+<div class="col-md-6">
+    <!-- SEND COMMENT -->
+    {{ form_start(commentForm) }}
+    <div class="row">
+        {{ form_errors(commentForm) }}
+    </div>
 
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-8">
+            {{ form_widget(commentForm.textComment) }}
+        </div>
 
+        <div class="col-2" id="some-custom-id">
+            <button class=" btn btn-light btn-sm"><span class="text-muted far fa-paper-plane"></span></button>
+        </div>
 
-            <!-- SEND COMMENT -->
-            {{ form_start(commentForm) }}
-            <div class="row">
-                {{ form_errors(commentForm) }}
-            </div>
+    </div>
 
-            <div class="row">
-                <div class="col">
-                    {{ form_widget(commentForm.textComment) }}
+    {{ form_end(commentForm) }}
+    <!-- END SEND COMMENT -->
+
+    {% for comment in comment %}
+        <!-- LIST COMMENT -->
+        <div class="card p-3 mt-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="user d-flex flex-row align-items-center">
+                    {% if user is defined is not null %}
+                        <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
+                             class="user-img rounded-circle mr-2"/>
+                    {% else %}
+                        {% set title = 'image non trouver !' %}
+                    {% endif %}
+                    <span>
+                            <small class="font-weight-bold text-primary"> {{ comment.user.slug }}</small>
+                            <small class="font-weight-bold text-break"> {{ comment.textComment }}</small>
+                        </span>
                 </div>
-                <div class="" id="some-custom-id">
-
-                    <button type="submit" class="w-100 text-muted js-form-comment col far fa-paper-plane "></button>
-                </div>
+                <small>
+                    <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
+                </small>
             </div>
-            {{ form_end(commentForm) }}
-            <!-- END SEND COMMENT -->
+            <div class="action d-flex justify-content-between mt-2 align-items-center">
+                <div class="reply px-4">
+                    <span class="dots"></span>
 
+                </div>
+                <div class="icons align-items-center">
 
-            <div>
-                <h1 class="h5  text-center text-muted text-secondary">Comments
-                </h1>
-                <div id="cmntContr">
-                    {% for comment in comment %}
-                        <div class="headings d-flex justify-content-between align-items-center mb-3">
-                            {% if user is defined is not null %}
-                                <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
-                                     alt="" class="w-25 shadow rounded-circle"/>
-                            {% else %}
-                                {% set title = 'image non trouver !' %}
-                            {% endif %}
-
-                            <p> {{ comment.user.slug }}</p>
-                            <p> {{ comment.textComment }}</p>
-
-
-                            <small>
-                                <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
-                            </small>
-
-
-                            <div class="dropdown">
-                                <button type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    ...
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a href="#"
-                                       onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
-                                       class="dropdown-item btn btn-light">
-                                        <small>Remove</small>
-                                    </a>
-                                    <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
-                                       class="dropdown-item btn btn-light">
-                                        <small>Edit</small>
-                                    </a>
-                                    <a href="#"
-                                       class="dropdown-item btn btn-light">
-                                        <small>Reply</small>
-                                    </a>
-                                </div>
-                            </div>
-
-
-                            <!-- END BUTTON LINK FOR DELETE -->
-                            <form id="js-comment-delete-form{{ comment.id }}"
-                                  action="{{ path('app_comment_delete', {id: comment.id}) }}"
-                                  method="post"
-                                  style="display:none">
-
-                                <!-- insertion d'un token  dans la method DELETE-->
-                                <input type="hidden" name="csrf_token_comment_delete"
-                                       value="{{ csrf_token('comment_deletion_' ~ comment.id) }}">
-
-                                <input type="hidden" name="_method" value="DELETE">
-                                <!--  <input type="submit" value="Delete"> -->
-                            </form>
-                            <!-- END BUTTON LINK FOR DELETE -->
+                    {% if app.user.id != comment.id %}
+                    <!-- BUTTON LIST COMMENT-->
+                    <div class="dropdown">
+                        <button type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ...
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a href="#"
+                               onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
+                               class="dropdown-item btn btn-light">
+                                <small>Remove</small>
+                            </a>
+                            <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
+                               class="dropdown-item btn btn-light">
+                                <small>Edit</small>
+                            </a>
+                            <a href="#"
+                               class="dropdown-item btn btn-light">
+                                <small>Reply</small>
+                            </a>
                         </div>
-                    {% endfor %}
+                    </div>
 
+                    <!-- END BUTTON LIST COMMENT-->
+                    {% endif %}
                 </div>
             </div>
         </div>
-    </div>
+        <!-- BUTTON LIST COMMENT-->
+
+        <!-- END BUTTON LINK FOR DELETE -->
+        <form id="js-comment-delete-form{{ comment.id }}"
+              action="{{ path('app_comment_delete', {id: comment.id}) }}"
+              method="post"
+              style="display:none">
+
+            <!-- insertion d'un token  dans la method DELETE-->
+            <input type="hidden" name="csrf_token_comment_delete"
+                   value="{{ csrf_token('comment_deletion_' ~ comment.id) }}">
+
+            <input type="hidden" name="_method" value="DELETE">
+            <!--  <input type="submit" value="Delete"> -->
+        </form>
+        <!-- END BUTTON LINK FOR DELETE -->
+    {% endfor %}
+
 </div>
-<!-- END DIV COL COMMENT-->
+
+
+
+

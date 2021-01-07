@@ -35,7 +35,10 @@ class PictureController extends AbstractController
 
 
         $user = $this->getUser();
+
+        if($user){
         $user->isSubscriber($user, $em);
+        }
 
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
@@ -61,7 +64,7 @@ class PictureController extends AbstractController
      *
      */
 
-    public function showALL(Picture $picture, Request $request, EntityManagerInterface $em, CommentRepository $commentRepository): Response
+    public function showALL(Picture $picture, Request $request, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -101,10 +104,12 @@ class PictureController extends AbstractController
 
         $comments = $picture->getComments();
 
+        $user = $picture->getUser();
 
         return $this->render('pictures/show_owner.html.twig', [
             'comment' => $comments,
             'picture' => $picture,
+            'user' => $user,
             'commentForm' => $form->createView(),
         ]);
     }

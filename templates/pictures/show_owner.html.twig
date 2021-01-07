@@ -4,12 +4,11 @@
 
 {% block body %}
     <!-- DIV ROW-->
-    <div class="row">
-
+    <div class="row mb-5">
         <!-- DIV COL-->
-        <div class="col-md-6 mx-auto">
+        <div class="col-md-6">
             <!-- CONTENT PICTURE DIV-->
-            <div class="picture bg-white rounded shadow">
+            <div class="bg-white rounded shadow">
                 <div class="mw-100 rounded-top overflow-hidden">
 
                     <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
@@ -36,16 +35,18 @@
 
                     <!--  FORM + EDIT + DELETE -->
                     <div>
-                        <!-- LINK BUTTON FOR EDIT -->
-                        <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
-                        <!-- END BUTTON LINK FOR EDIT -->
 
+                        {% if user.id == app.user.id %}
+                            <!-- LINK BUTTON FOR EDIT -->
+                            <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
+                            <!-- END BUTTON LINK FOR EDIT -->
 
-                        <a href="#"
-                           onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-picture-delete-form').submit();"
-                           class="btn btn-light">Delete</a>
-                        <!-- LINK BUTTON FOR DELETE -->
-
+                            <!-- LINK BUTTON FOR DELETE -->
+                            <a href="#"
+                               onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-picture-delete-form').submit();"
+                               class="btn btn-light">Delete</a>
+                            <!-- END LINK BUTTON FOR DELETE -->
+                        {% endif %}
                         <!-- LINK LIKE -->
                         <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
                             {% if app.user and picture.isLikedByUser(app.user) %}
@@ -62,8 +63,9 @@
                         <!-- COUNT COMMENTS -->
                         <span class="js-comments text-muted">{{ picture.comments | length }} comments</span>
                         <!-- END COUNT COMMENTS -->
-
                         <!-- END BUTTON LINK FOR DELETE -->
+
+
                         <form id="js-picture-delete-form" action="{{ path('app_picture_delete', {id: picture.id}) }}"
                               method="post"
                               style="display:none">
@@ -87,10 +89,10 @@
             <!-- END CONTENT PICTURE DIV-->
         </div>
         <!-- END DIV COL-->
-
-        {{ include('pictures/_comment.html.twig')}}
-
+        {{ include('pictures/_comment.html.twig') }}
     </div>
     <!-- END DIV ROW-->
+
+
 
 {% endblock %}
