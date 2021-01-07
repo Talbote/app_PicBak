@@ -14,6 +14,18 @@ class SearchFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        if ($options['premium_required']) {
+            $builder
+                ->add('categories', EntityType::class, [
+                    'label' => false,
+                    'required' => false,
+                    'class' => Category::class,
+                    'expanded' => true,
+                    'multiple' => true,
+                ]);
+        }
+
         $builder
             ->add('q', TextType::class, [
                 'label' => false,
@@ -21,15 +33,7 @@ class SearchFormType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Search Picture'
                 )
-            ])
-            ->add('categories', EntityType::class, [
-                'label' => false,
-                'required' => false,
-                'class' => Category::class,
-                'expanded' => true,
-                'multiple' => true,
             ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -39,6 +43,7 @@ class SearchFormType extends AbstractType
             'data_class' => SearchData::class,
             'method' => 'GET',
             'csrf_protection' => false,
+            'premium_required' => false
         ]);
     }
 

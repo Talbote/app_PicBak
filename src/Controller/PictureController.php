@@ -36,12 +36,22 @@ class PictureController extends AbstractController
 
         $user = $this->getUser();
 
-        if ($user) {
+
+        if (($user) && ($user->getchargeId(false))) {
+
             $user->isSubscriber($user, $em);
         }
 
         $data = new SearchData();
-        $form = $this->createForm(SearchFormType::class, $data);
+
+        if ($user && $user->isPremium()) {
+
+            $form = $this->createForm(SearchFormType::class, $data, ['premium_required' => true]);
+        } else {
+            $form = $this->createForm(SearchFormType::class, $data, ['premium_required' => false]);
+        }
+
+
         $form->handleRequest($request);
 
         $pictures = $pictureRepository->findSearch($data);
@@ -104,10 +114,7 @@ class PictureController extends AbstractController
         $user_picture = $picture->getUser();
 
 
-
-
-
-       // dd($user_comment);
+        // dd($user_comment);
 
         return $this->render('pictures/show_owner.html.twig', [
             'comment' => $comments,

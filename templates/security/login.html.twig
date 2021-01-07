@@ -4,7 +4,10 @@
 
 {% block body %}
 
-    <div class="row">
+    <div class="row" data-aos="fade-zoom-in"
+         data-aos-easing="ease-in-back"
+         data-aos-delay="300"
+         data-aos-offset="0">
         <div class="col-md-6 mx-auto">
 
             <h1 class="mt-5 mb-3 text-center">Please sign in</h1>
@@ -53,7 +56,8 @@
                     Sign in
                 </button>
 
-                <p class="mt-5 mb-3 text-center text-muted">Not registered yet? <a href="{{ path('app_register') }}">Create an account</a></p>
+                <p class="mt-5 mb-3 text-center text-muted">Not registered yet? <a href="{{ path('app_register') }}">Create
+                        an account</a></p>
             </form>
         </div>
     </div>

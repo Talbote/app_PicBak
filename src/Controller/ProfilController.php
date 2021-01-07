@@ -34,14 +34,8 @@ class ProfilController extends AbstractController
 
         if ($user != $this->getUser()) {
 
-
-
             $id = $user->getId();
-
-
             $pictures_user = $pictureRepository->findByUserId($id);
-
-
             $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
 
             return $this->render('profil/show.html.twig', [
@@ -58,9 +52,7 @@ class ProfilController extends AbstractController
             $id = $user->getId();
             $pictures_user = $pictureRepository->findByUserId($id);
 
-
             if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-
 
                 $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
 
@@ -92,10 +84,8 @@ class ProfilController extends AbstractController
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
-        /* vérification de l'user_id du picture */
 
         $user = $this->getUser();
-
         $form = $this->createForm(UserType::class, $user, [
 
             'method' => 'PUT'
@@ -108,9 +98,7 @@ class ProfilController extends AbstractController
 
             /*recupere les données dans le form*/
             $em->flush();
-
             $this->addFlash('success', 'Account successfully updated!');
-
 
             return $this->redirectToRoute('app_profil_show', [
                 'slug' => $user->getSlug()
@@ -140,9 +128,7 @@ class ProfilController extends AbstractController
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
-
         $user = $this->getUser();
-
         $form = $this->createForm(ChangePasswordFormType::class, null, [
 
             'current_password_is_required' => true
@@ -161,7 +147,10 @@ class ProfilController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Password successfully changed!');
 
-            return $this->redirectToRoute('app_profil_show');
+            return $this->redirectToRoute('app_profil_show',[
+
+                'slug'=>$user->getSlug()
+            ]);
         }
 
 

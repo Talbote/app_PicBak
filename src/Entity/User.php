@@ -429,6 +429,10 @@ class User implements UserInterface, \Serializable
             }
 
         }
+
+        $user->getChargeId(false);
+        $em->flush();
+
         return false;
 
     }

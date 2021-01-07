@@ -1,8 +1,13 @@
 {{ form_start(form) }}
 {{ form_row(form.q) }}
-<h4>categories</h4>
-{{ form_row(form.categories) }}
-<button type="submit" class="btn btn-primary w-100"> filter</button>
+
+
+{% if app.user and app.user.isPremium == true %}
+        <h4>categories</h4>
+        {{ form_row(form.categories) }}
+{% endif %}
+
+<button type="submit" class="btn btn-primary w-100"> Apply</button>
 {{ form_end(form) }}
 
 

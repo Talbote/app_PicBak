@@ -17,11 +17,14 @@
                     <div class="col-md-4">
                         <!-- PICTURE DIV-------------------------------------->
 
-                        <div class="picture bg-white rounded shadow">
-                            <div class="mw-100 rounded-top overflow-hidden">
-                                <a href="{{ path('app_picture_show' , {id: picture.id}) }}">
-                                    <img src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
-                                         alt="{{ picture.title }}" class="w-100 rounded-top"/></a>
+                        <div class="picture bg-white rounded shadow ">
+                            <div class="mw-100 rounded-top overflow-hidden ">
+                                <a class="centered position-relative"
+                                   href="{{ path('app_picture_show' , {id: picture.id}) }}">
+                                    <img style="width:100%;"
+                                         src="{{ ( picture.imageName ? vich_uploader_asset(picture) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_medium') }}"
+                                         alt="{{ picture.title }}" class="w-100 rounded-top"/>
+                                </a>
                             </div>
 
                             <h2 class="h5 text-muted pl-3 pt-3"><a
@@ -34,22 +37,14 @@
                                 <small>by {{ picture.user.slug }}</small>
                             </p>
 
-                            <!-- LINK LIKE  -->
-                            <a href="{{ path('app_picture_like', {'id' : picture.id }) }}" class="btn btn-link js-like">
-
-                                {% if app.user and picture.isLikedByUser(app.user) %}
-                                    <svg class="far-svg far fa-thumbs-up"></svg>
-                                {% else %}
-                                    <svg class="fas-svg fas fa-thumbs-up"></svg>
-                                {% endif %}
-                                <span class="js-likes">{{ picture.likes | length }}</span>
-                                <span class="js-label">Like</span>
-                            </a>
-                            <!-- END LINK LIKE  -->
-
-                            <!-- COUNT COMMENTS -->
-                            <span class="js-comments text-muted">{{ picture.comments | length }} comments</span>
-                            <!-- END COUNT COMMENTS -->
+                            <!-- COUNT COMMENTS LIKES  -->
+                            <div class="pl-3 pb-3 centered">
+                                <span class="js-comments text-muted">{{ picture.likes | length }} <i
+                                            class="far fa-thumbs-up"></i></span>
+                                <span class="js-comments text-muted">{{ picture.comments | length }} <i
+                                            class="far fa-comment"></i></span>
+                            </div>
+                            <!-- END COUNT COMMENTS LIKES  -->
 
                         </div>
                         <!-- END PICTURE DIV-------------------------------------->
@@ -62,7 +57,8 @@
 
         {% endfor %}
     {% else %}
-        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ path('app_picture_create') }}">Be the first !</a></p>
+        <p class="h1 mt-5 text-center">No Pictures yet. <a href="{{ path('app_picture_create') }}">Be the first !</a>
+        </p>
     {% endif %}
 
 

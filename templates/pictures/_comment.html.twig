@@ -54,17 +54,17 @@
                             ...
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                            <a href="#"
-                               onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
-                               class="dropdown-item btn btn-light">
-                                <small>Remove</small>
-                            </a>
-                            <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
-                               class="dropdown-item btn btn-light">
-                                <small>Edit</small>
-                            </a>
-
+                            {% if app.user.slug == comment.user.slug %}
+                                <a href="#"
+                                   onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
+                                   class="dropdown-item btn btn-light">
+                                    <small>Remove</small>
+                                </a>
+                                <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
+                                   class="dropdown-item btn btn-light">
+                                    <small>Edit</small>
+                                </a>
+                            {% endif %}
                             <a href="#"
                                class="dropdown-item btn btn-light">
                                 <small>Reply</small>

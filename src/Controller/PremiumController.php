@@ -16,7 +16,7 @@ class PremiumController extends AbstractController
     /**
      * @Route("/subscriber", name="app_subscriber_index", methods="GET")
      */
-    public function index(EntityManagerInterface $em): Response
+    public function index(): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -102,7 +102,7 @@ class PremiumController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-        $user->isSubscriber($user,$em);
+        $user->isSubscriber($user, $em);
 
 
         return $this->render('premium/success.html.twig');
@@ -126,7 +126,9 @@ class PremiumController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
-        $user->isSubscriber($user,$em);
+
+
+        $user->isSubscriber($user, $em);
 
         if ($user->isPremium()) {
 
@@ -151,7 +153,7 @@ class PremiumController extends AbstractController
         }
 
 
-        return $this->redirectToRoute('app_pictures_index');
+        return $this->redirectToRoute('app_subscriber_index');
     }
 
     /**
@@ -164,7 +166,7 @@ class PremiumController extends AbstractController
 
         $user = $this->getUser();
 
-        $user->isSubscriber($user,$em);
+        $user->isSubscriber($user, $em);
 
         if ($user->isPremium()) {
 
