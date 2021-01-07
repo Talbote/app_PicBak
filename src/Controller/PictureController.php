@@ -30,14 +30,14 @@ class PictureController extends AbstractController
     /**
      * @Route("/", name="app_pictures_index", methods="GET")
      */
-    public function index(PictureRepository $pictureRepository,Request $request,EntityManagerInterface $em): Response
+    public function index(PictureRepository $pictureRepository, Request $request, EntityManagerInterface $em): Response
     {
 
 
         $user = $this->getUser();
 
-        if($user){
-        $user->isSubscriber($user, $em);
+        if ($user) {
+            $user->isSubscriber($user, $em);
         }
 
         $data = new SearchData();
@@ -86,30 +86,33 @@ class PictureController extends AbstractController
             //liaison de l'id commentaire à l'id user connecté et l'id_picture
             $comment->setUser($user);
             $comment->setPicture($picture);
-
-
             // sauvegarde des données
             $em->persist($comment);
             $em->flush();
 
             // on retourne  les données du commentaire en JSON
-          /*  return $this->json([
-                'code' => 403,
-                'textComment' => $comment->getTextComment('textComment'),
-                'messages' => "Good comment Added",
-                'comments' => $commentRepository->count(['picture' => $picture])
-            ], 200); */
+            /*  return $this->json([
+                  'code' => 403,
+                  'textComment' => $comment->getTextComment('textComment'),
+                  'messages' => "Good comment Added",
+                  'comments' => $commentRepository->count(['picture' => $picture])
+              ], 200); */
 
         }
 
         $comments = $picture->getComments();
+        $user_picture = $picture->getUser();
 
-        $user = $picture->getUser();
+
+
+
+
+       // dd($user_comment);
 
         return $this->render('pictures/show_owner.html.twig', [
             'comment' => $comments,
             'picture' => $picture,
-            'user' => $user,
+            'userPicture' => $user_picture,
             'commentForm' => $form->createView(),
         ]);
     }

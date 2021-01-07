@@ -499,4 +499,5 @@ class User implements UserInterface, \Serializable
         return (string)$this->getFirstName() . '  ' . $this->getLastName();
     }
 
+
 }

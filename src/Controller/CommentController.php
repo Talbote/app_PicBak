@@ -42,7 +42,7 @@ class CommentController extends AbstractController
 
         $user = $comment->getUser();
         $id_picture = $comment->getPicture()->getId();
-
+dd($id_picture);
         if ($user !== $this->getUser()) {
 
             $this->addFlash('error', 'Not allowed to do that !');

@@ -36,7 +36,7 @@
                     <!--  FORM + EDIT + DELETE -->
                     <div>
 
-                        {% if user.id == app.user.id %}
+                        {% if app.user == userPicture %}
                             <!-- LINK BUTTON FOR EDIT -->
                             <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
                             <!-- END BUTTON LINK FOR EDIT -->

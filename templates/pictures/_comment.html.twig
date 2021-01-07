@@ -46,7 +46,7 @@
                 </div>
                 <div class="icons align-items-center">
 
-                    {% if app.user.id != comment.id %}
+
                     <!-- BUTTON LIST COMMENT-->
                     <div class="dropdown">
                         <button type="button" id="dropdownMenuButton"
@@ -54,6 +54,7 @@
                             ...
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
                             <a href="#"
                                onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
                                class="dropdown-item btn btn-light">
@@ -63,6 +64,7 @@
                                class="dropdown-item btn btn-light">
                                 <small>Edit</small>
                             </a>
+
                             <a href="#"
                                class="dropdown-item btn btn-light">
                                 <small>Reply</small>
@@ -71,7 +73,7 @@
                     </div>
 
                     <!-- END BUTTON LIST COMMENT-->
-                    {% endif %}
+
                 </div>
             </div>
         </div>
