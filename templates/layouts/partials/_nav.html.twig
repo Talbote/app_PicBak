@@ -36,7 +36,9 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
                             {% if is_granted('ROLE_ADMIN') == true %}
-                                <a class="dropdown-item" href="{{ path('app_admin')}}">Administrator</a>
+                                <a class="dropdown-item" href="{{ path('app_admin') }}">Administrator</a>
+                                <a href="{{ path('app_pictures_index', {_switch_user: '_exit'}) }}">Exit impersonation</a>
+
                             {% endif %}
                             <a class="dropdown-item" href="{{ path('app_profil_show', {'slug': app.user.slug}) }}">Profil</a>
                             <a class="dropdown-item" href="#" onclick="event.preventDefault();

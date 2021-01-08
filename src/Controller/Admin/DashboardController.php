@@ -30,19 +30,14 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::section('Admin Main');
+
+        yield MenuItem::section('List');
         yield MenuItem::linkToCrud('Category','fas fa-exchange-alt',Category::class);
         yield MenuItem::linkToCrud('Pictures','fas fa-image',Picture::class);
         yield MenuItem::linkToCrud('Users','fas fa-users',User::class);
         yield MenuItem::linkToCrud('Comment','far fa-comments',Comment::class);
+        yield MenuItem::linkToExitImpersonation('Exit', 'fas fa-sign-out-alt');
     }
 
-    /**
-     * @Route("/logout", name="app_logout", methods="POST"))
-     */
-    public function logout()
-    {
 
-        return $this->redirectToRoute('app_pictures_index');
-     }
 }

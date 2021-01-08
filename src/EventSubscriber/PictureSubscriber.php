@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Comment;
 use App\Entity\Picture;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -34,9 +35,9 @@ class PictureSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * avant de faire le setUser on cree un event
-     * et on verifie si l'image ah bien été cree par le utilisateur connecté
-     * si c'est le cas on enregistre en tant que owner de l'image
+     * avant de faire le setUser sur une image/commentaire,  on cree un event
+     * et on verifie si l'image/commentaire ah bien été cree par le utilisateur connecté
+     * si c'est le cas on enregistre en tant que owner de l'image/commentaire
      */
 
     public function setUser(BeforeEntityPersistedEvent $event)
@@ -44,6 +45,11 @@ class PictureSubscriber implements EventSubscriberInterface
         $entity = $event->getEntityInstance();
 
         if ($entity instanceof Picture) {
+
+            $entity->setUser($this->security->getUser());
+        }
+
+        if ($entity instanceof Comment) {
 
             $entity->setUser($this->security->getUser());
         }

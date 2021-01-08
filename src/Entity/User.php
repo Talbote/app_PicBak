@@ -523,8 +523,7 @@ class User implements UserInterface, \Serializable
 
     public function __toString()
     {
-        return $this->nickName;
+        return $this->email;
     }
-
 
 }

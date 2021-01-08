@@ -3,7 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -12,14 +18,33 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-    /*
+
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+
+        $imageFile = TextareaField::new('imageFile')->setFormType(VichImageType::class);
+        $image = ImageField::new('imageName')->setBasePath('uploads/pictures');
+
+        $fields = [
+            TextField::new('nickName'),
+            TextField::new('firstName'),
+            TextField::new('lastName'),
+            TextField::new('email'),
+            TextField::new('password')->hideOnIndex(),
+            TextField::new('chargeId')->hideOnIndex(),
+            BooleanField::new('isVerified'),
+            BooleanField::new('isBanned'),
+            BooleanField::new('isPremium'),
         ];
+
+        if ($pageName == Crud::PAGE_INDEX || $pageName == Crud::PAGE_DETAIL) {
+
+            $fields[] = $image;
+        } else {
+            $fields[] = $imageFile;
+        }
+
+        return $fields;
     }
-    */
+
 }

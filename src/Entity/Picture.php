@@ -54,7 +54,7 @@ class Picture
      * @Vich\UploadableField(mapping="picture_image", fileNameProperty="imageName")
      * @Assert\Image(maxSize = "10M")
      *
-     * @var File|null
+     *
      */
     private $imageFile;
 
