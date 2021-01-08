@@ -109,6 +109,11 @@ class User implements UserInterface, \Serializable
     private $isVerified = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isBanned = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="charge_id", type="string", length=255, nullable=true)
@@ -126,6 +131,7 @@ class User implements UserInterface, \Serializable
      * @Gedmo\Slug(fields={"nickName"})
      */
     private $slug;
+
 
 
     /**
@@ -371,6 +377,18 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    public function isBanned(): bool
+    {
+        return $this->isBanned;
+    }
+
+    public function setIsBanned(bool $isBanned): self
+    {
+        $this->isBanned = $isBanned;
+
+        return $this;
+    }
+
     /**
      * @param string $chargeId
      * @return $this
@@ -501,6 +519,11 @@ class User implements UserInterface, \Serializable
     public function getFullName(): string
     {
         return (string)$this->getFirstName() . '  ' . $this->getLastName();
+    }
+
+    public function __toString()
+    {
+        return $this->nickName;
     }
 
 

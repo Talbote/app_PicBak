@@ -88,7 +88,7 @@ class CommentController extends AbstractController
      */
 
     /**
-     * @Route("/picture/{id<[0-9]+>}/comment/", name="app_comment_delete", methods="DELETE")
+     * @Route("/comment/{id<[0-9]+>}/delete/", name="app_comment_delete", methods="DELETE")
      *
      */
 
