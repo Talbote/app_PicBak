@@ -8,35 +8,44 @@
          data-aos-easing="ease-in-back"
          data-aos-delay="300"
          data-aos-offset="0" class="row">
-        <div  class="col-md-6 mx-auto">
+        <div class="col-md-6 mx-auto">
 
-            <div class="my-5 text-center">
+            {% if user.isPremium == true %}
+                <div class="my-5 text-center">
 
-                <p> {{ app.user.slug }}</p>
-                <h1>PicBak Plus </h1>
+                    <p> {{ app.user.slug }}</p>
+                    <h1>PicBak Plus </h1>
 
-                <p>Status: <span class="text-muted">{{ subscription.status }}</span></p>
+                    <p>Status: <span class="text-muted">{{ subscription.status }}</span></p>
 
-                {% if subscription.status == "active" %}
-                    <p>Subscription purchase date:<span
-                                class="text-muted"> {{ subscription.current_period_start|date('Y-m-d H:i:s') }} </span>
-                    </p>
-                    <p>End of subscription period:<span
-                                class="text-muted"> {{ subscription.current_period_end|date('Y-m-d H:i:s') }} </span>
-                    </p>
+                    {% if subscription.status == "active" %}
+                        <p>Subscription purchase date:<span
+                                    class="text-muted"> {{ subscription.current_period_start|date('Y-m-d H:i:s') }} </span>
+                        </p>
+                        <p>End of subscription period:<span
+                                    class="text-muted"> {{ subscription.current_period_end|date('Y-m-d H:i:s') }} </span>
+                        </p>
+                    {% endif %}
+
+                </div>
+                {% if subscription.cancel_at_period_end == false %}
+                    <p class="mt-5 mb-3 text-center text-muted"><a
+                                href="{{ path('app_subscription_cancel') }}">Canceled</a>
+                        subscription</p>
+
+                {% else %}
+                    <p class="mt-5 mb-3 text-center text-muted">The subscription will end at the scheduled period.</p>
+
+                    <p class="mt-5 mb-3 text-center text-muted"><a
+                                href="{{ path('app_subscription_reactivating_canceled') }}">Reactivate</a>
+                        subscription</p>
+
                 {% endif %}
-
-            </div>
-            {% if subscription.cancel_at_period_end == false %}
-                <p class="mt-5 mb-3 text-center text-muted"><a href="{{ path('app_subscription_cancel') }}">Canceled</a>
-                    subscription</p>
-
             {% else %}
-                <p class="mt-5 mb-3 text-center text-muted">The subscription will end at the scheduled period.</p>
-
-                <p class="mt-5 mb-3 text-center text-muted"><a href="{{ path('app_subscription_reactivating_canceled') }}">Reactivate</a>
-                    subscription</p>
-
+                <div class="my-5 text-center">
+                    <h1>PicBak Plus </h1>
+                    <p>Status: <span class="text-muted">{{ subscription.status }}</span></p>
+                </div>
             {% endif %}
         </div>
     </div>

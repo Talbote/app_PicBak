@@ -30,7 +30,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class User implements UserInterface, \Serializable
 {
     use Timestampable;
-    use Hasinvoice;
     use Haspremium;
 
     /**
@@ -106,6 +105,11 @@ class User implements UserInterface, \Serializable
     private $pictures;
 
     /**
+     * @ORM\OneToMany(targetEntity=PictureLike::class, mappedBy="user")
+     */
+    private $likes;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
@@ -122,10 +126,6 @@ class User implements UserInterface, \Serializable
      */
     protected $chargeId;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PictureLike::class, mappedBy="user")
-     */
-    private $likes;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -133,6 +133,11 @@ class User implements UserInterface, \Serializable
      * @Gedmo\Slug(fields={"nickName"})
      */
     private $slug;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="user")
+     */
+    private $invoice;
 
 
     /**
@@ -147,6 +152,7 @@ class User implements UserInterface, \Serializable
     {
         $this->pictures = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->invoice = new ArrayCollection();
 
 
     }
@@ -432,29 +438,13 @@ class User implements UserInterface, \Serializable
 
             if ($user_subscription->status == "canceled") {
 
+
                 $user->setChargeId(false);
                 $user->setPremium(false);
-                $user->setInvoice(false);
                 $em->flush();
 
             }
             if ($user_subscription->status == "active") {
-
-
-              /*  if ($user->isInvoice() == false) {
-
-
-                    $latest_invoice = $user_subscription->latest_invoice;
-
-
-                    $load_checkout_session->invoices->sendInvoice(
-                        $latest_invoice,
-                        []
-                    );
-                    $user->setInvoice(true);
-                    $em->flush();
-                }*/
-
 
                 $user->setPremium(true);
                 $em->flush();
@@ -501,6 +491,7 @@ class User implements UserInterface, \Serializable
             ) = unserialize($serialized);
     }
 
+
     /**
      * @return Collection|PictureLike[]
      */
@@ -544,5 +535,36 @@ class User implements UserInterface, \Serializable
     {
         return $this->email;
     }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoice(): Collection
+    {
+        return $this->invoice;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoice->contains($invoice)) {
+            $this->invoice[] = $invoice;
+            $invoice->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoice->removeElement($invoice)) {
+            // set the owning side to null (unless already changed)
+            if ($invoice->getUser() === $this) {
+                $invoice->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }

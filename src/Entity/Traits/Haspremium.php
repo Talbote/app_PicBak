@@ -20,6 +20,14 @@ trait Haspremium
     private $premium = false;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="recordInvoice", type="boolean")
+     */
+    private $recordInvoice = false;
+
+
+    /**
      * @param boolean $premium
      * @return $this
      */
@@ -37,5 +45,28 @@ trait Haspremium
     {
         return $this->premium;
     }
+
+
+
+    /**
+     * @param boolean $recordInvoice
+     * @return $this
+     */
+    public function setRecordInvoice($recordInvoice)
+    {
+        $this->recordInvoice = $recordInvoice;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRecordInvoice()
+    {
+        return $this->recordInvoice;
+    }
+
+
 
 }
