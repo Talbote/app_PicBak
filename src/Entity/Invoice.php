@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
 use App\Entity\Traits\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,14 +27,20 @@ class Invoice
 
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="urlPdf", type="string", length=255)
      */
     private $urlPdf;
+
+
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="invoice")

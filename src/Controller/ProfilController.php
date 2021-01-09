@@ -35,7 +35,7 @@ class ProfilController extends AbstractController
         if ($user != $this->getUser()) {
 
             $id = $user->getId();
-            $pictures_user = $pictureRepository->findByUserId($id);
+            $pictures_user = $pictureRepository->findByUserIdPicture($id);
             $form = $this->createForm(userType::class, $user, ['method' => 'POST']);
 
             return $this->render('profil/show.html.twig', [
@@ -50,7 +50,7 @@ class ProfilController extends AbstractController
         } else {
 
             $id = $user->getId();
-            $pictures_user = $pictureRepository->findByUserId($id);
+            $pictures_user = $pictureRepository->findByUserIdPicture($id);
 
             if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
 

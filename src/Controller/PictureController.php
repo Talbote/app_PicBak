@@ -41,8 +41,7 @@ class PictureController extends AbstractController
         $em->flush();
         */
 
-
-        if ($user && $user->getchargeId(false)) {
+        if ($user) {
 
             $user->isSubscriber($user, $em);
         }

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\Invoice;
 use App\Entity\Picture;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -32,10 +33,11 @@ class DashboardController extends AbstractDashboardController
     {
 
         yield MenuItem::section('List');
-        yield MenuItem::linkToCrud('Category','fas fa-exchange-alt',Category::class);
+        yield MenuItem::linkToCrud('Categories','fas fa-exchange-alt',Category::class);
         yield MenuItem::linkToCrud('Pictures','fas fa-image',Picture::class);
         yield MenuItem::linkToCrud('Users','fas fa-users',User::class);
-        yield MenuItem::linkToCrud('Comment','far fa-comments',Comment::class);
+        yield MenuItem::linkToCrud('Comments','far fa-comments',Comment::class);
+        yield MenuItem::linkToCrud('Invoices','far fa-comments',Invoice::class);
         yield MenuItem::linkToExitImpersonation('Exit', 'fas fa-sign-out-alt');
     }
 

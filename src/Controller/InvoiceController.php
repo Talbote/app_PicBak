@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Invoice;
+use App\Repository\InvoiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,13 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class InvoiceController extends AbstractController
 {
     /**
-     * @Route("/invoice", name="app_invoice", methods="GET")
+     * @Route("/invoice/", name="app_invoice_show", methods="GET")
      */
-    public function index(EntityManagerInterface $em): Response
+    public function index( InvoiceRepository $invoiceRepository, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-
 
         if ($user->isPremium() == true && $user->isRecordInvoice() == false) {
 
@@ -39,29 +39,46 @@ class InvoiceController extends AbstractController
                 []
             );
 
-                $invoice = new Invoice();
-                $invoice->setName();
+            $email = $latest_invoice->customer_email;
+            $url = $latest_invoice->invoice_pdf;
 
+
+            $invoice = new Invoice();
+            $invoice->setName($email);
+            $invoice->setUrlPdf($url);
+            $invoice->setUser($this->getUser());
+
+            $em->persist($invoice);
             $user->setRecordInvoice(true);
             $em->flush();
+        }
 
 
+        $id = $user->getId();
+        $invoices_user = $invoiceRepository->findByUserIdInvoice($id);
+       // dd($invoices_user);
+
+        if ($user->isPremium() == true && $user->isRecordInvoice() == true) {
 
             return $this->render('invoice/index.html.twig', [
-                    'subscription' => $user_subscription,
                     'user' => $user,
-                    'invoice' => $latest_invoice
+                    'invoice' => $invoices_user
                 ]
             );
-        } else {
-
-
-
-
-
-
-            return $this->render('invoice/index.html.twig');
 
         }
+
+        if ($user->isPremium() == false && $user->isRecordInvoice() == false) {
+
+            return $this->render('invoice/index.html.twig', [
+                    'user' => $user,
+                    'invoice' => $invoices_user
+                ]
+            );
+
+        }
+
     }
+
+
 }

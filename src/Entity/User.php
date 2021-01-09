@@ -441,6 +441,7 @@ class User implements UserInterface, \Serializable
 
                 $user->setChargeId(false);
                 $user->setPremium(false);
+                $user->setRecordInvoice(null);
                 $em->flush();
 
             }
@@ -455,12 +456,14 @@ class User implements UserInterface, \Serializable
                 $em->flush();
             }
 
-        }
+        }else {
 
         $user->getChargeId(false);
-        $em->flush();
+        $user->setRecordInvoice(false);
 
-        return false;
+        $em->flush();
+        }
+
 
     }
 

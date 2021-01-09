@@ -27,7 +27,7 @@ class PictureRepository extends ServiceEntityRepository
 
     /*Recupere les images d'un utilisateur */
 
-    public function findByUserId($id)
+    public function findByUserIdPicture($id)
     {
 
         $qb = $this->createQueryBuilder('u');
