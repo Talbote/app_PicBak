@@ -25,7 +25,7 @@ class PictureSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * on recupere l'evenement
+     * on recupere l'evenement en utilisant BeforeEntityPersistedEvent
      */
     public static function getSubscribedEvents()
     {
@@ -36,8 +36,8 @@ class PictureSubscriber implements EventSubscriberInterface
 
     /**
      * avant de faire le setUser sur une image/commentaire,  on cree un event
-     * et on verifie si l'image/commentaire ah bien été cree par le utilisateur connecté
-     * si c'est le cas on enregistre en tant que owner de l'image/commentaire
+     * et on verifie si l'image/commentaire ah bien été cree par un utilisateur
+     * sinon  on enregistre l'user connecté en tant que owner de l'image/commentaire
      */
 
     public function setUser(BeforeEntityPersistedEvent $event)

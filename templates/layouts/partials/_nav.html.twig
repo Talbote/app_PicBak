@@ -29,15 +29,20 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="dropdown03" data-toggle="dropdown"
-                           aria-haspopup="true"
-                           aria-expanded="false"><i class="zoom fas fa-user"></i></a>
+                        <a class="nav-link" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            {% if is_granted('ROLE_ADMIN') == true %}
+                                <i class="zoom fas fa-user-shield"></i>
+                            {% else %}
+                                <i class="zoom fas fa-user"></i>
+                            {% endif %}
+
+                        </a>
 
 
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
                             {% if is_granted('ROLE_ADMIN') == true %}
-                                <a class="dropdown-item" href="{{ path('app_admin') }}">Administrator</a>
-                                <a href="{{ path('app_pictures_index', {_switch_user: '_exit'}) }}">Exit impersonation</a>
+                                <a class="dropdown-item" href="{{ path('app_admin') }}">Interface Admin</a>
 
                             {% endif %}
                             <a class="dropdown-item" href="{{ path('app_profil_show', {'slug': app.user.slug}) }}">Profil</a>

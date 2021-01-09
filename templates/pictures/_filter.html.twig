@@ -4,7 +4,7 @@
                 {{ form_row(form.q) }}
         </div>
 
-        {% if app.user and app.user.isPremium == true %}
+        {% if app.user and app.user.isPremium == true or is_granted('ROLE_ADMIN') %}
                 <div class="col-md-4 mx-auto">
                         <h4 class="text-center text-muted">Categories</h4>
                         <div class="col mx-auto">

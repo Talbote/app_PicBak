@@ -4,6 +4,7 @@ namespace App\Entity;
 
 
 use App\Entity\Traits\Haspremium;
+use App\Entity\Traits\Hasinvoice;
 use App\Entity\Traits\Timestampable;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,6 +30,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class User implements UserInterface, \Serializable
 {
     use Timestampable;
+    use Hasinvoice;
     use Haspremium;
 
     /**
@@ -131,7 +133,6 @@ class User implements UserInterface, \Serializable
      * @Gedmo\Slug(fields={"nickName"})
      */
     private $slug;
-
 
 
     /**
@@ -428,14 +429,32 @@ class User implements UserInterface, \Serializable
                 []
             );
 
+
             if ($user_subscription->status == "canceled") {
 
                 $user->setChargeId(false);
                 $user->setPremium(false);
+                $user->setInvoice(false);
                 $em->flush();
 
             }
             if ($user_subscription->status == "active") {
+
+
+              /*  if ($user->isInvoice() == false) {
+
+
+                    $latest_invoice = $user_subscription->latest_invoice;
+
+
+                    $load_checkout_session->invoices->sendInvoice(
+                        $latest_invoice,
+                        []
+                    );
+                    $user->setInvoice(true);
+                    $em->flush();
+                }*/
+
 
                 $user->setPremium(true);
                 $em->flush();

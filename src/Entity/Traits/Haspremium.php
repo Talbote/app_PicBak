@@ -15,7 +15,7 @@ trait Haspremium
     /**
      * @var boolean
      *
-     * @ORM\Column(name="premium", type="boolean", options={"default":false})
+     * @ORM\Column(name="premium", type="boolean")
      */
     private $premium = false;
 

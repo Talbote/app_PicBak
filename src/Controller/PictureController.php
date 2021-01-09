@@ -34,7 +34,8 @@ class PictureController extends AbstractController
     {
 
 
-      $user = $this->getUser();
+        $user = $this->getUser();
+
 
         /*
         $user->setRoles(['ROLE_ADMIN']);
@@ -42,18 +43,19 @@ class PictureController extends AbstractController
         */
 
 
-        if (($user) && ($user->getchargeId(false))) {
+        if ($user && $user->getchargeId(false)) {
 
             $user->isSubscriber($user, $em);
         }
 
         $data = new SearchData();
 
-        if ($user && $user->isPremium()) {
 
-            $form = $this->createForm(SearchFormType::class, $data, ['premium_required' => true]);
+        if (($user && $user->isPremium()) | $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+
+            $form = $this->createForm(SearchFormType::class, $data, ['premium_categories_required' => true]);
         } else {
-            $form = $this->createForm(SearchFormType::class, $data, ['premium_required' => false]);
+            $form = $this->createForm(SearchFormType::class, $data, ['premium_categories_required' => false]);
         }
 
 

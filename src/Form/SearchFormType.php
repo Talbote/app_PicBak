@@ -15,7 +15,7 @@ class SearchFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        if ($options['premium_required']) {
+        if ($options['premium_categories_required']) {
             $builder
                 ->add('categories', EntityType::class, [
                     'label' => false,
@@ -43,7 +43,7 @@ class SearchFormType extends AbstractType
             'data_class' => SearchData::class,
             'method' => 'GET',
             'csrf_protection' => false,
-            'premium_required' => false
+            'premium_categories_required' => false
         ]);
     }
 
