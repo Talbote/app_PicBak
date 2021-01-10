@@ -41,11 +41,20 @@
 
 
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
+
                             {% if is_granted('ROLE_ADMIN') == true %}
                                 <a class="dropdown-item" href="{{ path('app_admin') }}">Interface Admin</a>
 
                             {% endif %}
+
                             <a class="dropdown-item" href="{{ path('app_profil_show', {'slug': app.user.slug}) }}">Profil</a>
+                            {% if app.user.isPremium %}
+                            <a class="dropdown-item" href="{{ path('app_subscriber_status') }}">Status subscription</a>
+                            {% else %}
+                            <a class="dropdown-item" href="{{ path('app_subscriber_index') }}">Subscription</a>
+                            {% endif %}
+                            <a class="dropdown-item" href="{{ path('app_invoice_index') }}">Invoice Management</a>
+
                             <a class="dropdown-item" href="#" onclick="event.preventDefault();
                        document.getElementById('js-logout-form').submit();">Logout</a>
 

@@ -35,7 +35,6 @@
 
                     <!--  FORM + EDIT + DELETE -->
                     <div>
-
                         {% if app.user == userPicture %}
                             <!-- LINK BUTTON FOR EDIT -->
                             <a href="{{ path('app_picture_edit' , {id: picture.id}) }}" class="btn btn-light">Edit</a>
@@ -89,7 +88,7 @@
             <!-- END CONTENT PICTURE DIV-->
         </div>
         <!-- END DIV COL-->
-        {{ include('pictures/_comment.html.twig') }}
+        {{ include('pictures/_show_owner_comment.html.twig') }}
     </div>
     <!-- END DIV ROW-->
 

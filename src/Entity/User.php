@@ -417,12 +417,13 @@ class User implements UserInterface, \Serializable
 
 
     /**
-     * si l'utilisateur est abonné
+     * gestion de l'utilisateur premium
      */
     public function isSubscriber(User $user, EntityManagerInterface $em)
     {
 
-        if ($user->getChargeId(true)) {
+        if ($user->getChargeId()) {
+
 
             $load_checkout_session = new \Stripe\StripeClient('sk_test_51I0mX6L4sACyrZxifOb3sy4ExerZ8vd22tkbEDoH0LclFv4cKIfdxEA17vmaMNMx1LX7snYZAVo3A4mDWSBgURdG0013ar2A9E');
             $chargeId = $user->getChargeId();
@@ -438,16 +439,16 @@ class User implements UserInterface, \Serializable
 
             if ($user_subscription->status == "canceled") {
 
-
                 $user->setChargeId(false);
                 $user->setPremium(false);
-                $user->setRecordInvoice(null);
+                $user->setRecordInvoice(false);
                 $em->flush();
 
             }
             if ($user_subscription->status == "active") {
 
                 $user->setPremium(true);
+                $user->setRecordInvoice(true);
                 $em->flush();
             }
             if ($user_subscription->status == "unpaid") {
@@ -456,12 +457,12 @@ class User implements UserInterface, \Serializable
                 $em->flush();
             }
 
-        }else {
+        } else {
 
-        $user->getChargeId(false);
-        $user->setRecordInvoice(false);
+            $user->getChargeId(false);
+            $user->setRecordInvoice(false);
 
-        $em->flush();
+            $em->flush();
         }
 
 

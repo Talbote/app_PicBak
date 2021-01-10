@@ -39,11 +39,12 @@ class PremiumController extends AbstractController
     public function createSubscription(EntityManagerInterface $em): Response
     {
 
-        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
-
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 
-        if ($user->isPremium(true)) {
+        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
+
+        if ($user->isPremium()) {
 
             return $this->render('premium/status.html.twig');
         }
@@ -104,8 +105,15 @@ class PremiumController extends AbstractController
         $user = $this->getUser();
         $user->isSubscriber($user, $em);
 
+        if ($user->isPremium()) {
 
-        return $this->render('premium/success.html.twig');
+            return $this->render('premium/success.html.twig');
+
+        } else {
+
+
+            return $this->render('premium/index.html.twig');
+        }
     }
 
 
@@ -124,9 +132,7 @@ class PremiumController extends AbstractController
     public function statusSubscription(EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
         $user = $this->getUser();
-
 
         $user->isSubscriber($user, $em);
 
@@ -165,10 +171,9 @@ class PremiumController extends AbstractController
         \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
 
         $user = $this->getUser();
-
         $user->isSubscriber($user, $em);
 
-        if ($user->isPremium()) {
+        if ($user->isPremium() && $user->getChargeId(true)) {
 
             $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
             $chargeId = $user->getChargeId();
@@ -202,14 +207,15 @@ class PremiumController extends AbstractController
     /**
      * @Route("/subscriptions-reactivating-canceled", name="app_subscription_reactivating_canceled")
      */
-    public function reactivatingSubscription(): Response
+    public function reactivatingSubscription(EntityManagerInterface $em): Response
     {
 
-
-        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
         $user = $this->getUser();
+        $user->isSubscriber($user, $em);
 
-        if ($user->isPremium()) {
+        if ($user->isPremium() && $user->getChargeId()) {
+
+            \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
 
             $load_checkout_session = new \Stripe\StripeClient($this->getParameter('stripe_secret_key'));
             $chargeId = $user->getChargeId();

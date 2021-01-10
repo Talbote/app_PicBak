@@ -34,7 +34,6 @@ class PictureCrudController extends AbstractCrudController
             AssociationField::new('category')->autocomplete(),
             AssociationField::new('user')->hideOnForm(),
             DateTimeField::new('createdAt'),
-            DateTimeField::new('updatedAt'),
         ];
 
         if ($pageName == Crud::PAGE_INDEX || $pageName == Crud::PAGE_DETAIL) {

@@ -4,42 +4,60 @@
 
 {% block body %}
 
-    <div data-aos="fade-zoom-in" data-aos-easing="ease-in-back" data-aos-delay="300" data-aos-offset="0"
-         class="row">
+    <div class="container">
+        {% if invoice|length > 0 %}
+            <div data-aos="fade-zoom-in"
+                 data-aos-easing="ease-in-back"
+                 data-aos-delay="300"
+                 data-aos-offset="0" class="col-12 mx-auto">
 
-        <div class="col-md-6 col-lg-4 order-md-last">
-            <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">List Invoice</span>
-            </h4>
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">List Invoice</span>
+                </h4>
+
+            </div>
+
             {% for invoice in invoice %}
-                {% if invoice|length > 0 %}
+                <!-- URL INVOICE -->
+                <ul data-aos="fade-left" class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">{{ invoice.name }} </h6>
+                            <small class="text-muted">generate at
+                                <time datetime="{{ invoice.createdAt|date('Y-m-d H:i:s') }}"> {{ invoice.createdAt|date }}</time>
+                            </small>
+                        </div>
+                        <span>
+                            <a class="text-muted" href="{{ invoice.urlPdf }}"><i class="zoom far fa-file-alt"></i></a>
+                        <a  class="text-danger" href="#"><i class="zoom far fa-trash-alt"></i></a>
+                        </span>
 
-                    <!-- URL INVOICE -->
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">{{ invoice.name }} </h6>
-                                <small class="text-muted">generate at
-                                    <time datetime="{{ invoice.createdAt|date('Y-m-d H:i:s') }}"> {{ invoice.createdAt|date }}</time>
-                                </small>
-                            </div>
-                            <span class="text-muted"> <a class="nav-link" href="{{ invoice.urlPdf }}"><i
-                                            class="zoom far fa-file-alt"></i></a></span>
-                        </li>
-                    </ul>
-                    <!-- END URL INVOICE -->
-                {% else %}
 
-                    <p>no invoices yet !</p>
-
-                {% endif %}
+                    </li>
+                </ul>
+                <!-- END URL INVOICE -->
 
             {% endfor %}
-        </div>
+        {% else %}
 
+            <div data-aos="fade-zoom-in"
+                 data-aos-easing="ease-in-back"
+                 data-aos-delay="300"
+                 data-aos-offset="0" class="row">
+                <div class="col-md-6 mx-auto">
+
+                    <div class="my-5 text-center">
+
+                        <h1> {{ app.user.slug }}</h1>
+                        <p class="text-muted">you don't have any bills </p>
+
+                    </div>
+                </div>
+
+            </div>
+        {% endif %}
 
     </div>
-
 {% endblock %}
 
 

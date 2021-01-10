@@ -3,13 +3,14 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Comment;
+use App\Entity\Invoice;
 use App\Entity\Picture;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Security;
 
 
-class PictureSubscriber implements EventSubscriberInterface
+class EasyAdminSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -50,6 +51,11 @@ class PictureSubscriber implements EventSubscriberInterface
         }
 
         if ($entity instanceof Comment) {
+
+            $entity->setUser($this->security->getUser());
+        }
+
+        if ($entity instanceof Invoice) {
 
             $entity->setUser($this->security->getUser());
         }

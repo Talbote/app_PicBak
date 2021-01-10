@@ -37,7 +37,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Pictures','fas fa-image',Picture::class);
         yield MenuItem::linkToCrud('Users','fas fa-users',User::class);
         yield MenuItem::linkToCrud('Comments','far fa-comments',Comment::class);
-        yield MenuItem::linkToCrud('Invoices','far fa-comments',Invoice::class);
+        yield MenuItem::linkToCrud('Invoices','fas fa-file-invoice',Invoice::class);
         yield MenuItem::linkToExitImpersonation('Exit', 'fas fa-sign-out-alt');
     }
 
