@@ -36,10 +36,7 @@
                             {% else %}
                                 <i class="zoom fas fa-user"></i>
                             {% endif %}
-
                         </a>
-
-
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
 
                             {% if is_granted('ROLE_ADMIN') == true %}
@@ -49,9 +46,10 @@
 
                             <a class="dropdown-item" href="{{ path('app_profil_show', {'slug': app.user.slug}) }}">Profil</a>
                             {% if app.user.isPremium %}
-                            <a class="dropdown-item" href="{{ path('app_subscriber_status') }}">Status subscription</a>
+                                <a class="dropdown-item" href="{{ path('app_subscriber_status') }}">Status
+                                    subscription</a>
                             {% else %}
-                            <a class="dropdown-item" href="{{ path('app_subscriber_index') }}">Subscription</a>
+                                <a class="dropdown-item" href="{{ path('app_subscriber_index') }}">Subscription</a>
                             {% endif %}
                             <a class="dropdown-item" href="{{ path('app_invoice_index') }}">Invoice Management</a>
 
@@ -64,16 +62,20 @@
                             </form>
                         </div>
                     </li>
-
-
                 {% else %}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="zoom far fa-user"></i></i>
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdown03">
+                            <a class="dropdown-item" href="{{ path('app_login') }}">Login</a>
+                            <a class="dropdown-item" href="{{ path('app_register') }}">Register</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}">Login</a>
-                    </li>
+
                 {% endif %}
 
 
