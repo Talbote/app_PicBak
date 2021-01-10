@@ -97,11 +97,32 @@ $('.custom-file-input').on('change', function (e) {
 /*#####################################
  ##############  COMMENT ################
  ######################################*/
-// DELETE ///
+
+// BTN SUBMIT COMMENT
 
 
+function onSubmitComment(e) {
+    $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        dataType: "json"
+    })
+        .done(function (response) {
+            window.location.reload();
+            alert("done");
+        })
+        .fail(function () {
+            alert("error");
+        });
+
+};
 
 
+document.querySelectorAll('#submit-comment-form').forEach(function (link) {
+
+    link.addEventListener('click', onSubmitComment);
+})
 
 
 

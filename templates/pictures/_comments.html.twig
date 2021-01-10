@@ -1,23 +1,11 @@
-<div class="col-md-6">
-    <!-- SEND COMMENT -->
-    {{ form_start(commentForm) }}
-    <div class="row">
-        {{ form_errors(commentForm) }}
-    </div>
+<div class="col-md-6 mt-5">
 
-    <div class="row">
-        <div class="col-8">
-            {{ form_widget(commentForm.textComment) }}
-        </div>
 
-        <div class="col-2" id="some-custom-id">
-            <button class=" btn btn-light btn-sm"><span class="text-muted far fa-paper-plane"></span></button>
-        </div>
+        <!-- SEND COMMENT -->
+        {{ include('pictures/_send_comment.html.twig') }}
+        <!-- END SEND COMMENT -->
 
-    </div>
 
-    {{ form_end(commentForm) }}
-    <!-- END SEND COMMENT -->
 
     {% for comment in comment %}
         <!-- LIST COMMENT -->
@@ -56,7 +44,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             {% if app.user.slug == comment.user.slug %}
                                 <a href="#"
-                                   onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
+                                   onclick="event.preventDefault(); document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
                                    class="dropdown-item btn btn-light">
                                     <small>Remove</small>
                                 </a>

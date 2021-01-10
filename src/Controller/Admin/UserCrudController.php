@@ -37,6 +37,7 @@ class UserCrudController extends AbstractCrudController
             BooleanField::new('isBanned'),
             BooleanField::new('isPremium'),
             DateTimeField::new('createdAt'),
+
         ];
 
         if ($pageName == Crud::PAGE_INDEX || $pageName == Crud::PAGE_DETAIL) {

@@ -105,30 +105,27 @@ class PictureController extends AbstractController
             $em->persist($comment);
             $em->flush();
 
-            // on retourne  les données du commentaire en JSON
-            /*  return $this->json([
-                  'code' => 403,
-                  'textComment' => $comment->getTextComment('textComment'),
-                  'messages' => "Good comment Added",
-                  'comments' => $commentRepository->count(['picture' => $picture])
-              ], 200); */
 
+            return $this->json([
+                'code' => 403,
+                'textComment' => $comment->getTextComment('textComment'),
+                'messages' => "Good comment Added",
+            ], 200);
+
+        } else {
+
+            $comments = $picture->getComments();
+            $user_picture = $picture->getUser();
+
+
+            return $this->render('pictures/show_owner.html.twig', [
+                'comment' => $comments,
+                'picture' => $picture,
+                'userPicture' => $user_picture,
+                'commentForm' => $form->createView(),
+            ]);
         }
-
-        $comments = $picture->getComments();
-        $user_picture = $picture->getUser();
-
-
-        // dd($user_comment);
-
-        return $this->render('pictures/show_owner.html.twig', [
-            'comment' => $comments,
-            'picture' => $picture,
-            'userPicture' => $user_picture,
-            'commentForm' => $form->createView(),
-        ]);
     }
-
     /**
      * ########################################################################################################
      * ##############################    CREATE PICTURES    ####################################################

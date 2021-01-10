@@ -417,7 +417,7 @@ class User implements UserInterface, \Serializable
 
 
     /**
-     * gestion de l'utilisateur premium
+     * gestion de l'utilisateur premium STRIPE
      */
     public function isSubscriber(User $user, EntityManagerInterface $em)
     {

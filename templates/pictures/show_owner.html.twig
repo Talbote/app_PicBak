@@ -4,7 +4,7 @@
 
 {% block body %}
     <!-- DIV ROW-->
-    <div class="row mb-5">
+    <div class="row mb-5 mt-5">
         <!-- DIV COL-->
         <div class="col-md-6">
             <!-- CONTENT PICTURE DIV-->
@@ -20,10 +20,10 @@
                     <!-- condition limit chaine de caratere |u.truncate(10,'...')-->
 
                     <!-- TITLE -->
-                    <p class="text-muted">
+                    <p class="text-muted ">
                         <small>Submitted
                             <time datetime="{{ picture.createdAt|date('Y-m-d H:i:s') }}"> {{ picture.createdAt|ago }}</time>
-                            by {{ picture.user.slug }}
+                            by <a class="text-dark text-decoration-none text-break" href="{{ path('app_profil_show', {'slug': picture.user.slug}) }}">{{ picture.user.slug }}</a>
                         </small>
                     </p>
                     <!-- END TITLE -->
@@ -88,7 +88,7 @@
             <!-- END CONTENT PICTURE DIV-->
         </div>
         <!-- END DIV COL-->
-        {{ include('pictures/_show_owner_comment.html.twig') }}
+        {{ include('pictures/_comments.html.twig') }}
     </div>
     <!-- END DIV ROW-->
 
