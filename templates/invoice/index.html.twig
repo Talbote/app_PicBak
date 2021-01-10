@@ -5,6 +5,9 @@
 {% block body %}
 
     <div class="container">
+        <!-- Fonction pluralize pour mettre au pluriel/singulier -->
+        <h1 class="text-center text-muted">{{ pluralize(invoice|length,'Invoice','Invoices') }}</h1>
+
         {% if invoice|length > 0 %}
             <div data-aos="fade-zoom-in"
                  data-aos-easing="ease-in-back"

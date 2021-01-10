@@ -8,11 +8,9 @@
 
     {% if pictures|length > 0 %}
 
-        <!-- Fonction pluralize pour mettre au pluriel/singulier -->
-        <h1 class="text-center text-muted">{{ pluralize(pictures|length,'Picture','Pictures') }}</h1>
 
         {% for row in pictures|batch(3) %}
-            <div class="row mb-5">
+            <div  class="row mb-5">
                 {% for picture in row %}
                     <div class="col-md-4">
                         <!-- PICTURE DIV-------------------------------------->

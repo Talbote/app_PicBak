@@ -32,6 +32,8 @@ Encore
     .addEntry('app', './assets/js/app.js')
     // Stripe
     .addEntry("stripe", "./assets/js/stripe/stripe.js")
+    // Nav
+    .addEntry("nav", "./assets/js/nav/nav.js")
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

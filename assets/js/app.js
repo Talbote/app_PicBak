@@ -28,6 +28,12 @@ AOS.init();
 import '../js/stripe/stripe.js';
 
 /*###########################
+ ############## NAV #########
+ ###########################*/
+
+import '../js/nav/nav.js';
+
+/*###########################
  ############## LIKE #######
  ###########################*/
 // récuperation de toute lesclass a js-like
@@ -140,6 +146,5 @@ if (document.getElementById('submit-comment-form')) {
 }
 
 */
-
 
 
