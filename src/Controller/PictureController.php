@@ -111,17 +111,19 @@ class PictureController extends AbstractController
                 // sauvegarde des données
                 $em->persist($comment);
                 $em->flush();
+/*
+                return $this->json([
+                    'code' => 403,
+                    'textComment' => $comment->getTextComment('textComment'),
+                    'messages' => "Good comment Added",
+                ], 200);
+*/
 
-                /*  return $this->json([
-                      'code' => 403,
-                      'textComment' => $comment->getTextComment('textComment'),
-                      'messages' => "Good comment Added",
-                  ], 200); */
-
-                return $this->redirectToRoute('app_picture_show', [
-                    'id' => $id_picture,
-                ]);
             }
+
+            return $this->redirectToRoute('app_picture_show', [
+                'id' => $id_picture,
+            ]);
 
         }
         return $this->render('pictures/show_owner.html.twig', [

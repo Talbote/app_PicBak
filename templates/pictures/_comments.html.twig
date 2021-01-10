@@ -1,87 +1,94 @@
 <div class="col-md-6 mt-5">
 
 
-        <!-- SEND COMMENT -->
-        {{ include('pictures/_send_comment.html.twig') }}
-        <!-- END SEND COMMENT -->
+    <!-- SEND COMMENT -->
+    {{ include('pictures/_send_comment.html.twig') }}
+    <!-- END SEND COMMENT -->
 
-
+<div class="scroll-comments">
 
     {% for comment in comment %}
         <!-- LIST COMMENT -->
-        <div class="card p-3 mt-2">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="user d-flex flex-row align-items-center">
-                    {% if user is defined is not null %}
-                        <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
-                             class="user-img rounded-circle mr-2"/>
-                    {% else %}
-                        {% set title = 'image non trouver !' %}
-                    {% endif %}
-                    <span>
+        <div>
+            <div class="ui-item card p-3 mt-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+                        {% if user is defined is not null %}
+                            <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
+                                 class="user-img rounded-circle mr-2"/>
+                        {% else %}
+                            {% set title = 'image non trouver !' %}
+                        {% endif %}
+                        <span>
                             <small class="font-weight-bold text-primary"> {{ comment.user.slug }}</small>
                             <small class="font-weight-bold text-break"> {{ comment.textComment }}</small>
                         </span>
+                    </div>
+                    <small>
+                        <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
+                    </small>
                 </div>
-                <small>
-                    <time datetime="{{ comment.createdAt|date('Y-m-d H:i:s') }}"></time>{{ comment.createdAt|ago }}
-                </small>
-            </div>
-            <div class="action d-flex justify-content-between mt-2 align-items-center">
-                <div class="reply px-4">
-                    <span class="dots"></span>
+                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="reply px-4">
+                        <span class="dots"></span>
 
-                </div>
-                <div class="icons align-items-center">
+                    </div>
+                    <div class="icons align-items-center">
 
 
-                    <!-- BUTTON LIST COMMENT-->
-                    <div class="dropdown">
-                        <button type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ...
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% if app.user.slug == comment.user.slug %}
+                        <!-- BUTTON LIST COMMENT-->
+                        <div class="dropdown">
+                            <button type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ...
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {% if app.user.slug == comment.user.slug %}
+                                    <a href="#"
+                                       onclick="event.preventDefault(); document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
+                                       class="dropdown-item btn btn-light">
+                                        <small>Remove</small>
+                                    </a>
+                                    <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
+                                       class="dropdown-item btn btn-light">
+                                        <small>Edit</small>
+                                    </a>
+                                {% endif %}
                                 <a href="#"
-                                   onclick="event.preventDefault(); document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
                                    class="dropdown-item btn btn-light">
-                                    <small>Remove</small>
+                                    <small>Reply</small>
                                 </a>
-                                <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
-                                   class="dropdown-item btn btn-light">
-                                    <small>Edit</small>
-                                </a>
-                            {% endif %}
-                            <a href="#"
-                               class="dropdown-item btn btn-light">
-                                <small>Reply</small>
-                            </a>
+                            </div>
                         </div>
+
+                        <!-- END BUTTON LIST COMMENT-->
+
+
                     </div>
 
-                    <!-- END BUTTON LIST COMMENT-->
-
                 </div>
             </div>
+
+            <!-- BUTTON LIST COMMENT-->
+
+            <!-- END BUTTON LINK FOR DELETE -->
+            <form id="js-comment-delete-form{{ comment.id }}"
+                  action="{{ path('app_comment_delete', {id: comment.id}) }}"
+                  method="post"
+                  style="display:none">
+
+                <!-- insertion d'un token  dans la method DELETE-->
+                <input type="hidden" name="csrf_token_comment_delete"
+                       value="{{ csrf_token('comment_deletion_' ~ comment.id) }}">
+
+                <input type="hidden" name="_method" value="DELETE">
+                <!--  <input type="submit" value="Delete"> -->
+            </form>
+            <!-- END BUTTON LINK FOR DELETE -->
+            <!-- END LIST COMMENT -->
         </div>
-        <!-- BUTTON LIST COMMENT-->
-
-        <!-- END BUTTON LINK FOR DELETE -->
-        <form id="js-comment-delete-form{{ comment.id }}"
-              action="{{ path('app_comment_delete', {id: comment.id}) }}"
-              method="post"
-              style="display:none">
-
-            <!-- insertion d'un token  dans la method DELETE-->
-            <input type="hidden" name="csrf_token_comment_delete"
-                   value="{{ csrf_token('comment_deletion_' ~ comment.id) }}">
-
-            <input type="hidden" name="_method" value="DELETE">
-            <!--  <input type="submit" value="Delete"> -->
-        </form>
-        <!-- END BUTTON LINK FOR DELETE -->
     {% endfor %}
+</div>
 
 </div>
 

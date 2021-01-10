@@ -101,30 +101,45 @@ $('.custom-file-input').on('change', function (e) {
 // BTN SUBMIT COMMENT
 
 /*
-function onSubmitComment(e) {
-    $.ajax({
-        type: 'POST',
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
-        dataType: "json"
-    })
-        .done(function (response) {
-            window.location.reload();
-            alert("done");
+var checkoutButton = document.getElementById('submit-comment-form');
+
+if (document.getElementById('submit-comment-form')) {
+
+    checkoutButton.addEventListener('click', function () {
+        // Create a new Checkout Session using the server-side endpoint you
+        // created in step 3.
+
+        fetch('/app_picture_show', {
+            method: 'POST',
         })
-        .fail(function () {
-            alert("error");
-        });
 
-};
+            .then(function (response) {
+                return response.json();
 
+                console.log('okay');
+            })
 
-document.querySelectorAll('#submit-comment-form').forEach(function (link) {
+            .then(function (result) {
+                // If `redirectToCheckout` fails due to a browser or network
+                // error, you should display the localized error message to your
+                // customer using `error.message`.
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            })
 
-    link.addEventListener('click', onSubmitComment);
-})
- */
+    });
 
+}else {
+
+    // console.log('okay');
+
+}
+
+*/
 
 
 

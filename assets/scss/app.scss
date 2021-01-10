@@ -1,27 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import '../shared/variables';
-
 @import "../../node_modules/bootstrap/scss/bootstrap";
 @import '../../node_modules/@fortawesome/fontawesome-free/css/solid.css';
-
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/regular';
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/solid';
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/brands';
 
-
-
-
-
-
-
-
 body {
   font-family: $primary-font, sans-serif;
 }
-
-/* ############################
-##############  INDEX  ########
-############################### */
 
 /*
 ################ PAGINATION
@@ -42,6 +29,10 @@ body {
   }
 
 }
+
+/*#############################
+############# MAIN CSS #########
+###############################*/
 
 /*
 ################ FLASH MESSAGE
@@ -71,6 +62,10 @@ body {
 
 }
 
+/* ###################################
+##############  INDEX PICTURE  ########
+####################################### */
+
 /*
 ################ DIV IMG +  TITLE + DESCRIPTION
 */
@@ -90,41 +85,9 @@ body {
 
 }
 
-/*################################################################################################################
-################ ANIMATIONS ####################################################################################
-################################################################################################################*/
-
-/*
-################ ANIMATION PICTURE / ZOOM
-*/
-
-.picture img {
-  transition: transform 0.3s ease-out;
-  &:hover {
-    transform: scale(1.075);
-  }
-
-}
-
-/*
-################ ANIMATION NAV / ZOOM
-*/
-
-.zoom {
-  transition: transform .2s;
-}
-.zoom:hover {
-  -webkit-transform: scale(1.3);
-  transform: scale(1.3);
-}
-
-
-
-
-/*
-################ PROFIL USER
-*/
-
+/* #########################################################
+##############  PAGE PICTURE SHOW -> PROFIL USER COMMENT ###
+############################################################ */
 
 .card {
   border: none;
@@ -150,7 +113,7 @@ body {
 
 .user-img {
   margin-top: 4px;
-  width:10%;
+  width: 10%;
 }
 
 .check-icon {
@@ -171,5 +134,50 @@ body {
   box-shadow: none
 }
 
+/*##############################################################################################################################################
+################ ANIMATIONS ##################################################################################################################
+####################################################################################################################################################*/
+
+/*
+################ ANIMATION PICTURE / ZOOM
+*/
+
+.picture img {
+  transition: transform 0.3s ease-out;
+  &:hover {
+    transform: scale(1.075);
+  }
+
+}
+
+/* ####################################################
+##############  ANIM NAVIGATION #######################
+####################################################### */
+
+/*
+################ ANIMATION NAV / ZOOM
+*/
+
+.zoom {
+  transition: transform .2s;
+}
+
+.zoom:hover {
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3);
+}
+
+/* ####################################################
+##############  ANIM PICTURE SHOW  ####################
+####################################################### */
+
+/*
+################ DIV WINDOWS SCROLL LIST COMMENT
+*/
+
+.scroll-comments {
+  max-height: 500px;
+  overflow-y: scroll;
+}
 
 
