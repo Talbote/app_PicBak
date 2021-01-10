@@ -100,7 +100,7 @@ $('.custom-file-input').on('change', function (e) {
 
 // BTN SUBMIT COMMENT
 
-
+/*
 function onSubmitComment(e) {
     $.ajax({
         type: 'POST',
@@ -123,7 +123,7 @@ document.querySelectorAll('#submit-comment-form').forEach(function (link) {
 
     link.addEventListener('click', onSubmitComment);
 })
-
+ */
 
 
 

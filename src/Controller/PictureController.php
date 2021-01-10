@@ -79,10 +79,17 @@ class PictureController extends AbstractController
      *
      */
 
-    public function showALL(Picture $picture, Request $request, EntityManagerInterface $em): Response
+    public function showALL(Picture $picture,CommentRepository $commentRepository, Request $request, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $id_picture = $picture->getId();
+
+        $list_comments_pictures = $commentRepository->findCommentByIdPicture($id_picture);
+
+
+        $user_picture = $picture->getUser();
 
         //création d'une commentaire
         $comment = new Comment();
@@ -92,39 +99,37 @@ class PictureController extends AbstractController
 
         // on récupere  les donnés du formulaire
         $form->handleRequest($request);
-        // verification du formulaire si  envoyer et donnée valides
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->isMethod('POST')) {
+            // verification du formulaire si  envoyer et donnée valides
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            // recupération de l'utilisateur connecté
-            $user = $this->getUser();
+                // recupération de l'utilisateur connecté
+                $user = $this->getUser();
+                //liaison de l'id commentaire à l'id user connecté et l'id_picture
+                $comment->setUser($user);
+                $comment->setPicture($picture);
+                // sauvegarde des données
+                $em->persist($comment);
+                $em->flush();
 
-            //liaison de l'id commentaire à l'id user connecté et l'id_picture
-            $comment->setUser($user);
-            $comment->setPicture($picture);
-            // sauvegarde des données
-            $em->persist($comment);
-            $em->flush();
+                /*  return $this->json([
+                      'code' => 403,
+                      'textComment' => $comment->getTextComment('textComment'),
+                      'messages' => "Good comment Added",
+                  ], 200); */
 
+                return $this->redirectToRoute('app_picture_show', [
+                    'id' => $id_picture,
+                ]);
+            }
 
-            return $this->json([
-                'code' => 403,
-                'textComment' => $comment->getTextComment('textComment'),
-                'messages' => "Good comment Added",
-            ], 200);
-
-        } else {
-
-            $comments = $picture->getComments();
-            $user_picture = $picture->getUser();
-
-
-            return $this->render('pictures/show_owner.html.twig', [
-                'comment' => $comments,
-                'picture' => $picture,
-                'userPicture' => $user_picture,
-                'commentForm' => $form->createView(),
-            ]);
         }
+        return $this->render('pictures/show_owner.html.twig', [
+            'comment' => $list_comments_pictures,
+            'picture' => $picture,
+            'userPicture' => $user_picture,
+            'commentForm' => $form->createView(),
+        ]);
     }
     /**
      * ########################################################################################################
