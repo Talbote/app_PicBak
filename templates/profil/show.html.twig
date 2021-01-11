@@ -1,26 +1,27 @@
 {% extends 'layouts/base.html.twig' %}
 
 
-   {% block title 'profil ' %}
+   {% block title %} {{ 'profile'|trans }} {% endblock %}
 {% block body %}
 
     <div class="row bg-light">
         <div class="col-md-6 mx-auto text-center">
 
-            <h1 class="my-5 "> Profile</h1>
+            <h1 class="my-5 "> {{ 'Profile'|trans }}</h1>
             <img src="{{ ( user.imageName ? vich_uploader_asset(user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
                  alt="{{ user.slug }}" class="w-25 shadow rounded-circle"/>
             <p class="pt-5 lead">{{ user.email }}</p>
             {% if user.isVerified == false %}
-                <p>Account Verified : No </p>
+                <p>{{ 'Account Verified : No'|trans }} </p>
                 {% if user.id == app.user.id %}
-                    <p class="text-muted">Confirme your <a href="{{ path('app_resend_email') }}">Account</a>
+                    <p class="text-muted">{{ 'Confirme your'|trans }} <a
+                        href="{{ path('app_resend_email') }}">{{ 'Account'|trans }}</a>
                 {% endif %}
                 </p>
             {% else %}
-                <p>Account Verified : Yes </p>
+                <p>{{ 'Account Verified : Yes'|trans }}</p>
             {% endif %}
-            <p>Account Created :
+            <p>{{ 'Account Created :'|trans }}
                 <time datetime="{{ user.createdAt|date('Y-m-d H:i:s') }}">
                     <small>{{ user.createdAt|ago }} </small>
                 </time>
@@ -28,10 +29,10 @@
             <h2> {{ user.slug }}</h2>
             <p>
                 {% if user.id == app.user.id %}
-                    <a href="{{ path('app_profil_edit',{'slug': user.slug}) }}" class="btn btn-light text-muted">Edit
-                        Profil</a>
+                    <a href="{{ path('app_profil_edit',{'slug': user.slug}) }}" class="btn btn-light text-muted">
+                        {{ 'Edit Profil'|trans }}</a>
                     <a href="{{ path('app_profil_change_password',{'slug': user.slug}) }}"
-                       class="btn btn-light text-muted">Change password</a>
+                       class="btn btn-light text-muted">{{ 'Change password'|trans }}</a>
                 {% endif %}
             </p>
         </div>

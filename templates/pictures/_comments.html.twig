@@ -17,7 +17,7 @@
                             <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
                                  class="user-img rounded-circle mr-2"/>
                         {% else %}
-                            {% set title = 'image non trouver !' %}
+                            {% set title = {{ 'Image not found.'|trans }} %}
                         {% endif %}
                         <span>
                             <small class="font-weight-bold text-primary"> {{ comment.user.slug }}</small>
@@ -47,16 +47,17 @@
                                     <a href="#"
                                        onclick="event.preventDefault(); document.getElementById('js-comment-delete-form{{ comment.id }}').submit();"
                                        class="dropdown-item btn btn-light">
-                                        <small>Remove</small>
+                                        <small>{{ 'Remove'|trans }}</small>
                                     </a>
                                     <a href="{{ path('app_comment_edit' , {id: comment.id}) }}"
                                        class="dropdown-item btn btn-light">
-                                        <small>Edit</small>
+                                        <small>{{ 'Edith'|trans }}</small>
                                     </a>
                                 {% endif %}
                                 <a href="#"
                                    class="dropdown-item btn btn-light">
-                                    <small>Reply</small>
+
+                                    <small>{{ 'Reply'|trans }}</small>
                                 </a>
                             </div>
                         </div>

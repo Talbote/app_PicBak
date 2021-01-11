@@ -1,7 +1,7 @@
 {% if pictures|length > 0 %}
 
     <!-- Fonction pluralize pour mettre au pluriel/singulier -->
-    <h1 class="text-center text-muted">{{ pluralize(pictures|length,'Picture','Pictures') }}</h1>
+    <h1 class="text-center text-muted">{{ pluralize( pictures|length,'Picture','Pictures' ) }}</h1>
 
     {% for row in pictures|batch(3) %}
         <div class="row mb-5">
@@ -49,10 +49,10 @@
 {% else %}
     {% if user.id == app.user.id %}
         <p class="h1 mt-5 text-center">No Pictures yet.
-            <a href="{{ path('app_picture_create') }}">Post photos !</a>
+            <a href="{{ path('app_picture_create') }}">{{ 'Post photos !'|trans }}</a>
         </p>
     {% else %}
-        <p class="h1 mt-5 text-center">No Pictures yet.</p>
+        <p class="h1 mt-5 text-center">{{ 'No Pictures yet.'|trans }}</p>
     {% endif %}
 {% endif %}
 

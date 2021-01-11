@@ -1,6 +1,6 @@
 {{ form_start(form) }}
         {{ form_widget(form) }}
-<input type="submit" value="{{ submitButtonText|default('Edit Picture') }}"  class="btn btn-primary"formnovalidate>
+<input type="submit" value="{{ submitButtonText|default({{ 'Edit Picture'|trans }}) }}"  class="btn btn-primary"formnovalidate>
 
 {{ form_end(form) }}
 

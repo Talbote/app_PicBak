@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title "Premium Cancelled" %}
+{% block title {{ 'Premium cancelled'|trans }} %}
 
 {% block body %}
 
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
 
-            <h1 data-aos="zoom-in" class="my-5 text-center">The <a href="{{ path('app_subscriber_status') }}" target="_blank"><span>subscription</span> </a> will end at the end of the programmed period.</h1>
+            <h1 data-aos="zoom-in" class="my-5 text-center">{{ 'The'|trans }} <a href="{{ path('app_subscriber_status') }}" target="_blank"><span>{{ 'subsciption'|trans }}</span> </a> {{ 'will end at the end of the programmed period.'|trans }}</h1>
 
 
 

@@ -23,7 +23,7 @@
                     <p class="text-muted ">
                         <small>Submitted
                             <time datetime="{{ picture.createdAt|date('Y-m-d H:i:s') }}"> {{ picture.createdAt|ago }}</time>
-                            by <a class="text-dark text-decoration-none text-break" href="{{ path('app_profil_show', {'slug': picture.user.slug}) }}">{{ picture.user.slug }}</a>
+                            {{ 'by'|trans }} <a class="text-dark text-decoration-none text-break" href="{{ path('app_profil_show', {'slug': picture.user.slug}) }}">{{ picture.user.slug }}</a>
                         </small>
                     </p>
                     <!-- END TITLE -->
@@ -42,8 +42,8 @@
 
                             <!-- LINK BUTTON FOR DELETE -->
                             <a href="#"
-                               onclick="event.preventDefault(); confirm('Are you sure ?') && document.getElementById('js-picture-delete-form').submit();"
-                               class="btn btn-light">Delete</a>
+                               onclick="event.preventDefault(); confirm({{ 'Are you sure ?'|trans }}) && document.getElementById('js-picture-delete-form').submit();"
+                               class="btn btn-light">{{ 'Delete'|trans }}</a>
                             <!-- END LINK BUTTON FOR DELETE -->
                         {% endif %}
                         <!-- LINK LIKE -->
@@ -54,7 +54,7 @@
                                 <svg class="fas-svg fas fa-thumbs-up"></svg>
                             {% endif %}
                             <span class="js-likes">{{ picture.likes | length }}</span>
-                            <span class="js-label">Like</span>
+                            <span class="js-label">{{ 'Like'|trans }}</span>
                         </a>
                         <!-- END LINK LIKE  -->
 

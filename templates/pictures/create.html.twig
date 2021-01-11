@@ -1,11 +1,11 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title {{ 'Create Pic'|trans }} %}
+{% block title %}{{ 'Create Pic'|trans }}{% endblock %}
 
 {% block body %}
 
     <h1>{{ 'New Pic'|trans }}</h1>
 
-{{ include('pictures/_form.html.twig', {submitButtonText: {{ 'Create a pic'|trans }}}) }}
+{{ include('pictures/_form.html.twig', {submitButtonText: 'Create a pic' }) }}
 
 {% endblock %}

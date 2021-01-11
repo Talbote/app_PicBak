@@ -1,16 +1,16 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}{{ 'Reset your password'|trans }}{% endblock %}
 
 {% block body %}
 
     <div class="row">
         <div class="col-md-6 mx-auto">
-            <h1 class="mb-5 mt-3 text-center">Reset your password</h1>
+            <h1 class="mb-5 mt-3 text-center">{{ 'Reset your password'|trans }}</h1>
 
             {{ form_start(resetForm) }}
             {{ form_row(resetForm.plainPassword) }}
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Reset password</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">{{ 'Reset password'|trans }}</button>
             {{ form_end(resetForm) }}
         </div>
 

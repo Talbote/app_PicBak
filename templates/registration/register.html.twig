@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title 'Register ' %}
+{% block title {{ 'Register'|trans }} %}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
@@ -14,8 +14,8 @@
          data-aos-offset="0" >
         <div class="col-md-6 mx-auto">
 
-            <h1 class="my-5 text-center">Register</h1>
-            <p class="mb-5 text-center text-muted">Complete the fields</p>
+            <h1 class="my-5 text-center">{{ 'Register'|trans }}</h1>
+            <p class="mb-5 text-center text-muted">{{ 'Complete the fields'|trans }}</p>
 
             {{ form_start(registrationForm) }}
             <div class="row">
@@ -39,10 +39,9 @@
             </div>
 
 
-            <button type="submit" class="btn btn-lg btn-block btn-primary" formnovalidate>Register</button>
+            <button type="submit" class="btn btn-lg btn-block btn-primary" formnovalidate>{{ 'Register'|trans }}</button>
 
-            <p class="mt-5 mb-3 text-center text-muted">Already have an account?<a href="{{ path('app_login') }}"> Log
-                    in </a></p>
+            <p class="mt-5 mb-3 text-center text-muted">{{ 'Already have an account?'|trans }}<a href="{{ path('app_login') }}"> {{ 'Login'|trans }} </a></p>
 
 
             {{ form_end(registrationForm) }}

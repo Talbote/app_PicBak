@@ -1,12 +1,12 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title 'Edit picture #' ~ picture.id %}
+{% block title %}{{ 'Edit Picture #'|trans }} {{ picture.id }}  {% endblock%}
 
 {% block body %}
 
-    <h1>Edit picture #{{ picture.id }}</h1>
+    <h1>{{ 'Edit picture #'|trans }} {{ picture.id }}</h1>
 
-    {{ include('pictures/_form.html.twig', {submitButtonText: 'Update Pic'}) }}
+    {{ include('pictures/_form.html.twig', {submitButtonText: {{'Update Pic'|trans }}} ) }}
 
 
 {% endblock %}

@@ -1,12 +1,12 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title "Subscription" %}
+{% block title {{ 'Subscription'|trans }} %}
 
 {% block body %}
 
     <div  data-aos="zoom-in" class="container">
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-            <h1 class="card-title">Subscription</h1>
+            <h1 class="card-title">{{ 'Subscription'|trans }}</h1>
         </div>
 
         <div class=" row row-cols-1 row-cols-md-3 mb-3 text-center">
@@ -16,14 +16,13 @@
                         <h4 class="card-header fw-normal">PicBak Plus</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-text">3€
-                            <small class="text-muted">/ Week</small>
+                        <h1 class="card-text">{{ '3€'|trans }}
+                            <small class="text-muted">{{ '/ Week'|trans }}</small>
                         </h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li class="text-bold">Advanced Filter</li>
+                            <li class="text-bold">{{ 'Advanced Filter'|trans }}</li>
                         </ul>
-                        <button id="checkout-button" class="w-100 btn btn btn-outline-info">Get
-                            Started
+                        <button id="checkout-button" class="w-100 btn btn btn-outline-info">{{ 'Get Started'|trans }}
                         </button>
                     </div>
                 </div>
