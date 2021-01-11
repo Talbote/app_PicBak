@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html.twig' %}
-{% block title "Error 403" %}
+{% block title {{ 'Error 403'|trans }} %}
 {% block body %}
 
 
@@ -8,8 +8,8 @@
 
 
 
-            <h1 data-aos="fade-right" class="my-5 text-center">Access denied</h1>
-            <p data-aos="fade-left" class="mb-5 text-center text-muted"> Sorry you do not have access to this page <a href="{{ path('app_subscriber_index') }}" target="_blank"><span>return to the homepage</span></a></p>
+            <h1 data-aos="fade-right" class="my-5 text-center">{{ 'Access denied.'|trans }} </h1>
+            <p data-aos="fade-left" class="mb-5 text-center text-muted">{{ 'Sorry you do not have access to this page.'|trans }}  <a href="{{ path('app_subscriber_index') }}" target="_blank"><span>{{ 'Return to the homepage.'|trans }}</span></a></p>
 
 
         </div>

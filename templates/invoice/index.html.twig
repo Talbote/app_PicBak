@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title "invoice" %}
+{% block title {{ 'invoice'|trans }} %}
 
 {% block body %}
 
@@ -15,7 +15,7 @@
                  data-aos-offset="0" class="col-12 mx-auto">
 
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">List Invoice</span>
+                    <span class="text-muted">{{ 'List Invoice'|trans }}</span>
                 </h4>
 
             </div>
@@ -52,7 +52,7 @@
                     <div class="my-5 text-center">
 
                         <h1> {{ app.user.slug }}</h1>
-                        <p class="text-muted">you don't have any bills </p>
+                        <p class="text-muted">{{ "You don't have any bills"|trans }} </p>
 
                     </div>
                 </div>

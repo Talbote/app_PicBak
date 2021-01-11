@@ -7,11 +7,8 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
 
-
-
-            <h1 data-aos="fade-right" class="my-5 text-center">Page not found </h1>
-            <p data-aos="fade-left" class="mb-5 text-center text-muted"> The requested page couldn't be located. Checkout for any URL <a href="{{ path('app_subscriber_index') }}" target="_blank"><span>return to the homepage</span></a></p>
-
+            <h1 data-aos="fade-right" class="my-5 text-center"> {{ 'Page not found.'|trans }} </h1>
+            <p data-aos="fade-left" class="mb-5 text-center text-muted">{{ 'The requested page couldn t be located. Checkout for any URL.'|trans }}  <a href="{{ path('app_subscriber_index') }}" target="_blank"><span>{{ 'Return to the homepage.'|trans }}</span></a></p>
 
         </div>
     </div>
