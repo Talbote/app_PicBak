@@ -4,10 +4,19 @@
 
 {% block body %}
 
-    <h1>Premium Error</h1>
-    <section>
-        <p>Forgot to add something to your cart? Shop around then come back to pay!</p>
-    </section>
+
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+
+
+
+            <h1 data-aos="fade-right" class="my-5 text-center">Premium Error </h1>
+            <h2 data-aos="fade-left" class="mb-5 text-center text-muted">Forgot to add something to your cart? Shop around then come back <a href="{{ path('app_subscriber_index') }}" target="_blank"><span>come back</span></a> to pay!</h2>
+
+
+        </div>
+    </div>
 
 
 {% endblock %}

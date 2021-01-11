@@ -27,7 +27,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/{_locale<%app.supported_locales%>}/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator,
                              EntityManagerInterface $em): Response
@@ -90,7 +90,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/resend/email", name="app_resend_email")
+     * @Route("/{_locale<%app.supported_locales%>}/resend/email", name="app_resend_email")
      */
     public function resendUserEmail(Request $request): Response
     {
@@ -122,7 +122,7 @@ class RegistrationController extends AbstractController
 
 
     /**
-     * @Route("/verify/email", name="app_verify_email")
+     * @Route("/{_locale<%app.supported_locales%>}/verify/email", name="app_verify_email")
      */
     public function verifyUserEmail(Request $request): Response
     {

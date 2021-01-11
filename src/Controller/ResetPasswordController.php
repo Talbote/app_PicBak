@@ -58,13 +58,14 @@ class ResetPasswordController extends AbstractController
 
         return $this->render('reset_password/request.html.twig', [
             'requestForm' => $form->createView(),
+
         ]);
     }
 
     /**
      * Confirmation page after a user has requested a password reset.
      *
-     * @Route("/check-email", name="app_check_email")
+     * @Route("/{_locale<%app.supported_locales%>}/check-email", name="app_check_email")
      */
     public function checkEmail(): Response
     {

@@ -1,10 +1,19 @@
 {% extends 'layouts/base.html.twig' %}
-
+{% block title "Error 404" %}
 {% block body %}
-    <h1>Page not found ERROR 404</h1>
 
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('app_courses_index') }}">return to the homepage</a>.
-    </p>
+
+    <div class="container row">
+        <div class="col-md-6 mx-auto">
+
+
+
+            <h1 data-aos="fade-right" class="my-5 text-center">Page not found ERROR 404</h1>
+            <p data-aos="fade-left" class="mb-5 text-center text-muted"> The requested page couldn't be located. Checkout for any URL
+                misspelling or  <a href="{{ path('app_subscriber_index') }}" target="_blank"><span>return to the homepage</span></a></p>
+
+
+        </div>
+    </div>
+
 {% endblock %}

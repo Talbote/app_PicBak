@@ -6,7 +6,7 @@
 
         {% if app.user and app.user.isPremium == true or is_granted('ROLE_ADMIN') %}
                 <div class="col-md-4 mx-auto">
-                        <h4 class="text-center text-muted">Categories</h4>
+                        <h4 class="text-center text-muted">{{ 'Categories'|trans }}</h4>
                         <div class="col mx-auto">
                                 {{ form_row(form.categories) }}
                         </div>
@@ -14,7 +14,7 @@
                 </div>
         {% endif %}
         <div class="mt-3 mb-5 mb-3 col-md-2 mx-auto">
-                <button type="submit" class="col mx-auto btn btn-danger "> Apply</button>
+                <button type="submit" class="col mx-auto btn btn-danger ">{{ 'Apply'|trans }}</button>
         </div>
 
         {{ form_end(form) }}

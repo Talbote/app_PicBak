@@ -28,13 +28,16 @@ class PictureController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/", name="app_pictures_index", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/", name="app_pictures_index", methods="GET")
      */
     public function index(PictureRepository $pictureRepository, Request $request, EntityManagerInterface $em): Response
     {
 
 
+
         $user = $this->getUser();
+
+        $locale = $request->getLocale();
 
         /*
         $user->setRoles(['ROLE_ADMIN']);
@@ -63,8 +66,10 @@ class PictureController extends AbstractController
 
         return $this->render('pictures/index.html.twig', [
             'form' => $form->createView(),
-            'pictures' => $pictures
+            'pictures' => $pictures,
         ]);
+
+
 
     }
 
@@ -75,7 +80,7 @@ class PictureController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/picture/{id<[0-9]+>}/", name="app_picture_show", methods="GET|POST")
+     * @Route("/{_locale<%app.supported_locales%>}/picture/{id<[0-9]+>}/", name="app_picture_show", methods="GET|POST")
      *
      */
 
@@ -139,7 +144,7 @@ class PictureController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/picture/create", name="app_picture_create", methods="GET|POST")
+     * @Route("/{_locale<%app.supported_locales%>}/picture/create", name="app_picture_create", methods="GET|POST")
      */
 
     public function createPicture(Request $request, EntityManagerInterface $em): Response
@@ -184,7 +189,7 @@ class PictureController extends AbstractController
      */
 
     /**
-     * @Route("/picture/{id<[0-9]+>}/edit", name="app_picture_edit", methods="GET|PUT")
+     * @Route("/{_locale<%app.supported_locales%>}/picture/{id<[0-9]+>}/edit", name="app_picture_edit", methods="GET|PUT")
      */
 
     public function editPicture(Request $request, EntityManagerInterface $em, Picture $picture): Response
@@ -240,7 +245,7 @@ class PictureController extends AbstractController
      */
 
     /**
-     * @Route("/picture/{id<[0-9]+>}/", name="app_picture_delete", methods="DELETE")
+     * @Route("/{_locale<%app.supported_locales%>}/picture/{id<[0-9]+>}/", name="app_picture_delete", methods="DELETE")
      *
      */
 
@@ -287,7 +292,7 @@ class PictureController extends AbstractController
 
     /**
      *
-     * @Route("/picture/{id<[0-9]+>}/like", name="app_picture_like", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/picture/{id<[0-9]+>}/like", name="app_picture_like", methods="GET")
      * @
      */
 

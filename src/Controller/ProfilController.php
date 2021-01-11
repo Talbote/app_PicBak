@@ -23,7 +23,7 @@ class ProfilController extends AbstractController
      * ########################################################################################################
      */
     /**
-     * @Route("/profil/{slug}", name="app_profil_show", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/profil/{slug}", name="app_profil_show", methods="GET")
      */
 
     public function show(User $user, PictureRepository $pictureRepository): Response
@@ -76,7 +76,7 @@ class ProfilController extends AbstractController
      */
 
     /**
-     * @Route("/profil/{slug}/edit", name="app_profil_edit", methods="GET|PUT")
+     * @Route("/{_locale<%app.supported_locales%>}/profil/{slug}/edit", name="app_profil_edit", methods="GET|PUT")
      */
 
 
@@ -120,7 +120,7 @@ class ProfilController extends AbstractController
      */
 
     /**
-     * @Route("/profil/{slug}/change-password", name="app_profil_change_password", methods="GET|POST")
+     * @Route("/{_locale<%app.supported_locales%>}/profil/{slug}/change-password", name="app_profil_change_password", methods="GET|POST")
      */
 
 

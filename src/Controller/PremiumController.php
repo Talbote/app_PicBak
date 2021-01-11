@@ -14,7 +14,7 @@ class PremiumController extends AbstractController
 {
 
     /**
-     * @Route("/subscriber", name="app_subscriber_index", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/subscriber", name="app_subscriber_index", methods="GET")
      */
     public function index(): Response
     {
@@ -29,12 +29,14 @@ class PremiumController extends AbstractController
 
         } else {
 
-            return $this->render('premium/index.html.twig');
+            return $this->render('premium/index.html.twig', [
+                '_locale' => 'en'
+            ]);
         }
     }
 
     /**
-     * @Route("/create-checkout-session", name="app_checkout")
+     * @Route("/{_locale<%app.supported_locales%>}/create-checkout-session", name="app_checkout")
      */
     public function createSubscription(EntityManagerInterface $em): Response
     {
@@ -97,7 +99,7 @@ class PremiumController extends AbstractController
 
 
     /**
-     * @Route("/success", name="app_success", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/subsriber_success", name="app_success", methods="GET")
      */
     public function successSubscription(EntityManagerInterface $em): Response
     {
@@ -118,16 +120,17 @@ class PremiumController extends AbstractController
 
 
     /**
-     * @Route("/error", name="app_error")
+     * @Route("/{_locale<%app.supported_locales%>}/subscriber-error", name="app_error")
      */
     public function errorSubscription(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
         return $this->render('premium/error.html.twig');
     }
 
     /**
-     * @Route("/subscriber-status", name="app_subscriber_status", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/subscriber-status", name="app_subscriber_status", methods="GET")
      */
     public function statusSubscription(EntityManagerInterface $em): Response
     {
@@ -163,7 +166,7 @@ class PremiumController extends AbstractController
     }
 
     /**
-     * @Route("/subscription-cancel", name="app_subscription_cancel")
+     * @Route("/{_locale<%app.supported_locales%>}/subscription-cancel", name="app_subscription_cancel")
      */
     public function cancelSubscription(EntityManagerInterface $em): Response
     {
@@ -205,7 +208,7 @@ class PremiumController extends AbstractController
     }
 
     /**
-     * @Route("/subscriptions-reactivating-canceled", name="app_subscription_reactivating_canceled")
+     * @Route("/{_locale<%app.supported_locales%>}/subscriptions-reactivating-canceled", name="app_subscription_reactivating_canceled")
      */
     public function reactivatingSubscription(EntityManagerInterface $em): Response
     {

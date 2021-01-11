@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InvoiceController extends AbstractController
 {
     /**
-     * @Route("/invoice/", name="app_invoice_index", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/invoice/", name="app_invoice_index", methods="GET")
      */
     public function index( InvoiceRepository $invoiceRepository, EntityManagerInterface $em): Response
     {

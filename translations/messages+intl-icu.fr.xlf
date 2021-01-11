@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="UpqQr6W" resname="Welcome to the home page">
+        <source>Welcome to the home page</source>
+        <target>Bienvenu dans la page d'accueil</target>
+      </trans-unit>
+      <trans-unit id="DiImtSN" resname="Welcome">
+        <source>Welcome</source>
+        <target>Bienvenue</target>
+      </trans-unit>
+      <trans-unit id="kAzQUF3" resname="home page">
+        <source>home page</source>
+        <target>Page d'accueil</target>
+      </trans-unit>
+      <trans-unit id="h3BR2Yz" resname="No Pictures yet.">
+        <source>No Pictures yet.</source>
+        <target>Il n'a pas d'images.</target>
+      </trans-unit>
+      <trans-unit id="0OefbzY" resname="Be the first !">
+        <source>Be the first !</source>
+        <target>Soyez le premier</target>
+      </trans-unit>
+      <trans-unit id="uLHYlMa" resname="Categories">
+        <source>Categories</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="MeOS0cA" resname="Apply">
+        <source>Apply</source>
+        <target>Appliquer</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

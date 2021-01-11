@@ -31,7 +31,7 @@ class CommentController extends AbstractController
      */
 
     /**
-     * @Route("comment/{id<[0-9]+>}/edit", name="app_comment_edit", methods="GET|PUT")
+     * @Route("/{_locale<%app.supported_locales%>}/comment/{id<[0-9]+>}/edit", name="app_comment_edit", methods="GET|PUT")
      */
 
     public function editComment(Request $request, EntityManagerInterface $em, Comment $comment): Response
@@ -88,7 +88,7 @@ class CommentController extends AbstractController
      */
 
     /**
-     * @Route("/comment/{id<[0-9]+>}/delete/", name="app_comment_delete", methods="DELETE")
+     * @Route("/{_locale<%app.supported_locales%>}/comment/{id<[0-9]+>}/delete/", name="app_comment_delete", methods="DELETE")
      *
      */
 

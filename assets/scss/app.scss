@@ -6,29 +6,7 @@
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/solid';
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/brands';
 
-body {
-  font-family: $primary-font, sans-serif;
-}
 
-/*
-################ PAGINATION
-*/
-
-.style_page {
-
-  .pagination span {
-
-    @extend .col-1;
-
-  }
-
-  .pagination span a {
-
-    @extend .text-muted, .text-decoration-none;
-
-  }
-
-}
 /*#############################
 ############# DIVER CSS #########
 ###############################*/
@@ -61,6 +39,12 @@ body {
 
 }
 
+body {
+  font-family: $primary-font, sans-serif;
+
+
+}
+
 /*#############################
 ############# MAIN CSS #########
 ###############################*/
@@ -68,7 +52,31 @@ body {
 .main-content {
   margin-top: 90px;
   margin-bottom: 90px;
+  min-height: 400px;
+
 }
+
+/*
+################ PAGINATION
+*/
+
+.style_page {
+
+  .pagination span {
+
+    @extend .col-1;
+
+  }
+
+  .pagination span a {
+
+    @extend .text-muted, .text-decoration-none;
+
+  }
+
+}
+
+
 
 /* ###################################
 ##############  INDEX PICTURE  ########

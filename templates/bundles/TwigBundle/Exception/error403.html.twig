@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html.twig' %}
+{% block title "Error 403" %}
+{% block body %}
+
+
+    <div class="container row">
+        <div class="col-md-6 mx-auto">
+
+
+
+            <h1 data-aos="fade-right" class="my-5 text-center">Access denied</h1>
+            <p data-aos="fade-left" class="mb-5 text-center text-muted"> Sorry you do not have access to this page <a href="{{ path('app_subscriber_index') }}" target="_blank"><span>return to the homepage</span></a></p>
+
+
+        </div>
+    </div>
+
+{% endblock %}
