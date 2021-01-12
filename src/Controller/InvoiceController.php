@@ -6,6 +6,7 @@ use App\Entity\Invoice;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InvoiceController extends AbstractController
 {
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/invoice/", name="app_invoice_index", methods="GET")
+     * @Route("/{_locale<%app.supported_locales%>}/invoice/", name="app_invoices_index", methods="GET")
      */
     public function index( InvoiceRepository $invoiceRepository, EntityManagerInterface $em): Response
     {
@@ -77,6 +78,44 @@ class InvoiceController extends AbstractController
             );
 
         }
+
+    }
+
+
+    /**
+     * ########################################################################################################
+     * ##############################    DELETE INVOICE    ####################################################
+     * ########################################################################################################
+     */
+
+    /**
+     * @Route("/{_locale<%app.supported_locales%>}/invoice/{id<[0-9]+>}/delete/", name="app_invoice_delete", methods="DELETE")
+     *
+     */
+
+    public function delete( Request $request, Invoice $invoice, EntityManagerInterface $em): Responseesponse
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        /* vérification de l'user_id du picture */
+
+
+            if ($this->isCsrfTokenValid('comment_deletion_' . $invoice->getId(),
+                $request->request->get('csrf_token_comment_delete'))
+            ) {
+
+
+                $em->remove($invoice);
+                $em->flush();
+
+                return $this->redirectToRoute('app_invoices_index');
+            }
+
+
+            $this->addFlash('error', 'Not allowed to delete this comment');
+
+            return $this->redirectToRoute('app_invoices_index');
+            /* si le token est valid on applique la suppression */
 
     }
 

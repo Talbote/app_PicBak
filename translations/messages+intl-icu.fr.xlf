@@ -33,6 +33,368 @@
         <source>Apply</source>
         <target>Appliquer</target>
       </trans-unit>
+      <trans-unit id="GQDqtsA" resname="profile">
+        <source>profile</source>
+        <target>profile</target>
+      </trans-unit>
+      <trans-unit id="1pajW90" resname="Profile">
+        <source>Profile</source>
+        <target>Profile</target>
+      </trans-unit>
+      <trans-unit id="KMHW.lW" resname="Account Verified : No">
+        <source>Account Verified : No</source>
+        <target>Compte vérifié : Non</target>
+      </trans-unit>
+      <trans-unit id="tVAydSi" resname="Confirme your">
+        <source>Confirme your</source>
+        <target>Confirmer votre</target>
+      </trans-unit>
+      <trans-unit id="fhsNVkH" resname="Account">
+        <source>Account</source>
+        <target>Compte</target>
+      </trans-unit>
+      <trans-unit id=".lZHPLB" resname="Account Verified : Yes">
+        <source>Account Verified : Yes</source>
+        <target>Compte vérifié : Oui</target>
+      </trans-unit>
+      <trans-unit id="CT4ftj_" resname="Account Created :">
+        <source>Account Created :</source>
+        <target>Compte créé :</target>
+      </trans-unit>
+      <trans-unit id="vgiSvK_" resname="Edit Profil">
+        <source>Edit Profil</source>
+        <target>Editer profil</target>
+      </trans-unit>
+      <trans-unit id="P5yZH2O" resname="Change password">
+        <source>Change password</source>
+        <target>Changer de mot de passe</target>
+      </trans-unit>
+      <trans-unit id="VXvg2ru" resname="Update Password">
+        <source>Update Password</source>
+        <target>Mettre à jour le mot de passe</target>
+      </trans-unit>
+      <trans-unit id="ZboW.06" resname="Post photos !">
+        <source>Post photos !</source>
+        <target>Poster des photos !</target>
+      </trans-unit>
+      <trans-unit id="U28cTzJ" resname="Password Reset Email Sent">
+        <source>Password Reset Email Sent</source>
+        <target>Email de réinitialisation du mot de passe envoyé</target>
+      </trans-unit>
+      <trans-unit id="2Php26Y" resname="An email has been sent that contains a link that you canclick to reset your password. This link will expire in">
+        <source>An email has been sent that contains a link that you canclick to reset your password. This link will expire in</source>
+        <target>Un e-mail a été envoyé contenant un lien que vous pouvez cliquer pour réinitialiser votre mot de passe. Ce lien expirera dans</target>
+      </trans-unit>
+      <trans-unit id="tQYhv08" resname="If you don t receive an email please check your spam folder or">
+        <source>If you don t receive an email please check your spam folder or</source>
+        <target>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou</target>
+      </trans-unit>
+      <trans-unit id="W13t7jL" resname="try again">
+        <source>try again</source>
+        <target>Essayez encore</target>
+      </trans-unit>
+      <trans-unit id="WfpDeb4" resname="Reset your password">
+        <source>Reset your password</source>
+        <target>Réinitialisez votre mot de passe</target>
+      </trans-unit>
+      <trans-unit id="4O3_s6c" resname="Reset password">
+        <source>Reset password</source>
+        <target>Réinitialiser le mot de passe</target>
+      </trans-unit>
+      <trans-unit id="ylHOH7F" resname="Hi!">
+        <source>Hi!</source>
+        <target>Salut!</target>
+      </trans-unit>
+      <trans-unit id="vQH5j0c" resname="To reset your password, please visit the following link">
+        <source>To reset your password, please visit the following link</source>
+        <target>Pour réinitialiser votre mot de passe, veuillez visiter le lien suivant</target>
+      </trans-unit>
+      <trans-unit id="87wG9uu" resname="This link will expire in">
+        <source>This link will expire in</source>
+        <target>Ce lien expirera dans</target>
+      </trans-unit>
+      <trans-unit id="E0Jk36v" resname="hour(s)">
+        <source>hour(s)</source>
+        <target>heure(s)</target>
+      </trans-unit>
+      <trans-unit id="F7WctIl" resname="Cheers!">
+        <source>Cheers!</source>
+        <target>__Cheers!</target>
+      </trans-unit>
+      <trans-unit id="p_LSbo0" resname="by">
+        <source>by</source>
+        <target>par</target>
+      </trans-unit>
+      <trans-unit id="Ki5vCS9" resname="Are you sure ?">
+        <source>Are you sure ?</source>
+        <target>Êtes-vous sûr ?</target>
+      </trans-unit>
+      <trans-unit id="4tClSWj" resname="Delete">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="ZPkVy4v" resname="Like">
+        <source>Like</source>
+        <target>j'aime</target>
+      </trans-unit>
+      <trans-unit id="nIOzamP" resname="Create Pic">
+        <source>Create Pic</source>
+        <target>Créer Pic</target>
+      </trans-unit>
+      <trans-unit id="4RRatPR" resname="New Pic">
+        <source>New Pic</source>
+        <target>Nouveau Pic</target>
+      </trans-unit>
+      <trans-unit id="vSTb9IR" resname="Hi! Please confirm your email!">
+        <source>Hi! Please confirm your email!</source>
+        <target>Hello! veuillez confirmer votre email!</target>
+      </trans-unit>
+      <trans-unit id="Ry3Xo6w" resname="Please confirm your email address by clicking the following link:">
+        <source>Please confirm your email address by clicking the following link:</source>
+        <target>Veuillez confirmer votre adresse e-mail en cliquant sur le lien suivant:</target>
+      </trans-unit>
+      <trans-unit id="ITaQX9q" resname="Confirm my Email">
+        <source>Confirm my Email</source>
+        <target>Confirmer mon email</target>
+      </trans-unit>
+      <trans-unit id="tLWAqa2" resname="About us">
+        <source>About us</source>
+        <target>À propos</target>
+      </trans-unit>
+      <trans-unit id="Q5_Ht_e" resname="PicBak is a site combining the concepts of social networks.&#10;                    It allows its users to share their interests and passions&#10;                    through photo albums on the Internet.">
+        <source>PicBak is a site combining the concepts of social networks.
+                    It allows its users to share their interests and passions
+                    through photo albums on the Internet.</source>
+        <target>PicBak est un site combinant les concepts de réseaux sociaux.
+                    Il permet à ses utilisateurs de partager leurs intérêts et passions
+                    à travers des albums photo sur Internet.</target>
+      </trans-unit>
+      <trans-unit id="K1w9JnI" resname="Contact">
+        <source>Contact</source>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit id="Vu_PIJV" resname="Address">
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit id="4lFEl8e" resname="Follow Us">
+        <source>Follow Us</source>
+        <target>Suivez nous</target>
+      </trans-unit>
+      <trans-unit id="OeUR9IK" resname="Built with">
+        <source>Built with</source>
+        <target>Construit avec</target>
+      </trans-unit>
+      <trans-unit id="FAqR.Us" resname="Interface Admin">
+        <source>Interface Admin</source>
+        <target>Interface d'admin</target>
+      </trans-unit>
+      <trans-unit id="4mfTQ4I" resname="Profil">
+        <source>Profil</source>
+        <target>Profil</target>
+      </trans-unit>
+      <trans-unit id="SZnGxse" resname="Subscription">
+        <source>Subscription</source>
+        <target>Abonnement</target>
+      </trans-unit>
+      <trans-unit id="heKuoq5" resname="Invoice Management">
+        <source>Invoice Management</source>
+        <target>Gestion des factures</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Se déconnecter</target>
+      </trans-unit>
+      <trans-unit id="nWMiwfT" resname="Login">
+        <source>Login</source>
+        <target>S'identifier</target>
+      </trans-unit>
+      <trans-unit id="u3I07BJ" resname="Register">
+        <source>Register</source>
+        <target>S'inscrire</target>
+      </trans-unit>
+      <trans-unit id="7XqZh.J" resname="Congratulations">
+        <source>Congratulations</source>
+        <target>Toutes nos félicitations</target>
+      </trans-unit>
+      <trans-unit id="rz8S4WH" resname="You have">
+        <source>You have</source>
+        <target>Vous avez</target>
+      </trans-unit>
+      <trans-unit id="3bGAZph" resname="Subscription purchase date:,">
+        <source>Subscription purchase date:,</source>
+        <target>Date d'achat de l'abonnement:,</target>
+      </trans-unit>
+      <trans-unit id="kK3XOS2" resname="End of subscription period:">
+        <source>End of subscription period:</source>
+        <target>Fin de l'abonnement period:</target>
+      </trans-unit>
+      <trans-unit id="20501ad" resname="Canceled,">
+        <source>Canceled,</source>
+        <target>Annulé,</target>
+      </trans-unit>
+      <trans-unit id="qPp.1gi" resname="subscription">
+        <source>subscription</source>
+        <target>abonnement</target>
+      </trans-unit>
+      <trans-unit id="LuatZFE" resname="The subscription will end at the scheduled period.">
+        <source>The subscription will end at the scheduled period.</source>
+        <target>L'abonnement prendra fin à la période prévue.</target>
+      </trans-unit>
+      <trans-unit id="LcdHj71" resname="Reactivate">
+        <source>Reactivate</source>
+        <target>Réactiver</target>
+      </trans-unit>
+      <trans-unit id="1T.GzTZ" resname="Page not found.">
+        <source>Page not found.</source>
+        <target>Page non trouvée.</target>
+      </trans-unit>
+      <trans-unit id="r4sf2lX" resname="The requested page couldn t be located. Checkout for any URL.">
+        <source>The requested page couldn t be located. Checkout for any URL.</source>
+        <target>La page demandée n'a pas pu être localisée. Vérifiez votre URL.</target>
+      </trans-unit>
+      <trans-unit id="fcN8orY" resname="Return to the homepage.">
+        <source>Return to the homepage.</source>
+        <target>Retour à la page d'accueil.</target>
+      </trans-unit>
+      <trans-unit id="7vZimvP" resname="Page not found ERROR 404.">
+        <source>Page not found ERROR 404.</source>
+        <target>Page non trouvée erreur 404.</target>
+      </trans-unit>
+      <trans-unit id="zjdcQE8" resname="The requested page couldn t be located. Checkout for any URL misspelling or .">
+        <source>The requested page couldn t be located. Checkout for any URL misspelling or .</source>
+        <target>La page demandée n'a pas pu être localisée. Vérifiez si l'orthographe de l'url est correcte ou .</target>
+      </trans-unit>
+      <trans-unit id="Utbj3k_" resname="invoice">
+        <source>invoice</source>
+        <target>facture</target>
+      </trans-unit>
+      <trans-unit id="rNEUVj0" resname="List Invoice">
+        <source>List Invoice</source>
+        <target>Factures</target>
+      </trans-unit>
+      <trans-unit id="wViWN3K" resname="You don't have any bills">
+        <source>You don't have any bills</source>
+        <target>Vous n'aves pas de factures</target>
+      </trans-unit>
+      <trans-unit id="yKeA0.P" resname="Log in!">
+        <source>Log in!</source>
+        <target>S'identifier!</target>
+      </trans-unit>
+      <trans-unit id="dDUw20Q" resname="Please sign in">
+        <source>Please sign in</source>
+        <target>Veuillez vous connecter</target>
+      </trans-unit>
+      <trans-unit id="_29AaTg" resname="Your Pic are waiting for you !">
+        <source>Your Pic are waiting for you !</source>
+        <target>Vos Pics vous attendent</target>
+      </trans-unit>
+      <trans-unit id="acVpEs4" resname="You are logged in as">
+        <source>You are logged in as</source>
+        <target>Vous êtes connecté en tant que</target>
+      </trans-unit>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target>Votre email</target>
+      </trans-unit>
+      <trans-unit id="588_9PF" resname="Password">
+        <source>Password</source>
+        <target>Votre mot de passe</target>
+      </trans-unit>
+      <trans-unit id="_TJnqhH" resname="Remember me">
+        <source>Remember me</source>
+        <target>Se souvenir de moi</target>
+      </trans-unit>
+      <trans-unit id="MMHY0_k" resname="Forgot password?">
+        <source>Forgot password?</source>
+        <target>Mot de passe oublié?</target>
+      </trans-unit>
+      <trans-unit id="v9QCsvb" resname="Sign in">
+        <source>Sign in</source>
+        <target>Se connecter</target>
+      </trans-unit>
+      <trans-unit id="feohTSd" resname="Not registered yet?">
+        <source>Not registered yet?</source>
+        <target>Pas encore inscrit?</target>
+      </trans-unit>
+      <trans-unit id="hgM.daT" resname="Create an account">
+        <source>Create an account</source>
+        <target>Créer un compte</target>
+      </trans-unit>
+      <trans-unit id="dWlw1AE" resname="Status subscription">
+        <source>Status subscription</source>
+        <target>Abonnement statut</target>
+      </trans-unit>
+      <trans-unit id="itt2U9C" resname="Subscription purchase date:">
+        <source>Subscription purchase date:</source>
+        <target>Date de début de l'abonnement:</target>
+      </trans-unit>
+      <trans-unit id="BDcLWlQ" resname="End of subscription:">
+        <source>End of subscription:</source>
+        <target>Fin d'abonnement:</target>
+      </trans-unit>
+      <trans-unit id="kb6PkDK" resname="subscriber Reactivating Cancelled">
+        <source>subscriber Reactivating Cancelled</source>
+        <target>Réactivation de l'abonnement annulé</target>
+      </trans-unit>
+      <trans-unit id="PhJkd3c" resname="Congratulations,">
+        <source>Congratulations,</source>
+        <target>Toutes nos félicitations,</target>
+      </trans-unit>
+      <trans-unit id="pWhPzxI" resname="has been reactivated.">
+        <source>has been reactivated.</source>
+        <target>a été réactivé.</target>
+      </trans-unit>
+      <trans-unit id="5dG4Xbx" resname="Premium cancelled">
+        <source>Premium cancelled</source>
+        <target>__Premium cancelled</target>
+      </trans-unit>
+      <trans-unit id="s0TYDiS" resname="The">
+        <source>The</source>
+        <target>L'</target>
+      </trans-unit>
+      <trans-unit id="Z8x12ux" resname="subsciption">
+        <source>subsciption</source>
+        <target>abonnement</target>
+      </trans-unit>
+      <trans-unit id="7zI44K7" resname="will end at the end of the programmed period.">
+        <source>will end at the end of the programmed period.</source>
+        <target>se terminera à la fin de la période programmée.</target>
+      </trans-unit>
+      <trans-unit id="Q49n7rn" resname="Complete the fields">
+        <source>Complete the fields</source>
+        <target>Remplissez les champs</target>
+      </trans-unit>
+      <trans-unit id="53.qk20" resname="Already have an account?">
+        <source>Already have an account?</source>
+        <target>Vous avez déjà un compte??</target>
+      </trans-unit>
+      <trans-unit id="4W0q7OS" resname="Image not found.">
+        <source>Image not found.</source>
+        <target>Image non trouvée</target>
+      </trans-unit>
+      <trans-unit id="w4EvxKy" resname="Remove">
+        <source>Remove</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="vJCtZy8" resname="Edith">
+        <source>Edith</source>
+        <target>Editer</target>
+      </trans-unit>
+      <trans-unit id="wlP0Ub3" resname="Reply">
+        <source>Reply</source>
+        <target>Répondre</target>
+      </trans-unit>
+      <trans-unit id="ckh1OhD" resname="Enter your email address and we we will send you a&#10;                    link to reset your password.">
+        <source>Enter your email address and we we will send you a
+                    link to reset your password.</source>
+        <target>__Enter your email address and we we will send you a
+                    link to reset your password.</target>
+      </trans-unit>
+      <trans-unit id="y2XxXvP" resname="Send password reset email">
+        <source>Send password reset email</source>
+        <target>Envoyer un e-mail de réinitialisation du mot de passe</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

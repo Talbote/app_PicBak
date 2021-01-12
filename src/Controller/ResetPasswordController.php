@@ -92,8 +92,7 @@ class ResetPasswordController extends AbstractController
     {
         //  si on a un token
         if ($token) {
-            // We store the token in session and remove it from the URL, to avoid the URL being
-            // loaded in a browser and potentially leaking the token to 3rd party JavaScript.`
+
             // on le sauvegarde en session
             $this->storeTokenInSession($token);
 
@@ -118,7 +117,6 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_forgot_password_request');
         }
 
-        // The token is valid; allow the user to change their password.
         // si le token est valide  on autorise l'utilisateur a changer son password
         // un creer un formulaire  ChangePasswordFormType
         $form = $this->createForm(ChangePasswordFormType::class);

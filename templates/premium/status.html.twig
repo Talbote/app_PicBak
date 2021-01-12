@@ -19,10 +19,10 @@
                     <p>Status: <span class="text-muted">{{ subscription.status }}</span></p>
 
                     {% if subscription.status == "active" %}
-                        <p>{{ 'Subscription purchase date:,'|trans }}<span
+                        <p>{{ 'Subscription purchase date:'|trans }}<span
                                     class="text-muted"> {{ subscription.current_period_start|date('Y-m-d H:i:s') }} </span>
                         </p>
-                        <p>{{ 'End of subscription period:'|trans }}<span
+                        <p>{{ 'End of subscription:'|trans }}<span
                                     class="text-muted"> {{ subscription.current_period_end|date('Y-m-d H:i:s') }} </span>
                         </p>
                     {% endif %}

@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title {{ 'Log in!'|trans }} %}
+{% block title %} {{ 'Log in!'|trans }} {% endblock %}
 
 {% block body %}
 
@@ -26,7 +26,7 @@
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    <label for="email">{{ 'Reset your password'|trans }}Email</label>
+                    <label for="email">{{ 'Email'|trans }}</label>
                     <input type="email" value="{{ last_username }}" name="email" id="email" class="form-control"
                            required
                            autofocus>

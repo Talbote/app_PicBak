@@ -1,11 +1,11 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title {{ 'Reset your password'|trans }}%}
+{% block title  %} {{ 'Reset your password'|trans }} {% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-md-6 mx-auto">
-            <h1 class="mb-5 mt-3 text-center">Reset your password</h1>
+            <h1 class="mb-5 mt-3 text-center">{{ 'Reset your password'|trans }}Reset your password</h1>
             {% for flashError in app.flashes('reset_password_error') %}
                 <div class="alert alert-error mb-3 rounded" role="alert">{{ flashError }}</div>
             {% endfor %}

@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title {{ 'Register'|trans }} %}
+{% block title  %} {{ 'Register'|trans }} {% endblock %}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}

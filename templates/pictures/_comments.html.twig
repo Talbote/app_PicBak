@@ -17,7 +17,7 @@
                             <img src="{{ ( comment.user.imageName ? vich_uploader_asset(comment.user) : asset('build/images/empty.jpg')) | imagine_filter('squared_thumbail_large') }}"
                                  class="user-img rounded-circle mr-2"/>
                         {% else %}
-                            {% set title = {{ 'Image not found.'|trans }} %}
+                            {% set title %} {{ 'Image not found.'|trans }} {% endset %}
                         {% endif %}
                         <span>
                             <small class="font-weight-bold text-primary"> {{ comment.user.slug }}</small>
