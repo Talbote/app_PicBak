@@ -16,7 +16,7 @@ class InvoiceController extends AbstractController
     /**
      * @Route("/{_locale<%app.supported_locales%>}/invoice/", name="app_invoices_index", methods="GET")
      */
-    public function index( InvoiceRepository $invoiceRepository, EntityManagerInterface $em): Response
+    public function index(InvoiceRepository $invoiceRepository, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
@@ -57,11 +57,11 @@ class InvoiceController extends AbstractController
 
         $id = $user->getId();
         $invoices_user = $invoiceRepository->findByUserIdInvoice($id);
-       // dd($invoices_user);
+        // dd($invoices_user);
 
         if ($user->isPremium() == true && $user->isRecordInvoice() == true) {
 
-            return $this->render('invoice/index.html.twig', [
+            return $this->render('invoices/index.html.twig', [
                     'user' => $user,
                     'invoice' => $invoices_user
                 ]
@@ -71,7 +71,7 @@ class InvoiceController extends AbstractController
 
         if ($user->isPremium() == false && $user->isRecordInvoice() == false) {
 
-            return $this->render('invoice/index.html.twig', [
+            return $this->render('invoices/index.html.twig', [
                     'user' => $user,
                     'invoice' => $invoices_user
                 ]
@@ -93,28 +93,31 @@ class InvoiceController extends AbstractController
      *
      */
 
-    public function delete( Request $request, Invoice $invoice, EntityManagerInterface $em): Responseesponse
+    public function delete(Request $request, Invoice $invoice, EntityManagerInterface $em): Response
     {
 
+
         $this->denyAccessUnlessGranted('ROLE_USER');
-        /* vérification de l'user_id du picture */
+        /* vérification de l'user_id du invoice */
+
+        if ($this->isCsrfTokenValid('invoice_deletion_' . $invoice->getId(),
+            $request->request->get('csrf_token_invoice_delete'))
+        ) {
+
+            $em->remove($invoice);
+            $em->flush();
+
+            return $this->redirectToRoute('app_invoices_index', [
+                'invoice' => $invoice
+            ]);
+        }
 
 
-            if ($this->isCsrfTokenValid('invoice_deletion_' . $invoice->getId(),
-                $request->request->get('csrf_token_invoice_delete'))
-            ) {
+        $this->addFlash('error', 'Not allowed to delete this comment');
 
-
-                $em->remove($invoice);
-                $em->flush();
-
-                return $this->redirectToRoute('app_invoices_index');
-            }
-
-
-            $this->addFlash('error', 'Not allowed to delete this comment');
-
-            return $this->redirectToRoute('app_invoices_index');
+        return $this->redirectToRoute('app_invoices_index', [
+            'invoice' => $invoice
+        ]);
             /* si le token est valid on applique la suppression */
 
     }

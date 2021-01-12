@@ -26,12 +26,6 @@ class AppExtension extends AbstractExtension
     public function pluralize(int $count, string $singular, ?string $plural = null): string
     {
 
-        /* recuperation de l'utilisateur connecté*/
-        //dd($this->security->getUser());
-
-
-        /* si le pluriel existe on le prend sinon on prend le singulier */
-        // $plural ??= $singular . 's';
         /* si le résultat est = à 1 on prend le singulier sinon on prend le pluriel */
         $result = $count === 1 ? $singular : $plural;
         /*  on retourne la quantité et le resultat */

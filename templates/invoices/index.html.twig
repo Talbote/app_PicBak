@@ -7,9 +7,10 @@
 
     <div class="container">
         <!-- Fonction pluralize pour mettre au pluriel/singulier -->
-        <h1 class="text-center text-muted">{{ pluralize(invoice|length,'Invoice','Invoices') }}</h1>
-
         {% if invoice|length > 0 %}
+            <h1 class="text-center text-muted">{{ pluralize(invoice|length,'Invoice','Invoices') }}</h1>
+
+
             <div data-aos="fade-zoom-in"
                  data-aos-easing="ease-in-back"
                  data-aos-delay="300"
@@ -27,20 +28,23 @@
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
                             <h6 class="my-0">{{ invoice.name }} </h6>
-                            <small class="text-muted">generate at
+                            <small class=" text-muted">generate at
                                 <time datetime="{{ invoice.createdAt|date('Y-m-d H:i:s') }}"> {{ invoice.createdAt|date }}</time>
                             </small>
                         </div>
+
+
                         <span>
+                             <!-- LINK DOWNLOAD DELETE -->
                             <a class="text-muted" href="{{ invoice.urlPdf }}"><i class="zoom far fa-file-alt"></i></a>
+                            <!-- LINK DOWNLOAD DELETE -->
 
-                            <!-- LINK BUTTON FOR DELETE -->
-                            <a href="#" onclick="event.preventDefault(); confirm({{ 'Are you sure ?'|trans }}) && document.getElementById('js-invoice-delete-form').submit();" class="btn btn-light">{{ 'invoice'|trans }} </a>
-                            <!-- END LINK BUTTON FOR DELETE -->
-
+                            <!-- LINK INVOICE DELETE -->
+<a href="#"
+   onclick="event.preventDefault(); document.getElementById('js-invoice-delete-form{{ invoice.id }}').submit();"
+   class=" text-danger "><i class="fas fa-trash-alt"></i></a>
+                            <!-- END  INVOICE FOR DELETE -->
                         </span>
-
-
                     </li>
                 </ul>
                 <!-- END URL INVOICE -->
