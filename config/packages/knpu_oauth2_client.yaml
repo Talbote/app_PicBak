@@ -1,0 +1,19 @@
+knpu_oauth2_client:
+    clients:
+        # the key "facebook_main" can be anything, it
+        # will create a service: "knpu.oauth2.client.facebook_main"
+        github:
+            # this will be one of the supported types
+            type: github
+            client_id: '%env(GITHUB_ID)%'
+            client_secret: '%env(GITHUB_SECRET)%'
+            # the route that you're redirected to after
+            # see the controller example below
+            redirect_route: oauth_check
+            redirect_params:
+                service: github
+
+
+
+
+

@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\ChangePassword;
 use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,9 +40,20 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        return $this->redirectToRoute('app_pictures_index/en',['_locale' => 'en']);
+        return $this->redirectToRoute('app_pictures_index/en', ['_locale' => 'en']);
     }
 
+    /**
+     * @Route("/connect/github", name="app_connect_github")
+     */
+    public function connect(ClientRegistry $clientRegistry): RedirectResponse
+    {
+
+        // scope dd($clientRegistry->getClient('github'));
+        /** @var githubClient $client */
+        $client = $clientRegistry->getClient('github');
+        return $client->redirect(['read:user', 'user:email']);
+    }
 
 
 }

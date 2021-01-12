@@ -144,6 +144,11 @@ class User implements UserInterface, \Serializable
      */
     private $locale;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $githubId;
+
 
     /**
      * @return mixed
@@ -586,6 +591,18 @@ class User implements UserInterface, \Serializable
         }
 
 
+    }
+
+    public function getGithubId(): ?int
+    {
+        return $this->githubId;
+    }
+
+    public function setGithubId(?int $githubId): self
+    {
+        $this->githubId = $githubId;
+
+        return $this;
     }
 
 
