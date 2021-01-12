@@ -3,8 +3,11 @@
 namespace App\Security;
 
 
+use App\Repository\UserRepository;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\Provider\GithubClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
 use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,25 +15,28 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class GithubAuthentificator extends SocialAuthenticator
 {
-
+    use TargetPathTrait;
 
     private $router;
-
     private $clientRegistry;
+    private $userRepository;
 
     /**
      * GithubAuthentificator constructor.
      * @param RouterInterface $router
      * @param ClientRegistry $clientRegistry
+     * @param UserRepository $userRepository
      */
 
-    public function __construct(RouterInterface $router, ClientRegistry $clientRegistry)
+    public function __construct(RouterInterface $router, ClientRegistry $clientRegistry, UserRepository $userRepository)
     {
         $this->router = $router;
         $this->clientRegistry = $clientRegistry;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -95,18 +101,34 @@ class GithubAuthentificator extends SocialAuthenticator
     public function getCredentials(Request $request)
     {
         /* ACCEDER AU ACCESS TOKEN QUI EST  LE  CLIENT GITHUBT*/
-        return $this->fetchAccessToken($this->clientRegistry->getClient('github')) && $request->get('service') === 'github';
+
+        return $this->fetchAccessToken($this->clientRegistry->getClient('github') && $request->get('service') === 'github');
 
     }
 
     /**
      * @param AccessToken $credentials
+     * @param UserProviderInterface $userProvider
+     * @return \App\Entity\User
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        /**
+         * @var GithubResourceOwner $githubUser
+         *
+         */
 
-        $githubUser = $this->clientRegistry->getClient('github')->fetchUserFromToken($credentials);
-        dd($githubUser);
+        $githubUser = $this->getClient()->fetchUserFromToken($credentials);
+
+        return $this->userRepository->CreateGithubUserOauth($githubUser);
+
+
+    }
+
+    private function getClient(): GithubClient
+    {
+
+        return $this->clientRegistry->getClient('github');
 
     }
 
@@ -139,6 +161,8 @@ class GithubAuthentificator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        // TODO: Implement onAuthenticationSuccess() method.
+        $targetPath = $this->getTargetPath($request->getSession(), $providerKey );
+
+        return new RedirectResponse($targetPath ?: '/app_pictures_index');
     }
 }
