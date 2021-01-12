@@ -33,13 +33,30 @@
                         </div>
                         <span>
                             <a class="text-muted" href="{{ invoice.urlPdf }}"><i class="zoom far fa-file-alt"></i></a>
-                        <a  class="text-danger" href="#"><i class="zoom far fa-trash-alt"></i></a>
+
+                            <!-- LINK BUTTON FOR DELETE -->
+                            <a href="#" onclick="event.preventDefault(); confirm({{ 'Are you sure ?'|trans }}) && document.getElementById('js-invoice-delete-form').submit();" class="btn btn-light">{{ 'invoice'|trans }} </a>
+                            <!-- END LINK BUTTON FOR DELETE -->
+
                         </span>
 
 
                     </li>
                 </ul>
                 <!-- END URL INVOICE -->
+
+                <form id="js-invoice-delete-form{{ invoice.id }}"
+                      action="{{ path('app_invoice_delete', {id: invoice.id}) }}"
+                      method="post"
+                      style="display:none">
+
+                    <!-- insertion d'un token  dans la method DELETE-->
+                    <input type="hidden" name="csrf_token_invoice_delete"
+                           value="{{ csrf_token('invoice_deletion_' ~ invoice.id) }}">
+
+                    <input type="hidden" name="_method" value="DELETE">
+                    <!--  <input type="submit" value="Delete"> -->
+                </form>
 
             {% endfor %}
         {% else %}

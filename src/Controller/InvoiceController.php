@@ -100,8 +100,8 @@ class InvoiceController extends AbstractController
         /* vérification de l'user_id du picture */
 
 
-            if ($this->isCsrfTokenValid('comment_deletion_' . $invoice->getId(),
-                $request->request->get('csrf_token_comment_delete'))
+            if ($this->isCsrfTokenValid('invoice_deletion_' . $invoice->getId(),
+                $request->request->get('csrf_token_invoice_delete'))
             ) {
 
 

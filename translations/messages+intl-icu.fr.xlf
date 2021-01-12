@@ -219,7 +219,7 @@
       </trans-unit>
       <trans-unit id="rz8S4WH" resname="You have">
         <source>You have</source>
-        <target>Vous avez</target>
+        <target>Vous avez </target>
       </trans-unit>
       <trans-unit id="3bGAZph" resname="Subscription purchase date:,">
         <source>Subscription purchase date:,</source>
@@ -367,7 +367,7 @@
       </trans-unit>
       <trans-unit id="53.qk20" resname="Already have an account?">
         <source>Already have an account?</source>
-        <target>Vous avez déjà un compte??</target>
+        <target>Vous avez déjà un compte?</target>
       </trans-unit>
       <trans-unit id="4W0q7OS" resname="Image not found.">
         <source>Image not found.</source>
@@ -394,6 +394,50 @@
       <trans-unit id="y2XxXvP" resname="Send password reset email">
         <source>Send password reset email</source>
         <target>Envoyer un e-mail de réinitialisation du mot de passe</target>
+      </trans-unit>
+      <trans-unit id="uC4R2jv" resname="User name">
+        <source>User name</source>
+        <target>Pseudo</target>
+      </trans-unit>
+      <trans-unit id="cC75Ie0" resname="First name">
+        <source>First name</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit id="e0iIBJR" resname="Last name">
+        <source>Last name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="Hkmh4Tp" resname="Repeat Password">
+        <source>Repeat Password</source>
+        <target>Répéter le mot de passe</target>
+      </trans-unit>
+      <trans-unit id="c1prjRW" resname="Agree terms">
+        <source>Agree terms</source>
+        <target>Accepter les termes</target>
+      </trans-unit>
+      <trans-unit id="DDvNoh4" resname="3€">
+        <source>3€</source>
+        <target>3€ /</target>
+      </trans-unit>
+      <trans-unit id="Ku1Eztc" resname="/ Week">
+        <source>/ Week</source>
+        <target>Hebdomadaire</target>
+      </trans-unit>
+      <trans-unit id="qBKhG3i" resname="Advanced Filter">
+        <source>Advanced Filter</source>
+        <target>Filtre avancé</target>
+      </trans-unit>
+      <trans-unit id="mD8xEBh" resname="Get Started">
+        <source>Get Started</source>
+        <target>S'abonner</target>
+      </trans-unit>
+      <trans-unit id="SJIrE4O" resname="Update Profil">
+        <source>Update Profile</source>
+        <target>Editer Profil</target>
+      </trans-unit>
+      <trans-unit id="tXDUDQY" resname="Nick name">
+        <source>Nick name</source>
+        <target>Pseudo</target>
       </trans-unit>
     </body>
   </file>

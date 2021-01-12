@@ -1,6 +1,9 @@
 {{ form_start(form) }}
+{{ form_row(form.nickName, {label: 'Nick name'|trans }) }}
+{{ form_row(form.firstName, {label: 'First name'|trans }) }}
+{{ form_row(form.lastName, {label: 'Last name'|trans }) }}
         {{ form_widget(form) }}
-<input type="submit" value="{{ submitButtonText|default({{ 'Edit Picture'|trans }}) }}"  class="btn btn-primary"formnovalidate>
+<input type="submit" value="{{ submitButtonText|default('Edit Picture') }}"  class="btn btn-primary"formnovalidate>
 
 {{ form_end(form) }}
 

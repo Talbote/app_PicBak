@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        return $this->redirectToRoute('app_pictures_index',['_locale' => 'en']);
+        return $this->redirectToRoute('app_pictures_index/en',['_locale' => 'en']);
     }
 
 

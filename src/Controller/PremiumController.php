@@ -36,7 +36,7 @@ class PremiumController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/create-checkout-session", name="app_checkout")
+     * @Route("/create-checkout-session", name="app_checkout")
      */
     public function createSubscription(EntityManagerInterface $em): Response
     {

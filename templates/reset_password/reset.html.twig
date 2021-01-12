@@ -9,9 +9,11 @@
             <h1 class="mb-5 mt-3 text-center">{{ 'Reset your password'|trans }}</h1>
 
             {{ form_start(resetForm) }}
-            {{ form_row(resetForm.plainPassword) }}
+            {{ form_row(resetForm.second, {label: 'Password'|trans }) }}
+            {{ form_row(resetForm.second, {label: 'Repeat password'|trans }) }}
+
             <button type="submit" class="btn btn-primary btn-lg btn-block">{{ 'Reset password'|trans }}</button>
-            {{ form_end(resetForm) }}
+            {{ form_end(resetForm }}
         </div>
 
 

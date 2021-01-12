@@ -1,12 +1,12 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title {{ 'Update Profil'|trans }} ~ app.user.slug %}
+{% block title %} {{ 'Update Profil'|trans }} ~ app.user.slug {% endblock %}
 
 {% block body %}
 
 
     <h1>{{ 'Update Profil'|trans }} {{ app.user.slug }} </h1>
 
-    {{ include('profil/_form.html.twig', {submitButtonText: {{ 'Update Profil'|trans }}}) }}
+    {{ include('profil/_form.html.twig', {submitButtonText: 'Update Profile' }) }}
 
 {% endblock %}
