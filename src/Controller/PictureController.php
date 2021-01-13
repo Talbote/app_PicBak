@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PictureController extends AbstractController
 {
@@ -30,14 +31,11 @@ class PictureController extends AbstractController
     /**
      * @Route("/{_locale<%app.supported_locales%>}/", name="app_pictures_index", methods="GET")
      */
-    public function index(PictureRepository $pictureRepository, Request $request, EntityManagerInterface $em): Response
+    public function index(PictureRepository $pictureRepository, UserPasswordEncoderInterface $passwordEncoder, Request $request, EntityManagerInterface $em): Response
     {
 
 
-
         $user = $this->getUser();
-
-        $locale = $request->getLocale();
 
         /*
         $user->setRoles(['ROLE_ADMIN']);
@@ -46,11 +44,16 @@ class PictureController extends AbstractController
 
         if ($user) {
 
+            if ($user->isVerified() == false) {
+
+                // return $this->redirectToRoute('app_pictures_index');
+
+            }
+
             $user->isSubscriber($user, $em);
         }
 
         $data = new SearchData();
-
 
         if (($user && $user->isPremium()) | $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
 
@@ -70,7 +73,6 @@ class PictureController extends AbstractController
         ]);
 
 
-
     }
 
 
@@ -84,59 +86,70 @@ class PictureController extends AbstractController
      *
      */
 
-    public function showALL(Picture $picture,CommentRepository $commentRepository, Request $request, EntityManagerInterface $em): Response
+    public function showALL(Picture $picture, CommentRepository $commentRepository, Request $request, EntityManagerInterface $em): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $id_picture = $picture->getId();
+        $user = $this->getUser();
 
-        $list_comments_pictures = $commentRepository->findCommentByIdPicture($id_picture);
+        if ($user->isVerified()) {
 
 
-        $user_picture = $picture->getUser();
+            $id_picture = $picture->getId();
 
-        //création d'une commentaire
-        $comment = new Comment();
+            $list_comments_pictures = $commentRepository->findCommentByIdPicture($id_picture);
 
-        // création du formulaire d'ajoute de commentaire
-        $form = $this->createForm(CommentFormType::class, $comment);
 
-        // on récupere  les donnés du formulaire
-        $form->handleRequest($request);
-        if ($request->isMethod('POST')) {
-            // verification du formulaire si  envoyer et donnée valides
-            if ($form->isSubmitted() && $form->isValid()) {
+            $user_picture = $picture->getUser();
 
-                // recupération de l'utilisateur connecté
-                $user = $this->getUser();
-                //liaison de l'id commentaire à l'id user connecté et l'id_picture
-                $comment->setUser($user);
-                $comment->setPicture($picture);
-                // sauvegarde des données
-                $em->persist($comment);
-                $em->flush();
-/*
-                return $this->json([
-                    'code' => 403,
-                    'textComment' => $comment->getTextComment('textComment'),
-                    'messages' => "Good comment Added",
-                ], 200);
-*/
+            //création d'une commentaire
+            $comment = new Comment();
+
+            // création du formulaire d'ajoute de commentaire
+            $form = $this->createForm(CommentFormType::class, $comment);
+
+            // on récupere  les donnés du formulaire
+            $form->handleRequest($request);
+            if ($request->isMethod('POST')) {
+                // verification du formulaire si  envoyer et donnée valides
+                if ($form->isSubmitted() && $form->isValid()) {
+
+                    // recupération de l'utilisateur connecté
+                    $user = $this->getUser();
+                    //liaison de l'id commentaire à l'id user connecté et l'id_picture
+                    $comment->setUser($user);
+                    $comment->setPicture($picture);
+                    // sauvegarde des données
+                    $em->persist($comment);
+                    $em->flush();
+                    /*
+                                    return $this->json([
+                                        'code' => 403,
+                                        'textComment' => $comment->getTextComment('textComment'),
+                                        'messages' => "Good comment Added",
+                                    ], 200);
+                    */
+
+                }
+
+                return $this->redirectToRoute('app_picture_show', [
+                    'id' => $id_picture,
+                ]);
 
             }
-
-            return $this->redirectToRoute('app_picture_show', [
-                'id' => $id_picture,
+            return $this->render('pictures/show_owner.html.twig', [
+                'comment' => $list_comments_pictures,
+                'picture' => $picture,
+                'userPicture' => $user_picture,
+                'commentForm' => $form->createView(),
             ]);
 
+        } else {
+
+            return $this->render('emails/message_not_verified_email.html.twig');
+
         }
-        return $this->render('pictures/show_owner.html.twig', [
-            'comment' => $list_comments_pictures,
-            'picture' => $picture,
-            'userPicture' => $user_picture,
-            'commentForm' => $form->createView(),
-        ]);
     }
     /**
      * ########################################################################################################
@@ -152,33 +165,42 @@ class PictureController extends AbstractController
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $picture = new Picture();
-        $form = $this->createForm(PictureType::class, $picture);
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        if ($user->isVerified()) {
+
+            $picture = new Picture();
+            $form = $this->createForm(PictureType::class, $picture);
 
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            // dd($form->getData());
+                // dd($form->getData());
 
-            /*recupere les données dans le form*/
-
-
-            $user = $this->getUser();
-            $picture->setUser($user);
+                /*recupere les données dans le form*/
 
 
-            $em->persist($picture);
-            $em->flush();
+                $user = $this->getUser();
+                $picture->setUser($user);
 
-            $this->addFlash('success', 'Picture successfully created!');
 
-            return $this->redirectToRoute('app_pictures_index');
+                $em->persist($picture);
+                $em->flush();
+
+                $this->addFlash('success', 'Picture successfully created!');
+
+                return $this->redirectToRoute('app_pictures_index');
+            }
+
+            /*  dd($form); */
+            return $this->render('pictures/create.html.twig', ['form' => $form->createView()]);
         }
 
-        /*  dd($form); */
-        return $this->render('pictures/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('emails/message_not_verified_email.html.twig');
 
     }
 

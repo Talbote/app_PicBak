@@ -49,19 +49,17 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true))
-     * @Assert\NotBlank(message="Please enter your first name")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true))
-     * @Assert\NotBlank(message="Please enter your last name")
+     *
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank(message="Please enter your email address ")
      * @Assert\Email(message="Please enter a valid email address")
      */
     private $email;

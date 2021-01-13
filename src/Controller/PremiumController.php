@@ -22,16 +22,23 @@ class PremiumController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 
+        if ($user->isVerified()) {
 
-        if ($user->isPremium()) {
 
-            return $this->redirectToRoute('app_subscriber_status');
+            if ($user->isPremium()) {
+
+                return $this->redirectToRoute('app_subscriber_status');
+
+            } else {
+
+                return $this->render('premium/index.html.twig', [
+                    '_locale' => 'en'
+                ]);
+            }
 
         } else {
 
-            return $this->render('premium/index.html.twig', [
-                '_locale' => 'en'
-            ]);
+            return $this->render('emails/message_not_verified_email.html.twig');
         }
     }
 

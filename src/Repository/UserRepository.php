@@ -74,7 +74,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setGithubId($owner->getId())
             ->setNickName($owner->getEmail())
             ->setEmail($owner->getEmail())
-            ->setPassword(true)
+            ->setPassword(false)
             ->setIsVerified(true);
 
 
