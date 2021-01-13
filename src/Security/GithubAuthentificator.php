@@ -9,11 +9,13 @@ use KnpU\OAuth2ClientBundle\Client\Provider\GithubClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\GithubResourceOwner;
 use League\OAuth2\Client\Token\AccessToken;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
@@ -74,7 +76,7 @@ class GithubAuthentificator extends SocialAuthenticator
     public function supports(Request $request)
     {
         // TODO: Implement supports() method.
-        return 'oauth_check' === $request->attributes->get('_route');
+        return 'oauth_check' === $request->attributes->get('_route') && $request->get('service') === 'github';
     }
 
     /**
@@ -102,35 +104,53 @@ class GithubAuthentificator extends SocialAuthenticator
     {
         /* ACCEDER AU ACCESS TOKEN QUI EST  LE  CLIENT GITHUBT*/
 
-        return $this->fetchAccessToken($this->clientRegistry->getClient('github') && $request->get('service') === 'github');
+        return $this->fetchAccessToken($this->clientRegistry->getClient('github'));
 
     }
 
     /**
      * @param AccessToken $credentials
      * @param UserProviderInterface $userProvider
-     * @return \App\Entity\User
+     * @return mixed
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        /**
-         * @var GithubResourceOwner $githubUser
-         *
-         */
+        /** @var GithubResourceOwner $githubUser */
+        $githubUser = $this->clientRegistry->getClient('github')->fetchUserFromToken($credentials);
 
-        $githubUser = $this->getClient()->fetchUserFromToken($credentials);
+
+        $response = HttpClient::create()->request(
+
+            'GET',
+            'https://api.github.com/user/emails', [
+                'headers' => [
+                    'authorization' => "token {$credentials->getToken()}"
+                ]
+            ]
+
+        );
+        $emails = json_decode($response->getContent(), true);
+        foreach ($emails as $email) {
+            if ($email['primary'] === true && $email['verified'] === true) {
+                $data = $githubUser->toArray();
+                $data['email'] = $email['email'];
+                $githubUser = new GithubResourceOwner($data);
+            }
+        }
+
+        if ($githubUser->getEmail() == null) {
+
+            throw new NotVerfiedEmailException();
+
+        }
+
+
+       // dd($emails);
 
         return $this->userRepository->CreateGithubUserOauth($githubUser);
 
-
     }
 
-    private function getClient(): GithubClient
-    {
-
-        return $this->clientRegistry->getClient('github');
-
-    }
 
     /**
      * Called when authentication executed, but failed (e.g. wrong username password).
@@ -145,7 +165,12 @@ class GithubAuthentificator extends SocialAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        // TODO: Implement onAuthenticationFailure() method.
+
+        if ($request->hasSession()) {
+            $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        }
+
+        return new RedirectResponse($this->router->generate('app_login'));
     }
 
     /**
@@ -161,8 +186,9 @@ class GithubAuthentificator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        $targetPath = $this->getTargetPath($request->getSession(), $providerKey );
+        /* Redirect sur l'url de l'utilisateur */
+        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
 
-        return new RedirectResponse($targetPath ?: '/app_pictures_index');
+        return new RedirectResponse($targetPath ?: '/en');
     }
 }

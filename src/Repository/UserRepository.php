@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use League\OAuth2\Client\Provider\GithubResourceOwner;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,24 +38,44 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 
-    public function CreateGithubUserOauth(GithubResourceOwner $owner): User
+    public function CreateGithubUserOauth(ResourceOwnerInterface $owner): User
     {
 
+        //dd($owner);
+        /**
+         * @var User|null $user
+         */
         $user = $this->createQueryBuilder('u')
             ->where('u.githubId = :githubId')
-            ->setParameter([
+            ->orWhere('u.email = :email')
+            ->setParameters([
+                'email' => $owner->getEmail(),
                 'githubId' => $owner->getId()
+
+
             ])
             ->getQuery()
             ->getOneOrNullResult();
+
+
         if ($user) {
+
+            if ($user->getGithubId() === null) {
+                $user->setGithubId($owner->getId());
+                $this->getEntityManager()->flush();
+            }
+
 
             return $user;
         }
 
         $user = (new User())
+            ->setRoles(['ROLE_USER'])
             ->setGithubId($owner->getId())
-            ->setEmail($owner->getEmail());
+            ->setNickName($owner->getEmail())
+            ->setEmail($owner->getEmail())
+            ->setPassword(true);
+
 
         $em = $this->getEntityManager();
         $em->persist($user);

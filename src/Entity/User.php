@@ -48,13 +48,13 @@ class User implements UserInterface, \Serializable
     private $nickName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true))
      * @Assert\NotBlank(message="Please enter your first name")
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true))
      * @Assert\NotBlank(message="Please enter your last name")
      */
     private $lastName;
@@ -178,7 +178,7 @@ class User implements UserInterface, \Serializable
         return $this->nickName;
     }
 
-    public function setNickName(string $nickName): self
+    public function setNickName(?string $nickName): self
     {
         $this->nickName = $nickName;
 
@@ -190,7 +190,7 @@ class User implements UserInterface, \Serializable
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -426,7 +426,6 @@ class User implements UserInterface, \Serializable
     }
 
 
-
     public function serialize()
     {
 
@@ -556,40 +555,43 @@ class User implements UserInterface, \Serializable
             $client_status = $load_checkout_session->checkout->sessions->retrieve($chargeId, []);
 
             $subscription = $client_status->subscription;
-            $user_subscription = $load_checkout_session->subscriptions->retrieve(
-                $subscription,
-                []
-            );
+
+            if ($subscription !== null) {
+
+                $user_subscription = $load_checkout_session->subscriptions->retrieve(
+                    $subscription,
+                    []
+                );
 
 
-            if ($user_subscription->status == "canceled") {
+                if ($user_subscription->status == "canceled") {
 
-                $user->setChargeId(false);
-                $user->setPremium(false);
+                    $user->setChargeId(false);
+                    $user->setPremium(false);
+                    $user->setRecordInvoice(false);
+                    $em->flush();
+
+                }
+                if ($user_subscription->status == "active") {
+
+                    $user->setPremium(true);
+                    $user->setRecordInvoice(true);
+                    $em->flush();
+                }
+                if ($user_subscription->status == "unpaid") {
+
+                    $user->setPremium(false);
+                    $em->flush();
+                }
+
+            } else {
+
+                $user->getChargeId(false);
                 $user->setRecordInvoice(false);
-                $em->flush();
 
-            }
-            if ($user_subscription->status == "active") {
-
-                $user->setPremium(true);
-                $user->setRecordInvoice(true);
                 $em->flush();
             }
-            if ($user_subscription->status == "unpaid") {
-
-                $user->setPremium(false);
-                $em->flush();
-            }
-
-        } else {
-
-            $user->getChargeId(false);
-            $user->setRecordInvoice(false);
-
-            $em->flush();
         }
-
 
     }
 
