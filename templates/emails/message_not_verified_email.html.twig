@@ -11,9 +11,9 @@
         <div class="col-md-6 mx-auto">
 
             <h1 data-aos="fade-right" class="my-5 text-center">{{ 'We are sorry'|trans }} </h1>
-            <h2 data-aos="fade-left" class="mb-5 text-center text-muted">
+            <p data-aos="fade-left" class="mb-5 text-center text-muted">
                 {{ 'You need to confirm your email. If you just signed up, go to your email box to confirm your address. Otherwise, confirm again in the .'|trans }}
-                <a href="{{ path('app_profil_show', {'slug': app.user.slug}) }}" target="_blank"><span>{{ 'Profile page'|trans }}</span></a></h2>
+                <a href="{{ path('app_profil_show', {'slug': app.user.slug}) }}" target="_blank"><span>{{ 'Profile page'|trans }}</span></a></p>
 
         </div>
     </div>
