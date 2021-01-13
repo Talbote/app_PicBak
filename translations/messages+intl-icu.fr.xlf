@@ -449,11 +449,23 @@
       </trans-unit>
       <trans-unit id="AtpSyvy" resname="You need to confirm your email. If you just signed up, go to your email box to confirm your address. Otherwise, confirm again in the .">
         <source>You need to confirm your email. If you just signed up, go to your email box to confirm your address. Otherwise, confirm again in the .</source>
-        <target>Vous devez confirmer votre e-mail. Si vous venez de vous inscrire, accédez à votre boîte e-mail pour confirmer votre adresse. Sinon, confirmez à nouveau dans la</target>
+        <target>Vous devez confirmer votre e-mail. Si vous venez de vous inscrire, accédez à votre boîte e-mail pour confirmer votre adresse. Sinon, lancez une vérification dans la</target>
       </trans-unit>
       <trans-unit id="r47DhhL" resname="Profile page">
         <source>Profile page</source>
         <target>Page de profil</target>
+      </trans-unit>
+      <trans-unit id="FwtOydn" resname="Edit Picture #">
+        <source>Edit Picture #</source>
+        <target>Modifier Picture #</target>
+      </trans-unit>
+      <trans-unit id="UhmDm6k" resname="Edit picture #">
+        <source>Edit Pic #</source>
+        <target>Modifier un Pic #</target>
+      </trans-unit>
+      <trans-unit id="fdrPnos" resname="Sorry we are bothering you again">
+        <source>Sorry we are bothering you again..</source>
+        <target>Désolé, nous vous dérangeons encore..</target>
       </trans-unit>
     </body>
   </file>
