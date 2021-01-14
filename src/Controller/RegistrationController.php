@@ -27,19 +27,18 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/register", name="app_register", methods="POST|GET|PUT")
+     * @Route("/{_locale<%app.supported_locales%>}/register", name="app_register", methods="GET|PUT")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator,
-                             EntityManagerInterface $em): Response
+                             EntityManagerInterface $em)
     {
-
         $user = $this->getUser();
 
         if (!$user) {
 
-            $user = new User();
+            $simple_user = new User();
 
-            $form = $this->createForm(RegistrationFormType::class, $user);
+            $form = $this->createForm(RegistrationFormType::class, $simple_user);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -52,22 +51,21 @@ class RegistrationController extends AbstractController
                     )
                 );
 
-                $em->persist($user);
+                $em->persist($simple_user);
                 $em->flush();
 
 
                 // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $simple_user,
                     (new TemplatedEmail())
                         ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
                         /*  ->from(new Address(
                                   $this->getParameter('app.mail_from_name'),
                                   $this->getParameter('app.mail_from_address')
-
                               )
                           )
                           */
-                        ->to($user->getEmail())
+                        ->to($simple_user->getEmail())
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('emails/confirmation_email.html.twig')
                 );
@@ -76,7 +74,7 @@ class RegistrationController extends AbstractController
                 // do anything else you need here, like send an email
 
                 return $guardHandler->authenticateUserAndHandleSuccess(
-                    $user,
+                    $simple_user,
                     $request,
                     $authenticator,
                     'main' // firewall name in security.yaml
@@ -89,44 +87,50 @@ class RegistrationController extends AbstractController
 
         } else {
 
-
-            if ($user && $user->getPassword() == true && $user->getGithubId() == false) {
+            if ($user->getPassword() == true && $user->getGithubId() == false) {
                 $this->addFlash('error', 'Already logged in!');
                 return $this->redirectToRoute('app_pictures_index');
 
-            }
+            } else {
 
-            if ( $user->getPassword() == false && $user->getGithubId() == true) {
+                $github_user = $this->getUser();
 
-                $form = $this->createForm(RegistrationFormType::class, $user, [
-                    'method' => 'PUT'
-                ]);
-                $form->handleRequest($request);
+                if ($github_user->getPassword() == false && $github_user->getGithubId() == true) {
 
-                if ($form->isSubmitted() && $form->isValid()) {
-                    // encode the plain password
-                    $user->setPassword(
-                        $passwordEncoder->encodePassword(
-                            $user,
-                            $form->get('plainPassword', 'nickName')->getData()
+                    $form_git = $this->createForm(RegistrationFormType::class, $github_user, [
+                        'method' => 'PUT'
+                    ]);
 
-                        )
-                    );
+                    $form_git->handleRequest($request);
 
-                    $em->persist($user);
-                    $em->flush();
+                    if ($form_git->isSubmitted() && $form_git->isValid()) {
+                        // encode the plain password
+                        $user->setPassword(
+                            $passwordEncoder->encodePassword(
+                                $github_user,
+                                $form_git->get('plainPassword', 'nickName')->getData()
+                            )
+                        );
 
+                        $em->persist($github_user);
+                        $em->flush();
+
+                        return $guardHandler->authenticateUserAndHandleSuccess(
+                            $github_user,
+                            $request,
+                            $authenticator,
+                            'main' // firewall name in security.yaml
+                        );
+
+                    }
+
+
+
+                    return $this->render('registration/register.html.twig', [
+                        'registrationForm' => $form_git->createView(),
+                    ]);
                 }
-
-                return $this->render('registration/register.html.twig', [
-                    'registrationForm' => $form->createView(),
-                ]);
-
             }
-
-
-
-
         }
 
         return $this->redirectToRoute('app_pictures_index');
