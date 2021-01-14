@@ -1612,16 +1612,16 @@
         },
         {
             "name": "fortawesome/font-awesome",
-            "version": "5.15.1",
+            "version": "5.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "57005cea6da7d1c67f3466974aecd25485f60452"
+                "reference": "fcec2d1b01ff069ac10500ac42e4478d20d21f4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/57005cea6da7d1c67f3466974aecd25485f60452",
-                "reference": "57005cea6da7d1c67f3466974aecd25485f60452",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/fcec2d1b01ff069ac10500ac42e4478d20d21f4c",
+                "reference": "fcec2d1b01ff069ac10500ac42e4478d20d21f4c",
                 "shasum": ""
             },
             "type": "library",
@@ -1677,7 +1677,7 @@
                 "issues": "https://github.com/FortAwesome/Font-Awesome/issues",
                 "source": "https://github.com/FortAwesome/Font-Awesome"
             },
-            "time": "2020-10-05T16:44:11+00:00"
+            "time": "2021-01-13T20:23:11+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
@@ -3964,16 +3964,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.2.4",
+            "version": "v6.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e"
+                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e",
-                "reference": "56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/698a6a9f54d7eb321274de3ad19863802c879fb7",
+                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7",
                 "shasum": ""
             },
             "require": {
@@ -4023,7 +4023,7 @@
             ],
             "support": {
                 "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.4"
+                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.5"
             },
             "funding": [
                 {
@@ -4035,7 +4035,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-08T18:02:06+00:00"
+            "time": "2021-01-12T09:35:59+00:00"
         },
         {
             "name": "symfony/asset",
@@ -10258,16 +10258,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.26.1",
+            "version": "1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "0f1d3ed2584349dc8700d7908e8a92b3742b1c99"
+                "reference": "a47408fa6e39034a5abe324a46f4e6733266267a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/0f1d3ed2584349dc8700d7908e8a92b3742b1c99",
-                "reference": "0f1d3ed2584349dc8700d7908e8a92b3742b1c99",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/a47408fa6e39034a5abe324a46f4e6733266267a",
+                "reference": "a47408fa6e39034a5abe324a46f4e6733266267a",
                 "shasum": ""
             },
             "require": {
@@ -10326,7 +10326,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
-                "source": "https://github.com/symfony/maker-bundle/tree/v1.26.1"
+                "source": "https://github.com/symfony/maker-bundle/tree/1.27.0"
             },
             "funding": [
                 {
@@ -10342,7 +10342,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-18T17:08:39+00:00"
+            "time": "2021-01-08T18:14:10+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",

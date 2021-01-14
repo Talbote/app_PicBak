@@ -27,7 +27,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/register", name="app_register", methods="GET|PUT")
+     * @Route("/{_locale<%app.supported_locales%>}/register", name="app_register", methods="GET|PUT|POST")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator,
                              EntityManagerInterface $em)
@@ -36,27 +36,27 @@ class RegistrationController extends AbstractController
 
         if (!$user) {
 
-            $simple_user = new User();
+            $app_user = new User();
 
-            $form = $this->createForm(RegistrationFormType::class, $simple_user);
+            $form = $this->createForm(RegistrationFormType::class, $app_user);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 // encode the plain password
-                $user->setPassword(
+                $app_user->setPassword(
                     $passwordEncoder->encodePassword(
-                        $user,
+                        $app_user,
                         $form->get('plainPassword', 'nickName')->getData()
 
                     )
                 );
 
-                $em->persist($simple_user);
+                $em->persist($app_user);
                 $em->flush();
 
 
                 // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $simple_user,
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $app_user,
                     (new TemplatedEmail())
                         ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
                         /*  ->from(new Address(
@@ -65,7 +65,7 @@ class RegistrationController extends AbstractController
                               )
                           )
                           */
-                        ->to($simple_user->getEmail())
+                        ->to($app_user->getEmail())
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('emails/confirmation_email.html.twig')
                 );
@@ -74,7 +74,7 @@ class RegistrationController extends AbstractController
                 // do anything else you need here, like send an email
 
                 return $guardHandler->authenticateUserAndHandleSuccess(
-                    $simple_user,
+                    $app_user,
                     $request,
                     $authenticator,
                     'main' // firewall name in security.yaml

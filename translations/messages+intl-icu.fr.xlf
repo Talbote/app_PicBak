@@ -460,12 +460,16 @@
         <target>Modifier Picture #</target>
       </trans-unit>
       <trans-unit id="UhmDm6k" resname="Edit picture #">
-        <source>Edit Pic #</source>
+        <source>Edit picture #</source>
         <target>Modifier un Pic #</target>
       </trans-unit>
       <trans-unit id="fdrPnos" resname="Sorry we are bothering you again">
-        <source>Sorry we are bothering you again..</source>
+        <source>Sorry we are bothering you again</source>
         <target>Désolé, nous vous dérangeons encore..</target>
+      </trans-unit>
+      <trans-unit id="t0Bw_Q6" resname="Repeat password">
+        <source>Repeat password</source>
+        <target>Répéter le mot de passe</target>
       </trans-unit>
     </body>
   </file>

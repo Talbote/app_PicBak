@@ -37,16 +37,27 @@ class PictureController extends AbstractController
 
         $user = $this->getUser();
 
-        /*
+
         $user->setRoles(['ROLE_ADMIN']);
         $em->flush();
-        */
+
 
         if ($user) {
+
 
             if ($user->isVerified() == true && $user->getGithubId() == true && $user->getPassword() == false) {
 
                 return $this->redirectToRoute('app_register');
+
+            } else {
+
+                if ($user->isVerified() == false && $user->getGithubId() == true && $user->getPassword() == true) {
+
+                    $user->setIsVerified(true);
+                    $em->flush();
+
+                }
+
 
             }
 

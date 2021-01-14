@@ -71,7 +71,7 @@ class PremiumController extends AbstractController
                         'unit_amount' => 300,
                         'product_data' => [
                             'name' => 'PicBak Plus+',
-                            'images' => ["https://i.imgur.com/EHyR2nP.png"],
+                            'images' => [],
                         ],
                     ],
                     'quantity' => 1,
