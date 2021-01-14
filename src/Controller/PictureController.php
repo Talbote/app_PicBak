@@ -37,10 +37,10 @@ class PictureController extends AbstractController
 
         $user = $this->getUser();
 
-
+/*
         $user->setRoles(['ROLE_ADMIN']);
         $em->flush();
-
+*/
 
         if ($user) {
 
