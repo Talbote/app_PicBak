@@ -41,7 +41,7 @@
 
                             <!-- LINK INVOICE DELETE -->
 <a href="#"
-   onclick="event.preventDefault(); document.getElementById('js-invoice-delete-form{{ invoice.id }}').submit();"
+   onclick="event.preventDefault();confirm( 'Are you sure ?' ) && document.getElementById('js-invoice-delete-form{{ invoice.id }}').submit();"
    class=" text-danger "><i class="fas fa-trash-alt"></i></a>
                             <!-- END  INVOICE FOR DELETE -->
                         </span>
@@ -74,6 +74,7 @@
                     <div class="my-5 text-center">
 
                         <h1> {{ app.user.slug }}</h1>
+
                         <p class="text-muted">{{ "You don't have any bills"|trans }} </p>
 
                     </div>

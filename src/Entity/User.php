@@ -573,7 +573,7 @@ class User implements UserInterface, \Serializable
                 if ($user_subscription->status == "active") {
 
                     $user->setPremium(true);
-                    $user->setRecordInvoice(true);
+                    $user->setRecordInvoice(false);
                     $em->flush();
                 }
                 if ($user_subscription->status == "unpaid") {
