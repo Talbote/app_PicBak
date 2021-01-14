@@ -22,6 +22,13 @@ class PremiumController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 
+
+        if ($user->isVerified() == true && $user->getGithubId() == true && $user->getPassword() == false) {
+
+            return $this->redirectToRoute('app_register');
+
+        }
+
         if ($user->isVerified()) {
 
 
