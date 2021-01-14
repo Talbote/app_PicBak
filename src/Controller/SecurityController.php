@@ -40,7 +40,8 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        return $this->redirectToRoute('app_pictures_index/en', ['_locale' => 'en']);
+
+        return $this->render('pictures/index.html.twig', ['_locale' => 'en']);
     }
 
     /**

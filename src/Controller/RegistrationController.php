@@ -27,80 +27,122 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/register", name="app_register")
+     * @Route("/{_locale<%app.supported_locales%>}/register", name="app_register", methods="POST|GET|PUT")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator,
                              EntityManagerInterface $em): Response
     {
 
-        if ($this->getUser()) {
-            $this->addFlash('error', 'Already logged in!');
-            return $this->redirectToRoute('app_pictures_index');
+        $user = $this->getUser();
 
-        }
+        if (!$user) {
 
-        $user = new User();
+            $user = new User();
 
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+            $form = $this->createForm(RegistrationFormType::class, $user);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
+            if ($form->isSubmitted() && $form->isValid()) {
+                // encode the plain password
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('plainPassword', 'nickName')->getData()
+
+                    )
+                );
+
+                $em->persist($user);
+                $em->flush();
+
+
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
+                        /*  ->from(new Address(
+                                  $this->getParameter('app.mail_from_name'),
+                                  $this->getParameter('app.mail_from_address')
+
+                              )
+                          )
+                          */
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('emails/confirmation_email.html.twig')
+                );
+
+
+                // do anything else you need here, like send an email
+
+                return $guardHandler->authenticateUserAndHandleSuccess(
                     $user,
-                    $form->get('plainPassword','nickName')->getData()
+                    $request,
+                    $authenticator,
+                    'main' // firewall name in security.yaml
+                );
+            }
+
+            return $this->render('registration/register.html.twig', [
+                'registrationForm' => $form->createView(),
+            ]);
+
+        } else {
 
 
+            if ($user && $user->getPassword() == true && $user->getGithubId() == false) {
+                $this->addFlash('error', 'Already logged in!');
+                return $this->redirectToRoute('app_pictures_index');
 
-                )
-            );
+            }
 
-            $em->persist($user);
-            $em->flush();
+            if ( $user->getPassword() == false && $user->getGithubId() == true) {
 
+                $form = $this->createForm(RegistrationFormType::class, $user, [
+                    'method' => 'PUT'
+                ]);
+                $form->handleRequest($request);
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('noreply@picbak.com', 'PicBak Bot'))
-                  /*  ->from(new Address(
-                            $this->getParameter('app.mail_from_name'),
-                            $this->getParameter('app.mail_from_address')
+                if ($form->isSubmitted() && $form->isValid()) {
+                    // encode the plain password
+                    $user->setPassword(
+                        $passwordEncoder->encodePassword(
+                            $user,
+                            $form->get('plainPassword', 'nickName')->getData()
 
                         )
-                    )
-                    */
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('emails/confirmation_email.html.twig')
-            );
+                    );
+
+                    $em->persist($user);
+                    $em->flush();
+
+                }
+
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+
+            }
 
 
-            // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+
         }
 
-
-
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('app_pictures_index');
     }
 
     /**
      * @Route("/{_locale<%app.supported_locales%>}/resend/email", name="app_resend_email")
      */
-    public function resendUserEmail(Request $request): Response
+    public
+    function resendUserEmail(Request $request): Response
     {
 
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $user = $this->getUser();
+
         $user_not_confirmed = $user;
 
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user_not_confirmed,
@@ -124,12 +166,11 @@ class RegistrationController extends AbstractController
     }
 
 
-
-
     /**
      * @Route("/{_locale<%app.supported_locales%>}/verify/email", name="app_verify_email")
      */
-    public function verifyUserEmail(Request $request): Response
+    public
+    function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 

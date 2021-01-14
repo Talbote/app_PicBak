@@ -28,11 +28,17 @@ class ProfilController extends AbstractController
 
     public function show(User $user, PictureRepository $pictureRepository): Response
     {
-
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if ($user->getGithubId() == true && $user->getPassword() == false) {
+
+            return $this->redirectToRoute('app_register');
+
+        }
 
 
         if ($user != $this->getUser()) {
+
 
             $id = $user->getId();
             $pictures_user = $pictureRepository->findByUserIdPicture($id);
@@ -48,6 +54,13 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('error_typeUser'); //Page erreur si mauvais rôle
 
         } else {
+
+            if(!$user){
+
+                return $this->redirectToRoute('app_login');
+
+
+            }
 
             $id = $user->getId();
             $pictures_user = $pictureRepository->findByUserIdPicture($id);
@@ -86,6 +99,13 @@ class ProfilController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
+
+        if ($user->getGithubId() == true && $user->getPassword() == false) {
+
+            return $this->redirectToRoute('app_register');
+
+        }
+
         $form = $this->createForm(UserType::class, $user, [
 
             'method' => 'PUT'

@@ -44,9 +44,9 @@ class PictureController extends AbstractController
 
         if ($user) {
 
-            if ($user->isVerified() == false) {
+            if ($user->isVerified() == true && $user->getGithubId() == true && $user->getPassword() == false) {
 
-                // return $this->redirectToRoute('app_pictures_index');
+                return $this->redirectToRoute('app_register');
 
             }
 
@@ -94,6 +94,12 @@ class PictureController extends AbstractController
         $user = $this->getUser();
 
         if ($user->isVerified()) {
+
+            if ($user->isVerified() == true && $user->getGithubId() == true && $user->getPassword() == false) {
+
+                return $this->redirectToRoute('app_register');
+
+            }
 
 
             $id_picture = $picture->getId();
@@ -165,11 +171,16 @@ class PictureController extends AbstractController
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
 
         if ($user->isVerified()) {
+
+            if ($user->getGithubId() == true && $user->getPassword() == false) {
+
+                return $this->redirectToRoute('app_register');
+
+            }
 
             $picture = new Picture();
             $form = $this->createForm(PictureType::class, $picture);
@@ -222,41 +233,50 @@ class PictureController extends AbstractController
 
         $user = $picture->getUser();
 
-        if ($user !== $this->getUser()) {
+        if ($user->isVerified()) {
 
-            $this->addFlash('error', 'Not allowed to do that !');
+            if ($user->getGithubId() == true && $user->getPassword() == false) {
 
-            return $this->redirectToRoute('app_pictures_index');
+                return $this->redirectToRoute('app_register');
 
-        } else {
-
-            $form = $this->createForm(PictureType::class, $picture, [
-
-                'method' => 'PUT'
-
-            ]);
-
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-
-
-                /*recupere les données dans le form*/
-                $em->flush();
-
-                $this->addFlash('success', 'Picture successfully updated!');
-
-
-                return $this->redirectToRoute('app_pictures_index');
             }
 
-            return $this->render('pictures/edit.html.twig', [
+            if ($user !== $this->getUser()) {
 
-                'picture' => $picture,
-                'form' => $form->createView()
+                $this->addFlash('error', 'Not allowed to do that !');
 
-            ]);
+                return $this->redirectToRoute('app_pictures_index');
+
+            } else {
+
+                $form = $this->createForm(PictureType::class, $picture, [
+
+                    'method' => 'PUT'
+
+                ]);
+
+
+                $form->handleRequest($request);
+
+                if ($form->isSubmitted() && $form->isValid()) {
+
+
+                    /*recupere les données dans le form*/
+                    $em->flush();
+
+                    $this->addFlash('success', 'Picture successfully updated!');
+
+
+                    return $this->redirectToRoute('app_pictures_index');
+                }
+
+                return $this->render('pictures/edit.html.twig', [
+
+                    'picture' => $picture,
+                    'form' => $form->createView()
+
+                ]);
+            }
         }
     }
 
