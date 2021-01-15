@@ -60,19 +60,29 @@ body {
 ################ PAGINATION
 */
 
-.style_page {
+.style-page {
+
+
+  .pagination  {
+
+    @extend .mx-auto;
+
+  }
 
   .pagination span {
 
-    @extend .col-1;
+    @extend .col-2, .m-1, .btn,.text-white, .btn-danger, .btn-outline-secondary;
 
   }
+
 
   .pagination span a {
 
-    @extend .text-muted, .text-decoration-none;
+    @extend  .text-decoration-none, .text-white;
+
 
   }
+
 
 }
 

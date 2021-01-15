@@ -35,14 +35,12 @@ class Picture
     /**
      * @ORM\Column(type="text", length=255)
      * @Assert\NotBlank
-     * @Assert\Length(min=5)
+     * @Assert\Length(max=50)
      */
     private $title;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank
-     * @Assert\Length(min=10)
+     * @ORM\Column(type="text", length=4294967292, nullable=true)
      */
     private $description;
 

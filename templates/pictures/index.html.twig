@@ -4,15 +4,15 @@
 
 {% block body %}
 
+
     {% include 'pictures/_index_filter.html.twig' %}
 
     {% if pictures|length > 0 %}
 
-
         {% for row in pictures|batch(3) %}
-            <div  class="row mb-5">
+            <div  class="row mb-5 ">
                 {% for picture in row %}
-                    <div class="col-md-4">
+                    <div data-aos="fade-up" class="mt-5 col-md-4">
                         <!-- PICTURE DIV-------------------------------------->
 
                         <div class="picture bg-white rounded shadow ">
@@ -52,8 +52,12 @@
                 {% endfor %}
             </div>
 
-
         {% endfor %}
+
+        <div data-aos="fade-right" class="style-page navigation">
+            {{ knp_pagination_render(pictures) }}
+        </div>
+
     {% else %}
         <p class="h1 mt-5 text-center">{{ 'No Pictures yet.'|trans }}
         </p>

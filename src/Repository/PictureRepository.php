@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\VarDumper\Caster\PgSqlCaster;
 
 
 /**
@@ -19,10 +20,10 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class PictureRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, PaginatorInterface $pagination)
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Picture::class);
-        $this->pagination = $pagination;
+        $this->paginator = $paginator;
     }
 
     /*Recupere les images d'un utilisateur */
@@ -47,7 +48,7 @@ class PictureRepository extends ServiceEntityRepository
      *
      */
 
-    public function findSearch(SearchData $search): PaginationInterface
+public function findSearch(SearchData $search, $request): PaginationInterface
     {
         /* Jointure entre les pictures et categories*/
         $query = $this
@@ -73,12 +74,11 @@ class PictureRepository extends ServiceEntityRepository
 
         $query = $query->getQuery();
 
-        return $this->pagination->paginate(
-            $query,
-            1,
-            15
+        return $this->paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            9 /*limit per page*/
         );
-
     }
 
 

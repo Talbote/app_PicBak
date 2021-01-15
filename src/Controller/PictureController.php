@@ -13,12 +13,12 @@ use App\Repository\CommentRepository;
 use App\Repository\PictureLikeRepository;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+
 
 class PictureController extends AbstractController
 {
@@ -31,7 +31,7 @@ class PictureController extends AbstractController
     /**
      * @Route("/{_locale<%app.supported_locales%>}/", name="app_pictures_index", methods="GET")
      */
-    public function index(PictureRepository $pictureRepository, UserPasswordEncoderInterface $passwordEncoder, Request $request, EntityManagerInterface $em): Response
+    public function index(PictureRepository $pictureRepository, Request $request, EntityManagerInterface $em): Response
     {
 
 
@@ -76,13 +76,12 @@ class PictureController extends AbstractController
 
         $form->handleRequest($request);
 
-        $pictures = $pictureRepository->findSearch($data);
+        $pictures = $pictureRepository->findSearch($data,$request);
 
         return $this->render('pictures/index.html.twig', [
             'form' => $form->createView(),
             'pictures' => $pictures,
         ]);
-
 
     }
 
