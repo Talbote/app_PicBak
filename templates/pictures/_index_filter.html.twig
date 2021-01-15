@@ -1,7 +1,7 @@
 <div data-aos="zoom-in" class="">
         {{ form_start(form) }}
         <div class="col-md-4 mx-auto">
-                {{ form_row(form.q) }}
+                {{ form_row(form.q, {'attr': {'placeHolder': 'Search picture'|trans }}) }}
         </div>
 
         {% if app.user and app.user.isPremium == true or is_granted('ROLE_ADMIN') %}

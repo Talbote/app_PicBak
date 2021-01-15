@@ -30,9 +30,6 @@ class SearchFormType extends AbstractType
             ->add('q', TextType::class, [
                 'label' => false,
                 'required' => false,
-                'attr' => array(
-                    'placeholder' => 'Search Picture'
-                )
             ]);
     }
 

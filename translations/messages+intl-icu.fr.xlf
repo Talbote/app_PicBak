@@ -471,6 +471,22 @@
         <source>Repeat password</source>
         <target>Répéter le mot de passe</target>
       </trans-unit>
+      <trans-unit id="kVLZnJQ" resname="Edit Comment">
+        <source>Edit Comment</source>
+        <target>Modifier Commentaire</target>
+      </trans-unit>
+      <trans-unit id="XM_hlEY" resname="Search picture">
+        <source>Search picture</source>
+        <target>Recherche image</target>
+      </trans-unit>
+      <trans-unit id="ghpgMtX" resname="Update Pic">
+        <source>Update Pic</source>
+        <target>Modifier Pic</target>
+      </trans-unit>
+      <trans-unit id="fFMsxbz" resname="Create picture">
+        <source>Create picture</source>
+        <target>Créer un Pic</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
