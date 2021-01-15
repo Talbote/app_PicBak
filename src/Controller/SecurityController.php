@@ -36,12 +36,13 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/logout", name="app_logout", methods="POST"))
+     * @Route("/logout", name="app_logout"))
      */
     public function logout()
     {
 
-        return $this->render('pictures/index.html.twig', ['_locale' => 'en']);
+        throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall');
+
     }
 
     /**

@@ -1,11 +1,14 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
 homepage:
     path: /
     controller:  App\Controller\PictureController::index
     defaults:
         path: /en
+        permanent: true
+home_page:
+    path: /app_logout
+    controller:  App\Controller\SecurityController::logout
+    defaults:
+        path: /
         permanent: true
 
 oauth_check:
