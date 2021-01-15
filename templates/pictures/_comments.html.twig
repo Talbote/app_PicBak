@@ -24,8 +24,10 @@
                 </div>
 
                 <div class=" position-relative body-comment p-3 rounded">
-                    <small class="font-weight-bold text-primary"> {{ comment.user.slug }}</small>
-                    <div class="d-flex justify-content-between align-items-center">
+
+                    <small class="font-weight-bold text-monospace"> {{ comment.user.slug }}</small>
+
+                    <div class="d-flex justify-content-between align-items-center col-10">
 
                         <div class="user d-flex flex-row align-items-center">
 
@@ -45,7 +47,7 @@
 
                             <!-- BUTTON LIST COMMENT-->
                             <div class="dropdown">
-                                <button type="button" id="dropdownMenuButton"
+                                <button  class="rounded-circle  btn btn-outline-secondary" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     ...
                                 </button>
