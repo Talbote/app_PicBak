@@ -15,8 +15,6 @@ if ($_SERVER['APP_DEBUG']) {
     Debug::enable();
 }
 
-  header('https://127.0.0.1:8000/en/');
-
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
     Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
 }
