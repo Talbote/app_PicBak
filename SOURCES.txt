@@ -1,0 +1,35 @@
+
+
+
+10. SOURCES
+Vidéo:
+Teacher du net
+Grafikart
+Lior Chamla
+Documentation
+Stripe:
+https://stripe.com/docs/api/subscriptions
+Image :
+https://github.com/liip/LiipImagineBundle
+https://github.com/dustin10/VichUploaderBundle
+github authentification:
+https://github.com/knpuniversity/oauth2-client-bundle
+https://github.com/thephpleague/oauth2-github
+https://docs.github.com/en/developers/apps/authorizing-oauth-apps#scopes
+EasyAdmin:
+https://github.com/EasyCorp/EasyAdminBundle
+https://symfony.com/doc/current/bundles/EasyAdminBundle/crud.html
+https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#field-types
+Pagination:
+https://github.com/KnpLabs/KnpPaginatorBundle
+Symfony:
+https://symfony.com/book
+Symfony 5: The Fast Track FR
+Bootstrap Sass:
+https://getbootstrap.com/docs/4.1/getting-started/introduction/
+Heroku:
+https://elements.heroku.com/addons
+https://devcenter.heroku.com/articles/deploying-symfony4
+https://stackoverflow.com/questions/39184760/how-to-install-gd-on-heroku
+https://waytolearnx.com/2018/11/difference-entre-mysql-et-postgresql.html
+https://elements.heroku.com/buildpacks
