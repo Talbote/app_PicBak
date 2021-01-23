@@ -1,7 +1,7 @@
 
 
 
-10. SOURCES
+SOURCES
 Vidéo:
 Teacher du net
 Grafikart
@@ -33,3 +33,5 @@ https://devcenter.heroku.com/articles/deploying-symfony4
 https://stackoverflow.com/questions/39184760/how-to-install-gd-on-heroku
 https://waytolearnx.com/2018/11/difference-entre-mysql-et-postgresql.html
 https://elements.heroku.com/buildpacks
+ANIMATION:
+https://michalsnik.github.io/aos/
